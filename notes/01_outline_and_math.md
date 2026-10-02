@@ -13,17 +13,17 @@
 ## 1. Storyline (slide titles, 20 minutes)
 
 1. Use it or lose it? (0:30)
-2. Money with an expiry date gets spent, and fast. (1:30)
-3. A digital euro could build the same pressure into money itself, by an expiry date or by continuous decay. (1:30)
-4. To compare them, take a holder who searches for good uses of money and can always dump it at a loss. (2:00)
-5. An expiry date pushes out more spending, but ends in a fire sale and splits money into vintages. (2:00)
-6. Continuous decay keeps every euro equal, and it is nothing more than a negative interest rate. (2:00)
-7. As a rate, decay is far too weak to replicate a voucher: money can carry a rate, not a stimulus programme. (1:45)
-8. So the real question is the digital euro's interest rate, and the draft regulation fixes it at zero. (1:15)
-9. A zero-rate digital euro is cash without storage costs, which lifts the lower bound back to zero. (2:30)
-10. A negative digital-euro rate can win that space back, but no more while cash still exists. (2:00)
-11. The best design keeps zero as the default and lets balances above a threshold decay when policy rates turn negative. (2:00)
-12. The digital euro should be able to bear interest: only as decay, and only when rates are negative. (1:00)
+2. Monetary policy stalls when money is hoarded and rates cannot fall below zero. (2:00)
+3. Vouchers with a deadline get money spent, and a programmable digital euro could become one. (1:45)
+4. But an expiry date pushes out more spending, ends in a fire sale and splits money into vintages. (2:30)
+5. Continuous decay keeps every euro equal: it is simply a negative rate that reaches every wallet. (2:15)
+6. Yet the digital euro is set at zero, which makes it cash without storage costs and raises the lower bound. (2:30)
+7. A hard holding limit stops runs in a crisis, but blocks ordinary users in normal times. (2:00)
+8. When costs have a cliff and benefits do not, price and quantity together beat either alone. (2:30)
+9. The optimal digital euro has three numbers: a free tier, a Pigouvian rate above it, and a cap. (3:00)
+10. The digital euro should bear interest: zero for payments, decay above, and a cap that moves with the cycle. (1:00)
+
+Slides 7–10 are derived in `notes/03_hybrid_derivation.md`.
 
 ## 2. Expiry vs demurrage: model and results
 

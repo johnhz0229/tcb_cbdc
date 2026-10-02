@@ -1,289 +1,275 @@
-\documentclass[a4paper,10.5pt]{article}
+\documentclass[a4paper,10pt]{article}
 
 \usepackage[T1]{fontenc}
-\usepackage{lmodern}
-\usepackage[margin=1.8cm,top=1.5cm,bottom=1.6cm]{geometry}
+\usepackage[sc]{mathpazo}
+\linespread{1.08}
+\usepackage[margin=2cm,top=1.6cm,bottom=1.8cm]{geometry}
 \usepackage{graphicx}
 \usepackage{amsmath,amssymb}
 \usepackage{xcolor}
 \usepackage{enumitem}
 \usepackage{booktabs}
+\usepackage{colortbl}
 \usepackage{eurosym}
 \usepackage{fancyhdr}
 \usepackage[hidelinks]{hyperref}
 
-\definecolor{accent}{HTML}{1D4ED8}
-\definecolor{muted}{HTML}{6B7280}
-\definecolor{qa}{HTML}{C2410C}
+\definecolor{ink}{HTML}{1A1A1A}
+\definecolor{accent}{HTML}{1F4E79}
+\definecolor{warm}{HTML}{B4532A}
+\definecolor{quiet}{HTML}{80868B}
+\definecolor{hair}{HTML}{D5D8DC}
 
-\setlist{nosep,leftmargin=1.2em,itemsep=0.25em}
+\color{ink}
+\setlist{nosep,leftmargin=1.2em,itemsep=0.3em}
 \setlength{\parindent}{0pt}
 \pagestyle{fancy}
 \fancyhf{}
-\lhead{\small\color{muted}Use It or Lose It? --- speaker script}
-\rhead{\small\color{muted}\thepage}
-\renewcommand{\headrulewidth}{0.2pt}
+\lhead{\footnotesize\color{quiet}Use It or Lose It? \textperiodcentered{} speaker script}
+\rhead{\footnotesize\color{quiet}\thepage}
+\renewcommand{\headrulewidth}{0pt}
 
+\newcommand{\quiet}[1]{{\color{quiet}#1}}
+\newcommand{\kicker}[1]{{\footnotesize\scshape\color{accent}#1}}
 \newcommand{\slidepage}[2]{% #1 slide number, #2 time
   \clearpage
-  {\large\bfseries\color{accent} Slide #1}\hfill{\color{muted}#2}\par\smallskip
-  \begin{center}
-    \fbox{\includegraphics[page=#1,width=0.82\textwidth]{../slides/slides.pdf}}
-  \end{center}
-  \medskip
+  \kicker{Slide #1}\hfill\quiet{\footnotesize #2}\par\smallskip
+  {\setlength{\fboxsep}{0pt}\color{hair}\fbox{\includegraphics[page=#1,width=\dimexpr\textwidth-0.8pt\relax]{../slides/slides.pdf}}}\par
+  \bigskip
 }
-\newcommand{\say}{{\bfseries Say}\par\smallskip}
-\newcommand{\asked}{\par\medskip{\bfseries\color{qa} If asked}\par\smallskip}
-\newcommand{\Q}[1]{\item[\color{qa}Q] \emph{#1}}
-\newcommand{\A}{\item[A]}
-\newcommand{\muted}[1]{{\color{muted}#1}}
+\newcommand{\say}{\kicker{Say}\par\smallskip}
+\newcommand{\asked}{\par\bigskip\kicker{If asked}\par\smallskip}
+\newcommand{\Q}[1]{\item[\color{warm}Q] \emph{#1}}
+\newcommand{\A}{\item[\color{accent}A]}
 
 \begin{document}
 
 % ================= COVER =================
-{\LARGE\bfseries\color{accent} Use It or Lose It?}\par
-\smallskip
-{\large Programmable money and the digital euro's interest rate}\par
-\smallskip
-{\color{muted} Speaker script \textperiodcentered{} 20 minutes + 10 minutes Q\&A}
+{\color{accent}\rule{1.6cm}{1.2pt}}\par\medskip
+{\fontsize{26}{30}\selectfont Use It or Lose It?}\par\smallskip
+{\large\quiet{Programmable money, negative rates and the design of the digital euro}}\par\smallskip
+{\footnotesize\quiet{Speaker script \textperiodcentered{} 20 minutes + 10 minutes Q\&A}}
 
-\bigskip
-\textbf{The story in twelve sentences} \muted{(the slide titles)}
-\begin{enumerate}[leftmargin=2em,itemsep=0.3em]
-  \item Use it or lose it?
-  \item Money with an expiry date gets spent, and fast.
-  \item A digital euro could build the same pressure into money itself, by an expiry date or by continuous decay.
-  \item To compare them, take a holder who searches for good uses of money and can always dump it at a loss.
-  \item An expiry date pushes out more spending, but ends in a fire sale and splits money into vintages.
-  \item Continuous decay keeps every euro equal, and it is nothing more than a negative interest rate.
-  \item As a rate, decay is far too weak to replicate a voucher: money can carry a rate, not a stimulus programme.
-  \item So the real question is the digital euro's interest rate, and the draft regulation fixes it at zero.
-  \item A zero-rate digital euro is cash without storage costs, which lifts the lower bound back to zero.
-  \item A negative digital-euro rate can win that space back, but no more while cash still exists.
-  \item The best design keeps zero as the default and lets balances above a threshold decay when policy rates turn negative.
-  \item The digital euro should be able to bear interest: only as decay, and only when rates are negative.
+\vspace{1cm}
+\kicker{The story in ten sentences}\par\medskip
+\begin{enumerate}[leftmargin=2em,itemsep=0.45em]
+  \item[\quiet{1}] Use it or lose it?
+  \item[\quiet{2}] Monetary policy stalls when money is hoarded and rates cannot fall below zero.
+  \item[\quiet{3}] Vouchers with a deadline get money spent, and a programmable digital euro could become one.
+  \item[\quiet{4}] But an expiry date pushes out more spending, ends in a fire sale and splits money into vintages.
+  \item[\quiet{5}] Continuous decay keeps every euro equal: it is simply a negative rate that reaches every wallet.
+  \item[\quiet{6}] Yet the digital euro is set at zero, which makes it cash without storage costs and raises the lower bound.
+  \item[\quiet{7}] A hard holding limit stops runs in a crisis, but blocks ordinary users in normal times.
+  \item[\quiet{8}] When costs have a cliff and benefits do not, price and quantity together beat either alone.
+  \item[\quiet{9}] The optimal digital euro has three numbers: a free tier, a Pigouvian rate above it, and a cap.
+  \item[\quiet{10}] The digital euro should bear interest: zero for payments, decay above, and a cap that moves with the cycle.
 \end{enumerate}
 
-\bigskip
-\textbf{Timing}
-\begin{center}
-\begin{tabular}{@{}rlr@{\qquad}rlr@{}}
-  \toprule
-  1 & Title & 0:30 & 7 & Too weak for a voucher & 1:45 \\
-  2 & Expiry gets spent & 1:30 & 8 & Art.\ 16(8) & 1:15 \\
-  3 & Two ways to program & 1:30 & 9 & Cash without storage costs & 2:30 \\
-  4 & Model & 2:00 & 10 & Win back, no more & 2:00 \\
-  5 & Expiry results & 2:00 & 11 & Contingent clause & 2:00 \\
-  6 & Decay is a rate & 2:00 & 12 & Answer & 1:00 \\
-  \midrule
-  \multicolumn{6}{@{}l}{Checkpoints: slide 4 done by 5:30, slide 7 done by 11:15, slide 10 done by 16:00.} \\
-  \bottomrule
+\vspace{0.8cm}
+\begin{minipage}[t]{0.42\textwidth}
+\kicker{Timing}\par\medskip
+\small
+\begin{tabular}{@{}rlr@{}}
+  1 & Title & 0:30 \\
+  2 & The problem & 2:00 \\
+  3 & Vouchers & 1:45 \\
+  4 & Expiry & 2:30 \\
+  5 & Decay & 2:15 \\
+  6 & Zero rate & 2:30 \\
+  7 & Holding limit & 2:00 \\
+  8 & Price vs quantity & 2:30 \\
+  9 & Design & 3:00 \\
+  10 & Conclusion & 1:00 \\
+  \arrayrulecolor{hair}\midrule
+  & & 20:00
 \end{tabular}
-\end{center}
 
-\bigskip
-\textbf{Numbers to know}
+\smallskip
+\quiet{\footnotesize Checkpoints: slide 4 done by 6:45, slide 6 done by 11:30, slide 8 done by 16:00.}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.52\textwidth}
+\kicker{Numbers to know}\par\medskip
+\small
 \begin{itemize}
-  \item China coupons: about \textyen 3 of extra spending per \textyen 1 of subsidy. France: one-month MPC 61\% with a three-week expiry, 23\% without.
-  \item Art.\ 16(8): ``The digital euro shall not bear interest.'' Holding limit under discussion: \euro 1{,}500--3{,}000.
-  \item ECB deposit facility rate: $-0.50\%$, September 2019 to July 2022.
-  \item 30-day comparison: useful spending 84\% (expiry) vs 73\% (decay); 16\% dumped at the deadline.
-  \item Decay needed to match a voucher: 160\%--1{,}200\% a year. A 1\% decay raises velocity by about 12\%.
+  \item Eurosystem balance sheet peak: \euro 8.8tn (June 2022). Inflation 2014--16: 0.3\%.
+  \item Deposit facility rate $\le 0$ from 2014 to 2022; lowest $-0.50\%$.
+  \item China coupons: \textyen 3 per \textyen 1. France: MPC 61\% vs 23\%.
+  \item Expiry vs decay, 30 days: 84\% vs 73\% useful spending; 16\% dumped.
+  \item Art.\ 16(8): ``shall not bear interest.''
+  \item Crisis outflow: \euro 699bn at \euro 3{,}000 (ECB); \euro 4.7tn with no cap.
+  \item Design: free tier \euro 510, rate $-2.4\%$, cap \euro 3{,}000.
+  \item MRO 2.65\%; household overnight deposits 0.26\%.
 \end{itemize}
+\end{minipage}
 
 % ================= SLIDES =================
 \slidepage{1}{0:30}
 \say
 \begin{itemize}
-  \item ``Governments have discovered that if you give people money with a deadline, they spend it.''
-  \item ``Today I ask whether a central bank should build that idea into money itself, and what it means for the digital euro.''
+  \item ``Give people money with a deadline, and they spend it. Today I ask what happens if a central bank builds that idea into money itself, and what it means for the digital euro.''
 \end{itemize}
 
-\slidepage{2}{1:30}
+\slidepage{2}{2:00}
 \say
 \begin{itemize}
-  \item In 2020, Chinese cities handed out digital coupons through payment apps, valid for about a week. Each yuan of subsidy produced about three yuan of extra spending.
-  \item In France, a randomised experiment gave households prepaid cards. With a three-week expiry, 61\% was spent within a month; without one, 23\%.
-  \item ``The deadline is what turns a transfer that would be saved into spending today.''
+  \item Two things went wrong with monetary policy in the last decade.
+  \item First, money was created but not spent. The Eurosystem balance sheet reached \euro 8.8 trillion, yet inflation averaged 0.3\% in 2014--16. Velocity fell.
+  \item Second, rates could not go far below zero. For eight years the deposit rate was at or below zero, but never below $-0.50\%$, because savers can always switch to cash, which pays zero.
+  \item ``So: money is not spent, and rates cannot fall. Keep both in mind; I will come back to the second one.''
 \end{itemize}
 \asked
 \begin{itemize}
-  \Q{Weren't the Chinese coupons driven by minimum-spend thresholds, not expiry?}
-  \A Partly. Ding et al.\ point to the thresholds. That is why I show the French experiment, which isolates the deadline.
+  \Q{Inflation is now above target. Why does this matter?}
+  \A The lower bound bound for most of 2009--2021. The digital-euro regulation will last decades and should work in both regimes.
 \end{itemize}
 
-\slidepage{3}{1:30}
+\slidepage{3}{1:45}
 \say
 \begin{itemize}
-  \item In a liquidity trap, the central bank adds money and people sit on it; velocity falls.
-  \item A programmable digital euro could charge people for sitting on money, in two ways.
-  \item An expiry date: nothing happens until day $T$, then the money is gone.
-  \item Continuous decay, what Gesell called demurrage: the balance shrinks a little every day.
-  \item ``Same idea, different timing. Which should a central bank use?''
+  \item Governments found a way around the first problem: vouchers with a deadline.
+  \item In 2020, Chinese cities gave out digital coupons, valid for about a week. Each yuan of subsidy produced about three yuan of extra spending.
+  \item A randomised trial in France: with a three-week expiry, 61\% of the transfer was spent within a month; without, 23\%.
+  \item ``A digital euro is programmable. So why not give money itself a deadline?''
+\end{itemize}
+\asked
+\begin{itemize}
+  \Q{Weren't the Chinese results driven by minimum-spend thresholds?}
+  \A Partly, as Ding et al.\ show. The French trial isolates the deadline.
 \end{itemize}
 
-\slidepage{4}{2:00}
+\slidepage{4}{2:30}
 \say
 \begin{itemize}
-  \item A deliberately simple model. Each unit of money is worth $V$ to the holder. A good purchase is worth 1, but finding it takes effort.
-  \item The search speed $\kappa$ is the velocity; it costs $\kappa^2/2a$.
-  \item There is always a bad option: junk goods, or selling the token at a discount, worth $\phi$.
-  \item With an expiry date, value depends on time left and ends at $\phi$. With decay, the decay rate simply adds to the discount rate.
-  \item ``In both cases, the less money is worth holding, the faster it is spent.''
+  \item To see what an expiry date does, take a holder who must search for good uses of money. Searching faster is costly. A bad use, junk or a discounted sale, is always available.
+  \item The key result: the less money is worth holding, the faster it is spent.
+  \item Compare an expiry date with continuous decay, tuned to the same average velocity over 30 days.
+  \item Expiry actually gets more useful spending done: 84\% against 73\%. It forces the whole balance out.
+  \item But look at the last day: 16\% of issuance is still unspent and goes to junk. And on the right, an expiring euro is worth 0.8 when new and 0.5 when old. One euro is no longer one euro.
 \end{itemize}
 \asked
 \begin{itemize}
   \Q{Why a quadratic search cost?}
-  \A It is the simplest convex cost with an interior solution. With linear cost, velocity would literally explode at the deadline; the convex case is the conservative one.
-\end{itemize}
-
-\slidepage{5}{2:00}
-\say
-\begin{itemize}
-  \item I tune the decay rate so both schemes have the same average velocity over 30 days.
-  \item Left: under expiry, spending accelerates into the deadline; under decay it is flat.
-  \item The expiry date actually gets more useful spending done: 84\% against 73\%. It forces the whole balance out.
-  \item But 16\% is still unspent on the last day and is dumped on junk.
-  \item Right: an expiring token's value depends on its age. A fresh one is worth 0.8, an old one 0.5. Two euros are no longer the same euro.
-\end{itemize}
-\asked
-\begin{itemize}
+  \A It is the simplest convex cost. With a linear cost, velocity would literally explode at the deadline; convex is the conservative case.
   \Q{Why match average velocity?}
-  \A Velocity is the target in a liquidity trap. Matching total spending is impossible here: decay never reaches the expiry level, which is itself informative.
+  \A Velocity is the target in a liquidity trap. Matching total spending is impossible here, because decay always burns part of the balance.
 \end{itemize}
 
-\slidepage{6}{2:00}
+\slidepage{5}{2:15}
 \say
 \begin{itemize}
-  \item Put the two side by side. Expiry ends in a fire sale, prices each unit by its age, and so breaks the rule that one euro equals one euro.
-  \item It also cannot apply to all money; it needs a separate vintage for every payment.
-  \item Decay has none of these problems. And decay at rate $\lambda$ is exactly an interest rate of $-\lambda$.
-  \item Velocity responds with the square root of the holding cost, the same rule as Baumol--Tobin money demand.
-  \item ``An expiry date is a feature of a spending programme. Decay can be a feature of money.''
+  \item Decay has none of these problems: no fire sale, every unit worth the same, and it can apply to all money.
+  \item And decay at rate $\lambda$ is exactly an interest rate of $-\lambda$.
+  \item Velocity responds with the square root of the holding cost, the same rule as Baumol--Tobin money demand. One percent of decay raises velocity by about 12\%.
+  \item ``So decay unblocks both channels from slide 2: money moves faster, and a negative rate finally reaches retail balances.''
 \end{itemize}
 \asked
 \begin{itemize}
-  \Q{Couldn't a smart contract track the vintages?}
-  \A Technically yes. But then every wallet holds euros of different value, and shops must either take them at par, which invites arbitrage, or at a discount, which ends the singleness of money.
+  \Q{Couldn't a smart contract track the vintages of expiring money?}
+  \A Yes, but then shops must take old and new euros either at par, which invites arbitrage, or at different prices, which ends the singleness of money.
 \end{itemize}
 
-\slidepage{7}{1:45}
+\slidepage{6}{2:30}
 \say
 \begin{itemize}
-  \item How strong would decay need to be to act like a voucher? Between 160\% and 1{,}200\% a year.
-  \item Policy-sized negative rates, half a percent to three percent, raise velocity by 6 to 32\%.
-  \item Vouchers also rely on things a currency cannot have permanently: new money, a salient deadline, spending thresholds.
-  \item ``So money cannot be a stimulus programme. What it can carry is an interest rate.''
-\end{itemize}
-\asked
-\begin{itemize}
-  \Q{Don't these numbers depend on your parameters?}
-  \A The levels do; the order of magnitude does not. Across the sensitivity grid the matching rate stays in the hundreds of percent (backup B3).
-\end{itemize}
-
-\slidepage{8}{1:15}
-\say
-\begin{itemize}
-  \item ``That brings us to the digital euro, whose rate is being decided right now.''
-  \item The Commission's draft settles it in one sentence: the digital euro shall not bear interest. Not positive, not negative, ever.
-  \item It comes with a holding limit, around \euro 1{,}500 to 3{,}000 per person. Council and Parliament are negotiating the final text.
-\end{itemize}
-
-\slidepage{9}{2:30}
-\say
-\begin{itemize}
-  \item Depositors can always leave the bank for central-bank money. So a bank cannot pay less than the best such option, net of what it costs to hold it.
-  \item Cash pays zero but is costly to store and insure. That is why the ECB could go to $-0.50\%$ in 2019--22 without people emptying their accounts.
-  \item A zero-rate digital euro is cash without those costs. Up to the limit, it puts the floor back at exactly zero.
-  \item And the outflow comes precisely when negative rates are already squeezing bank margins.
+  \item But the draft regulation goes the other way. Art.\ 16(8): the digital euro shall not bear interest. Not positive, not negative.
+  \item Why does that matter? A bank cannot pay depositors less than their best central-bank alternative, net of holding costs.
+  \item Cash pays zero but is costly to store and insure, so the floor sits a bit below zero. That is why $-0.50\%$ was possible.
+  \item A zero-rate digital euro is cash without those costs. It pushes the floor back up to exactly zero.
+  \item ``The lower bound and disintermediation are the same problem: a central-bank rival to bank deposits.''
 \end{itemize}
 \asked
 \begin{itemize}
   \Q{Retail deposit rates never went negative anyway.}
-  \A For small balances, banks chose not to charge. Larger and corporate deposits did pay negative rates. A zero-rate digital euro turns that choice into a legal floor for everyone up to the limit.
-  \Q{What about stablecoins?}
-  \A Under MiCA, e-money tokens cannot pay interest either. They are another zero-rate option, but with issuer risk.
+  \A For small balances banks chose not to charge. Large and corporate deposits did pay negative rates. A zero-rate digital euro makes zero a legal floor for everyone, up to the limit.
 \end{itemize}
 
-\slidepage{10}{2:00}
+\slidepage{7}{2:00}
 \say
 \begin{itemize}
-  \item If the digital euro could decay, the floor becomes the higher of $-\lambda$ and the cash floor.
-  \item So decay wins back the space that the zero rate gave away, down to $-c$.
-  \item But not further: below $-c$, people simply switch to banknotes.
-  \item Going deeper would need cash itself to be repriced, for instance Agarwal and Kimball's crawling exchange rate between cash and reserves.
-  \item ``A flexible rate protects the policy space we have. It cannot create more.''
+  \item The ECB's answer to the disintermediation risk is a hard cap, around \euro 3{,}000.
+  \item In normal times people hold the digital euro to pay. 18\% would like to hold more than \euro 3{,}000; the cap simply blocks them. A price would let them hold more if they pay for it.
+  \item In a crisis people run for safety. Without a cap, my calibration gives an outflow of \euro 4.7 trillion; with \euro 3{,}000 it is about \euro 0.65 trillion. A rate gap of two percent means nothing next to the fear of losing a deposit.
+  \item ``So price works in normal times, and only quantity works in a crisis.''
 \end{itemize}
 \asked
 \begin{itemize}
-  \Q{How large is $c$?}
-  \A It is not estimated here. The 2019--22 episode shows it is at least as large as the negative rates passed on to large depositors without a run into cash.
-  \Q{Isn't this just Bordo and Levin (2017)?}
-  \A They show an interest-bearing CBDC could remove the lower bound. With cash kept, as in the euro area, a digital-euro rate alone can only restore the cash floor, not remove it.
+  \Q{Where do the outflow numbers come from?}
+  \A The ECB published \euro 156bn at a \euro 500 cap and \euro 699bn at \euro 3{,}000. I fit the survey distribution of deposits to those two points; the implied population is 360 million, the actual euro-area population. Without a cap, the model gives \euro 4.7tn, close to Meller and Soons' ``almost \euro 5 trillion''.
 \end{itemize}
 
-\slidepage{11}{2:00}
+\slidepage{8}{2:30}
 \say
 \begin{itemize}
-  \item The design follows directly. In normal times: zero, as in the draft. Simple and trusted.
-  \item Only when the policy rate is negative do balances above a threshold $M_1$ decay, at the policy rate, but never below the cost of holding cash.
-  \item Small balances never decay, so households and everyday payments are untouched.
-  \item Decay, never expiry, so every euro stays equal to every other.
+  \item This is an old question in economics: prices or quantities? Weitzman's answer depends on slopes.
+  \item If the benefit curve is steeper than the cost curve, use a price. If the cost curve is steeper, use a quantity.
+  \item Here the cost of deposit outflows has three segments: free while banks absorb it, a constant cost $e$ while they replace funding, and a cliff once liquidity buffers are gone.
+  \item In normal times the benefit curve crosses the flat part: price. In a crisis it shifts out and hits the cliff: quantity.
+  \item ``Both happen on one curve, so the answer is both: a tiered rate with a cap, as Roberts and Spence showed.''
 \end{itemize}
 \asked
 \begin{itemize}
-  \Q{Who would hold a digital euro that can shrink?}
-  \A Nobody's first $M_1$ ever shrinks. Above it, the charge equals what a large bank deposit would pay; the digital euro is no worse than a bank account, it just stops being better.
-  \Q{The ECB says the digital euro will not be programmable money.}
-  \A That means no restrictions on what it can buy. Decay restricts nothing; it is a rate on a balance, like interest on reserves.
+  \Q{Isn't the ECB already proposing tiering?}
+  \A Bindseil (2020) proposed a two-tier rate. What I add is the reason, from the shape of the cost curve, and a calibration of each tier.
 \end{itemize}
 
-\slidepage{12}{1:00}
+\slidepage{9}{3:00}
+\say
+\begin{itemize}
+  \item Each segment of the cost curve gives one number.
+  \item Free tier: payments should only use what banks absorb at no cost. The ECB expects digitalisation to bring \euro 127bn into deposits; spending exactly that gives a free tier of about \euro 510.
+  \item Above the tier, the rate is minus the bank's cost of replacing deposit funding: the refinancing rate minus the deposit rate, about $-2.4\%$.
+  \item The cap keeps crisis outflows within what banks can bear; at today's tolerance that is \euro 3{,}000.
+  \item The table: the cap alone blocks 18\% of users and leaks \euro 648bn when rates are negative. Price alone fails in a crisis: \euro 4.7 trillion. The hybrid blocks 7\%, leaks \euro 158bn, and holds in a crisis.
+\end{itemize}
+\asked
+\begin{itemize}
+  \Q{Is $-2.4\%$ not a huge penalty?}
+  \A In normal times almost nobody pays it; it only stops the digital euro from becoming a savings account. And it is an upper bound: if central-bank funding replaces deposits cheaply, the social cost is lower.
+  \Q{Why \euro 127bn for the free tier?}
+  \A It leaves banks no worse off than today. The sensitivity: \euro 100bn to \euro 300bn gives a tier between \euro 370 and \euro 1{,}840 (backup).
+\end{itemize}
+
+\slidepage{10}{1:00}
 \say
 \begin{itemize}
   \item Read the four points.
-  \item Close: ``Deadlines belong to spending programmes. Money can only carry a rate. The digital euro should be allowed to carry one: zero in normal times, decay when rates are negative, and never an expiry date.''
+  \item On the chart: the cap depends on how much liquidity banks have. When buffers are thick, the cap can rise; when they thin, it should fall. A countercyclical cap.
+  \item Close: ``Deadlines belong to vouchers. Money can only carry a rate. The digital euro should be allowed to carry one: zero for payments, decay above, and a cap that moves with the cycle.''
 \end{itemize}
 
 % ================= Q&A + GLOSSARY =================
 \clearpage
-{\large\bfseries\color{accent} More questions}\par\medskip
-\begin{itemize}[leftmargin=1.5em,itemsep=0.5em]
-  \Q{After the 2022 inflation, why worry about negative rates?}
-  \A The lower bound bound for most of 2009--2021. A regulation lasts decades; it should not be designed for the current regime only.
+\kicker{More questions}\par\medskip
+\begin{itemize}[leftmargin=1.5em,itemsep=0.6em]
+  \Q{Isn't negative interest on CBDC already in Bordo and Levin (2017)?}
+  \A Yes, as an idea. The new parts here are why it must be decay rather than expiry, and how a rate and a cap should be combined and calibrated.
+  \Q{Would people accept a digital euro that can shrink?}
+  \A Balances up to the free tier never shrink. Above it, the charge only makes the digital euro no better than a bank account.
+  \Q{The ECB says the digital euro will not be programmable money.}
+  \A That means no restrictions on what it buys. Decay restricts nothing; it is a rate on a balance.
+  \Q{Doesn't a countercyclical cap signal panic when it is lowered?}
+  \A It should move by rule with published liquidity data, not by discretion, so that it is anticipated rather than read as a signal.
   \Q{Your model is partial equilibrium.}
-  \A Yes. The qualitative results, that expiry breaks fungibility and that decay is a rate, do not depend on general equilibrium.
-  \Q{Do coupons just pull spending forward?}
-  \A Evidence is mixed: Xing et al.\ (2023) find purchases moved forward, Ding et al.\ (2024) do not. The argument here does not rely on it.
-  \Q{W\"orgl's stamp scrip was banned. Why would demurrage be acceptable now?}
-  \A It was banned because a town issued money, not because demurrage failed. Here the issuer is the central bank and the charge is a policy rate.
-  \Q{Does decay hurt the poor?}
-  \A Balances below $M_1$ are exempt, which covers most low-income holdings.
-  \Q{Is this within the ECB's mandate?}
-  \A Setting the rate on its own liabilities is standard monetary policy; Art.\ 16(8) would need a conditional clause instead of a blanket ban.
+  \A Yes. The qualitative results do not depend on general equilibrium; the magnitudes are calibrated to the ECB's own numbers.
 \end{itemize}
 
-\bigskip
-{\large\bfseries\color{accent} Glossary}\par\medskip
-\begin{center}
+\vspace{0.8cm}
+\kicker{Glossary}\par\medskip
 \small
-\begin{tabular}{@{}p{0.25\textwidth}p{0.68\textwidth}@{}}
-  \toprule
+\begin{tabular}{@{}p{0.25\textwidth}p{0.70\textwidth}@{}}
   Velocity & Spending per unit of money per period, $V=PY/M$. \\
   MPC & Share of an extra euro spent within a period. \\
-  Liquidity trap & More money does not raise spending because it is hoarded. \\
+  Lower bound (ZLB / ELB) & The rate below which savers switch to cash; slightly below zero because cash is costly to hold. \\
   Demurrage / decay & A continuous charge on holding money; a negative interest rate. \\
   Singleness of money & Every form of a currency exchanges one-for-one at par. \\
-  Fungibility & Any unit is a perfect substitute for any other. \\
-  Baumol--Tobin & Inventory model of money demand with interest elasticity $-\tfrac12$. \\
-  ZLB / ELB & Zero / effective lower bound on nominal interest rates. \\
-  DFR & ECB deposit facility rate, its main policy rate. \\
-  Tiered remuneration & Different rates on different slices of a balance. \\
-  Holding limit & Maximum digital-euro balance per person; the excess is swept to a bank account. \\
-  Art.\ 16(8) & ``The digital euro shall not bear interest.'' \\
-  MiCA & EU crypto-asset regulation; bans interest on e-money tokens. \\
-  \bottomrule
+  Baumol--Tobin & Inventory model of money demand; holdings fall with the square root of the holding cost. \\
+  Disintermediation & Deposits leaving banks for central-bank money. \\
+  Weitzman (1974) & Prices beat quantities when benefits are steeper than costs, and vice versa. \\
+  Roberts--Spence (1976) & A price schedule with a quantity ceiling beats either instrument alone. \\
+  Pigouvian rate & A charge equal to the cost one holder imposes on others. \\
+  LCR & Liquidity coverage ratio: liquid assets over 30-day stressed outflows; minimum 100\%. \\
+  MRO & Main refinancing operations rate, 2.65\% since 16 Sep 2026. \\
+  Art.\ 16(8) & Draft regulation: ``The digital euro shall not bear interest.''
 \end{tabular}
-\end{center}
 
 \end{document}

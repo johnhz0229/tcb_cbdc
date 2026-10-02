@@ -1,0 +1,79 @@
+% Quiet: a minimal beamer theme. Palatino, one accent colour, hairlines, whitespace.
+\mode<presentation>
+
+\RequirePackage[T1]{fontenc}
+\RequirePackage[sc]{mathpazo}
+\RequirePackage{xcolor}
+\RequirePackage{tikz}
+\linespread{1.06}
+
+% ---------- colours ----------
+\definecolor{ink}{HTML}{1A1A1A}
+\definecolor{accent}{HTML}{1F4E79}
+\definecolor{warm}{HTML}{B4532A}
+\definecolor{quiet}{HTML}{80868B}
+\definecolor{hair}{HTML}{D5D8DC}
+
+\usefonttheme{serif}
+\usefonttheme{professionalfonts}
+\setbeamertemplate{navigation symbols}{}
+\setbeamersize{text margin left=1.15cm, text margin right=1.15cm}
+
+\setbeamercolor{normal text}{fg=ink,bg=white}
+\setbeamercolor{structure}{fg=accent}
+\setbeamercolor{alerted text}{fg=warm}
+\setbeamercolor{frametitle}{fg=ink}
+\setbeamercolor{framesubtitle}{fg=accent}
+\setbeamercolor{title}{fg=ink}
+\setbeamercolor{subtitle}{fg=quiet}
+
+% ---------- frame title: kicker (subtitle) above, title, short accent rule ----------
+\setbeamerfont{frametitle}{size=\Large}
+\setbeamerfont{framesubtitle}{size=\scriptsize,shape=\scshape}
+\setbeamertemplate{frametitle}{%
+  \vspace*{0.35cm}%
+  \ifx\insertframesubtitle\@empty\else
+    {\usebeamerfont{framesubtitle}\usebeamercolor[fg]{framesubtitle}\addfontfeature{}\insertframesubtitle}\par\vspace{0.08cm}%
+  \fi
+  {\usebeamerfont{frametitle}\usebeamercolor[fg]{frametitle}\raggedright\insertframetitle\par}%
+  \vspace{0.1cm}%
+}
+\providecommand{\addfontfeature}[1]{}
+
+% ---------- lists ----------
+\setbeamertemplate{itemize item}{\raisebox{0.18em}{\color{accent}\rule{0.32em}{0.32em}}}
+\setbeamertemplate{itemize subitem}{\color{quiet}--}
+\setbeamertemplate{enumerate item}{\color{accent}\insertenumlabel.}
+\setlength{\leftmargini}{1.2em}
+
+% ---------- footer ----------
+\setbeamertemplate{footline}{%
+  \hspace*{1.15cm}{\color{quiet}\tiny\insertshorttitle}\hfill
+  {\color{quiet}\tiny\insertframenumber}\hspace*{1.15cm}\vspace*{0.3cm}}
+
+% ---------- title page ----------
+\setbeamertemplate{title page}{%
+  \vspace*{1.6cm}
+  {\color{accent}\rule{1.6cm}{1.2pt}}\par\vspace{0.5cm}
+  {\fontsize{30}{34}\selectfont\color{ink}\inserttitle\par}
+  \vspace{0.35cm}
+  {\large\color{quiet}\insertsubtitle\par}
+  \vfill
+  {\small\color{ink}\insertauthor\par}
+  {\small\color{quiet}\insertdate\par}
+  \vspace*{0.9cm}
+}
+
+% ---------- helpers ----------
+\newcommand{\quiet}[1]{{\color{quiet}#1}}
+\newcommand{\hl}[1]{{\color{accent}#1}}
+\newcommand{\label@sc}[1]{{\scriptsize\scshape\color{quiet}#1}}
+\newcommand{\colhead}[1]{\label@sc{#1}\par\vspace{0.25em}}
+% \bignum{colour}{number}{caption}
+\newcommand{\bignum}[3]{%
+  {\fontsize{24}{26}\selectfont\color{#1}#2}\par\vspace{0.25em}
+  {\small #3}\par}
+\newcommand{\takeaway}[1]{\par\vspace{0.4em}{\color{accent}\itshape #1}\par}
+\newcommand{\source}[1]{\vfill{\color{quiet}\tiny #1}\par}
+
+\mode<all>

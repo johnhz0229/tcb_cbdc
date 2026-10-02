@@ -124,3 +124,18 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+
+def export_paths(path="figures/expiry_paths.csv", step=0.25):
+    """Paths for the deck's pgfplots figure: day, velocity and unit value under both schemes."""
+    c, (t_e, v_e, k_e, s_e, t_d, v_d, k_d, s_d) = compare(T)
+    idx = np.arange(0, len(t_e), int(step / DT))
+    with open(path, "w") as f:
+        f.write("day,kappa_expiry,value_expiry,kappa_decay,value_decay\n")
+        for i in idx:
+            f.write(f"{t_e[i]:.2f},{k_e[i]:.5f},{v_e[i]:.5f},{k_d:.5f},{v_d:.5f}\n")
+
+
+if __name__ == "__main__":
+    export_paths()
