@@ -47,7 +47,7 @@
       1/{A tempting fix}/{Vouchers with an expiry date get money spent, and a programmable digital euro could carry one.},
       2/{A better fix}/{An expiry date ends in a fire sale and splits money into vintages; continuous decay is simply a negative rate.},
       3/{The twist}/{The draft regulation fixes the rate at zero, which makes the digital euro costless cash and raises the lower bound.},
-      4/{The design}/{Combining price and quantity gives a free tier, a Pigouvian rate above it, and a cap that moves with the cycle.}} {
+      4/{The design}/{Combining price and quantity suggests a free tier for payments, a Pigouvian rate above it, and a cap for crises.}} {
       \fill[accent] (0,\i) circle (2.4pt);
       \ifnum\i<4 \draw[hair, line width=0.8pt] (0,\i+0.12) -- (0,\i+0.88); \fi
       \node[anchor=west, font=\scriptsize\scshape, color=accent, text width=2.4cm] at (0.35,\i) {\k};
@@ -417,46 +417,121 @@
       The marginal cost of deposit outflows has three segments: zero while banks can absorb them, a constant $e$ while banks replace deposits with dearer funding, and vertical once their liquidity buffers run out.
 
       \vspace{0.4em}
-      In normal times demand crosses the flat part, where a price works best. In a crisis it shifts out and hits the cliff, where only a quantity works. \hl{Both happen on the same curve, so the best instrument is a tiered price with a cap} (Roberts and Spence 1976).
+      In normal times demand crosses the flat part, where a price works best. In a crisis it shifts out and hits the cliff, where only a quantity works. \hl{Both happen on the same curve, which points to a tiered price with a cap} (Roberts and Spence 1976).
     \end{column}
   \end{columns}
 \end{frame}
 
 % 15 ===============================================================
-\begin{frame}{The optimal digital euro has three numbers: a free tier, a Pigouvian rate above it, and a cap}{The design}
+\begin{frame}{Each segment of the cost curve becomes one rule: a free tier, a Pigouvian rate, and a cap}{The design \textperiodcentered{} theory}
+  \vspace{0.2cm}
   \begin{columns}[c]
-    \begin{column}{0.44\textwidth}
+    \begin{column}{0.42\textwidth}
       \begin{tikzpicture}
-        \begin{axis}[quietaxis, width=\textwidth, height=5.4cm, xmin=0, xmax=3800, ymin=-3.2, ymax=0.8,
-            xtick={0,510,3000}, xticklabels={\euro 0,\euro 510,\euro 3{,}000}, ytick={-2.4,0}, yticklabels={$-2.4\%$,$0\%$},
-            xlabel={digital-euro balance}, ylabel={rate on the marginal euro}, title={The rate schedule}]
-          \addplot[accent, const plot] coordinates {(0,0) (510,-2.4) (3000,-2.4)};
-          \addplot[warm, line width=2.4pt] coordinates {(3000,-3.2) (3000,0.8)};
-          \node[font=\scriptsize\scshape, color=accent, anchor=south west] at (axis cs:30,0.05) {free tier};
-          \node[font=\scriptsize\scshape, color=accent, anchor=south] at (axis cs:1750,-2.35) {decay};
-          \node[font=\scriptsize\scshape, color=warm, anchor=west] at (axis cs:3060,-1.2) {cap};
+        \begin{axis}[quietaxis, width=\textwidth, height=5.4cm, xmin=0, xmax=10, ymin=0, ymax=6,
+            xtick={2,7}, xticklabels={$X_0$, $L$}, ytick={1.6}, yticklabels={$e$},
+            xlabel={outflow from deposits $X$}, ylabel={marginal cost}]
+          \fill[accent!6] (axis cs:0,0) rectangle (axis cs:2,6);
+          \fill[accent!3] (axis cs:2,0) rectangle (axis cs:7,6);
+          \addplot[accent, line width=1.8pt] coordinates {(0,0) (2,0) (2,1.6) (7,1.6) (7,6)};
+          \node[circle, draw=accent, fill=white, inner sep=1.2pt, font=\scriptsize\bfseries, text=accent] at (axis cs:1,0.9) {1};
+          \node[circle, draw=accent, fill=white, inner sep=1.2pt, font=\scriptsize\bfseries, text=accent] at (axis cs:4.5,2.5) {2};
+          \node[circle, draw=warm, fill=white, inner sep=1.2pt, font=\scriptsize\bfseries, text=warm] at (axis cs:8.3,4.2) {3};
+          \node[font=\scriptsize, color=quiet, anchor=north] at (axis cs:1,5.8) {free};
+          \node[font=\scriptsize, color=quiet, anchor=north] at (axis cs:4.5,5.8) {costs $e$};
+          \node[font=\scriptsize, color=quiet, anchor=north] at (axis cs:8.5,5.8) {cliff};
         \end{axis}
       \end{tikzpicture}
     \end{column}
-    \begin{column}{0.52\textwidth}
+    \begin{column}{0.54\textwidth}
       \small
-      Each segment of the cost curve gives one number.
+      \textbf{\hl{1. A free tier $M_1$.}} Outflows up to $X_0$ cost banks nothing, so balances held for payments can be free. The tier is set so that payment balances just fill this free capacity: $N\,\mathbb E[\min(t, M_1)] = X_0$, where $t$ is what a person wants to hold.
 
       \vspace{0.5em}
-      \textbf{\hl{Free tier: \euro 510.}} Payments should only use the deposit outflow that banks absorb at no cost. The ECB expects payment digitalisation to bring \euro 127bn of new deposits, and $N\,\mathbb E[\min(t,M_1)] = \text{\euro}127\text{bn}$ gives $M_1 \approx \text{\euro}510$.
+      \textbf{\hl{2. A Pigouvian rate $-e$ above the tier.}} Each further euro moved out of a bank costs the bank $e$ to replace. Charging holders exactly this cost makes them weigh it, as a Pigouvian tax does: $i = -e$.
 
       \vspace{0.5em}
-      \textbf{\hl{Decay above the tier: $-2.4\%$.}} Holders pay the bank's cost of replacing a deposit, the refinancing rate minus the deposit rate: $2.65\% - 0.26\%$.
-
-      \vspace{0.5em}
-      \textbf{\textcolor{warm}{Cap: \euro 3{,}000.}} Crisis outflows stay within what banks can bear: $N\,\mathbb E[\min(d,\bar M)] = \theta D$.
+      \textbf{\textcolor{warm}{3. A cap $\bar M$.}} Beyond the liquidity buffer $L$ the cost has no bound, so no price is high enough. Only a quantity limit keeps the crisis outflow within the buffer: $N\,\mathbb E[\min(d, \bar M)] = L$, where $d$ is a person's sight deposit, all of which may run.
     \end{column}
   \end{columns}
-  \source{$t$: desired holding; $d$: sight deposits per person; $N=360$m; $\theta D$: tolerated crisis outflow. Data: ECB WP 2980; ECB holding-limit analysis (Oct 2025); ECB rates and MIR statistics (2026).}
 \end{frame}
 
 % 16 ===============================================================
-\begin{frame}{The hybrid is the only design that works in normal times, at negative rates and in a crisis}{The design}
+\begin{frame}{In an illustrative calibration, the rules imply a free tier of about \euro 500, a rate of about $-2.4\%$ and a cap near \euro 3{,}000}{The design \textperiodcentered{} illustration}
+  \begin{columns}[c]
+    \begin{column}{0.34\textwidth}
+      \begin{tikzpicture}
+        \begin{axis}[quietaxis, width=\textwidth, height=5cm, xmin=0, xmax=3800, ymin=-3.2, ymax=0.8,
+            xtick={510,3000}, xticklabels={\euro 510,\euro 3{,}000}, ytick={-2.4,0}, yticklabels={$-2.4\%$,$0\%$},
+            xlabel={digital-euro balance}, title={The resulting rate schedule}]
+          \addplot[accent, const plot] coordinates {(0,0) (510,-2.4) (3000,-2.4)};
+          \addplot[warm, line width=2.4pt] coordinates {(3000,-3.2) (3000,0.8)};
+          \node[font=\scriptsize\scshape, color=accent, anchor=south west] at (axis cs:30,0.05) {free};
+          \node[font=\scriptsize\scshape, color=accent, anchor=south] at (axis cs:1750,-2.35) {decay};
+          \node[font=\scriptsize\scshape, color=warm, anchor=east] at (axis cs:2950,-1.2) {cap};
+        \end{axis}
+      \end{tikzpicture}
+    \end{column}
+    \begin{column}{0.64\textwidth}
+      \footnotesize
+      \renewcommand{\arraystretch}{1.3}
+      \begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.13\textwidth}>{\raggedright\arraybackslash}p{0.68\textwidth}>{\raggedright\arraybackslash}p{0.12\textwidth}@{}}
+        \quiet{Rule} & \quiet{What the data say} & \quiet{Result} \\
+        \arrayrulecolor{hair}\midrule
+        \hl{1. Free tier} & The ECB expects payment digitalisation to bring \euro 127bn of new deposits by 2034, so $X_0 = $ \euro 127bn. Desired holdings $t$: median \euro 560, mean \euro 3{,}220. & \hl{\euro 510} \\
+        \hl{2. Rate} & A bank replaces a lost deposit at the refinancing rate (2.65\%) instead of the deposit rate (0.26\%), so $e$ is 2.4 points. & \hl{$-2.4\%$} \\
+        \textcolor{warm}{3. Cap} & Sight deposits $d$: median \euro 2{,}000, mean \euro 13{,}100. $L$ is the crisis outflow the ECB judged manageable in October 2025. & \textcolor{warm}{\euro 3{,}000} \\
+        \arrayrulecolor{hair}\midrule
+      \end{tabular}
+
+      \vspace{0.5em}
+      \small
+      The cap is anchored to the ECB's own analysis. The free tier and the rate follow from the model and depend on its assumptions; \hl{they show orders of magnitude, not a recommendation}. Details and sensitivity are in the appendix.
+    \end{column}
+  \end{columns}
+  \source{Data: Lambert et al.\ (ECB WP 2980, 2024), survey distributions; ECB technical data on holding limits (Oct 2025); ECB key rates (Sep 2026); MIR statistics (Apr 2026). Population $N=360$m, fitted to the ECB's outflow estimates.}
+\end{frame}
+
+% 17 ===============================================================
+\begin{frame}{If money is to carry a holding cost, continuous decay with a free tier and a cap is its natural form}{Conclusion}
+  \vspace{0.1cm}
+  \begin{enumerate}
+    \setlength\itemsep{0.55em}
+    \item Deadlines get money spent, but in the model an expiry date ends in a fire sale and makes one euro worth more than another. It suits a voucher better than money.
+    \item Continuous decay keeps every euro equal and is equivalent to a negative interest rate, so it is the natural form for a holding cost on money.
+    \item A digital euro fixed at zero behaves like cash without storage costs. It tends to raise the lower bound, and its pressure on bank deposits is greatest when rates are negative.
+    \item Weitzman's logic suggests combining price and quantity: a free tier for payments, a rate above it, and a cap for crises.
+  \end{enumerate}
+  \vspace{0.4cm}
+  \colhead{Open questions}
+  \small
+  General-equilibrium effects on prices and output; the social rather than private cost of deposit outflows; behavioural responses to a shrinking balance; and the legal and political feasibility of a negative rate on public money.
+\end{frame}
+
+% ================= APPENDIX =================
+\appendix
+\begin{frame}[plain]
+  \vfill\centering{\Large\color{quiet} Appendix}\vfill
+\end{frame}
+
+\begin{frame}{Related literature and how this talk relates to it}{Appendix}
+  \footnotesize
+  \renewcommand{\arraystretch}{1.3}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.26\textwidth}>{\raggedright\arraybackslash}p{0.42\textwidth}>{\raggedright\arraybackslash}p{0.26\textwidth}@{}}
+    \quiet{Strand} & \quiet{Main references} & \quiet{Use in this talk} \\
+    \arrayrulecolor{hair}\midrule
+    Negative interest on money & Gesell (1916); Fisher (1933); Keynes (1936); Goodfriend (2000); Buiter \& Panigirtzoglou (2003) & decay as a carry tax \\
+    Interest-bearing CBDC and the lower bound & Bordo \& Levin (2017); Agarwal \& Kimball (2019); Assenmacher \& Krogstrup (2018) & decay removes the cash floor only with cash reform \\
+    Zero-rate CBDC and the lower bound & ECB (2020); Pirgmann \& Wawrosz (2024) & slides 11--12 \\
+    Tiered remuneration & Bindseil (2020); Bindseil \& Panetta (2020) & free tier and rate above it \\
+    Holding limits & Meller \& Soons (2023); ECB (2025); Lambert et al.\ (2024) & data for the calibration \\
+    Expiring CBDC & Kahn, van Oordt \& Zhu (2026), for loss recovery & different purpose \\
+    Voucher evidence & Xing et al.\ (2023); Ding et al.\ (2024); Boehm, Fize \& Jaravel (2024); Hsieh et al.\ (2010) & slide 5 \\
+    Prices versus quantities & Weitzman (1974); Roberts \& Spence (1976) & slide 14 \\
+  \end{tabular}
+\end{frame}
+
+\begin{frame}{Comparing designs: the hybrid performs well in normal times, at negative rates and in a crisis}{Appendix}
   \begin{center}
   \begin{tikzpicture}
     \begin{groupplot}[group style={group size=3 by 1, horizontal sep=1.2cm},
@@ -479,8 +554,77 @@
   \source{The price-only crisis bar is truncated. Model calibrated to ECB survey and holding-limit data; see backup.}
 \end{frame}
 
-% 17 ===============================================================
-\begin{frame}{The cap should move with the cycle: higher when banks hold ample liquidity, lower when buffers are thin}{The design}
+
+
+\begin{frame}{Expiry versus decay: derivation and results}{Appendix}
+  \footnotesize
+  \textbf{Holder's problem.} Per unit of balance, with decay $\lambda$:
+  \[
+    (r+\lambda)V = \max_{\kappa}\Bigl\{\kappa(1-V) - \frac{\kappa^2}{2a}\Bigr\}
+    \;\Rightarrow\; \kappa^*=a(1-V),\quad (r+\lambda)V=\tfrac a2(1-V)^2 .
+  \]
+  \textbf{Square-root rule.} With $x=1-V$ small, $(r+\lambda)(1-x)=\tfrac a2 x^2$, so $x\approx\sqrt{2(r+\lambda)/a}$ and $\kappa^*\approx\sqrt{2a(r+\lambda)}$.
+
+  \textbf{Expiry.} With $\tau=T-t$ left: $dV/d\tau=-rV+\tfrac a2(1-V)^2$, $V(0)=\phi$. If $\tfrac a2(1-\phi)^2>r\phi$, $V>\phi$ before $T$, so the fire sale happens only at $T$.
+  Velocity rises to $a(1-\phi)$: finite, but the unspent balance is sold at once. Decay $\lambda$ is set to match the average expiry velocity over $[0,T]$.
+
+  \vspace{0.4em}
+  \begin{tabular}{@{}lcccccc@{}}
+    $T$ & useful (expiry) & dumped & value range & $\lambda$ p.a. & useful (decay) & decayed \\
+    \arrayrulecolor{hair}\midrule
+    7 d  & 45\% & 55\% & 0.50--0.63 & 1172\% & 41\% & 15\% \\
+    30 d & 84\% & 16\% & 0.50--0.80 & 489\%  & 73\% & 16\% \\
+    90 d & 97\% & 3\%  & 0.50--0.91 & 161\%  & 88\% & 10\% \\
+  \end{tabular}
+
+  \vspace{0.4em}
+  Matching a voucher needs decay of hundreds of percent a year; policy-sized decay of 1--3\% raises velocity by 12--32\%. A digital euro can carry a rate, not a voucher.
+\end{frame}
+
+\begin{frame}{Prices versus quantities: derivation}{Appendix}
+  \footnotesize
+  Benefit $MB(q)=b_0+\theta-bq$, cost $MC(q)=c_0+cq$, shock $\theta$ with variance $\sigma^2$; optimum $q^*(\theta)=(b_0+\theta-c_0)/(b+c)$.
+  \begin{itemize}
+    \setlength\itemsep{0.4em}
+    \item Quantity fixed at $\mathbb E q^*$: expected loss $\dfrac{\sigma^2}{2(b+c)}$
+    \item Price fixed: $q$ moves by $\theta/b$, expected loss $\dfrac{\sigma^2 c^2}{2b^2(b+c)}$
+    \item Difference: $\Delta=\dfrac{\sigma^2(b-c)}{2b^2}$. Prices win if and only if $b>c$.
+  \end{itemize}
+  \vspace{0.5em}
+  \textbf{Three-segment cost.} $MC(X)=0$ for $X\le X_0$, $e$ for $X_0<X\le L$, $\infty$ beyond $L$.
+  The planner's optimum is decentralised by a zero rate up to $M_1$, the rate $-e$ above it, and a cap at $\bar M$:
+  \[
+    N\,\mathbb E[\min(t,M_1)]=X_0,\qquad i_2=-e,\qquad N\,\mathbb E[\min(d,\bar M)]=\theta D .
+  \]
+  Under the rate $-e$, Baumol--Tobin demand for tier-2 balances shrinks by $K=\sqrt{r_D/(r_D+e)}=0.31$.
+\end{frame}
+
+\begin{frame}{Calibration: data and fit}{Appendix}
+  \footnotesize
+  \begin{tabular}{@{}lll@{}}
+    Sight deposits per person & median \euro 2{,}000, mean \euro 13{,}100 & ECB WP 2980 \\
+    Desired digital-euro holdings & median \euro 560, mean \euro 3{,}220 & ECB WP 2980 \\
+    Crisis outflow & \euro 156bn at \euro 500; \euro 699bn at \euro 3{,}000 & ECB, Oct 2025 \\
+    Digitalisation inflow by 2034 & \euro 127bn & ECB, Oct 2025 \\
+    MRO; household overnight rate & 2.65\%; 0.26\% & ECB, Sep / Apr 2026 \\
+    Aggregate LCR & 156.7\% & ECB, Q3 2025 \\
+    \arrayrulecolor{hair}\midrule
+  \end{tabular}
+
+  \vspace{0.6em}
+  \textbf{Fit.} Lognormals from the survey; population fitted to the two outflows: $N=360$m (euro area 2026: 359.6m).
+  Model: \euro 156bn at \euro 500, \euro 648bn at \euro 3{,}000; mean holding under a \euro 3{,}000 cap \euro 1{,}086 (survey: \euro 1{,}100); 18\% want more than \euro 3{,}000 (survey: 20\%).
+  No cap: \euro 4.7tn (Meller \& Soons 2023: almost \euro 5tn).
+
+  \vspace{0.6em}
+  \textbf{Sensitivity.} $X_0$ of \euro 100bn / 200bn / 300bn gives $M_1$ of \euro 370 / 960 / 1{,}840.
+  Tolerance $\theta$ of 5\% / 7.6\% / 10\% gives $\bar M$ of \euro 1{,}690 / 3{,}000 / 4{,}520.
+
+  \vspace{0.6em}
+  \textbf{Caveat.} $e$ is the private cost of replacing deposits; with central-bank pass-through funding the social cost may be lower (Brunnermeier \& Niepelt 2019).
+\end{frame}
+
+\begin{frame}{Extension: the cap could move with banks' liquidity}{Appendix}
   \begin{columns}[c]
     \begin{column}{0.48\textwidth}
       \begin{tikzpicture}
@@ -507,97 +651,8 @@
   \source{Aggregate LCR of significant institutions: 156.7\% (ECB, Q3 2025). Scaling rule is illustrative.}
 \end{frame}
 
-% 18 ===============================================================
-\begin{frame}{The digital euro should bear interest: zero for payments, decay above, and a cap that moves with the cycle}{Conclusion}
-  \vspace{0.2cm}
-  \begin{enumerate}
-    \setlength\itemsep{0.8em}
-    \item Deadlines get money spent, but an expiry date ends in a fire sale and makes one euro worth more than another. It belongs to a voucher, not to money.
-    \item Continuous decay keeps every euro equal and is simply a negative interest rate. It is the only form in which money itself can carry a holding cost.
-    \item A digital euro fixed at zero is cash without storage costs. It raises the lower bound and creates the most pressure on bank deposits when rates are negative.
-    \item The best design combines price and quantity: a free tier of about \euro 500 for payments, decay of about 2.4\% above it, and a cap tied to banks' liquidity.
-  \end{enumerate}
-  \vspace{0.6cm}
-  \begin{center}
-    \hl{\itshape Article 16(8) should be replaced by a rule that lets the digital euro bear interest in this form.}
-  \end{center}
-\end{frame}
 
-% ================= BACKUP =================
-\appendix
-\begin{frame}[plain]
-  \vfill\centering{\Large\color{quiet} Backup}\vfill
-\end{frame}
-
-\begin{frame}{Expiry versus decay: derivation and results}{Backup}
-  \footnotesize
-  \textbf{Holder's problem.} Per unit of balance, with decay $\lambda$:
-  \[
-    (r+\lambda)V = \max_{\kappa}\Bigl\{\kappa(1-V) - \frac{\kappa^2}{2a}\Bigr\}
-    \;\Rightarrow\; \kappa^*=a(1-V),\quad (r+\lambda)V=\tfrac a2(1-V)^2 .
-  \]
-  \textbf{Square-root rule.} With $x=1-V$ small, $(r+\lambda)(1-x)=\tfrac a2 x^2$, so $x\approx\sqrt{2(r+\lambda)/a}$ and $\kappa^*\approx\sqrt{2a(r+\lambda)}$.
-
-  \textbf{Expiry.} With $\tau=T-t$ left: $dV/d\tau=-rV+\tfrac a2(1-V)^2$, $V(0)=\phi$. If $\tfrac a2(1-\phi)^2>r\phi$, $V>\phi$ before $T$, so the fire sale happens only at $T$.
-  Velocity rises to $a(1-\phi)$: finite, but the unspent balance is sold at once. Decay $\lambda$ is set to match the average expiry velocity over $[0,T]$.
-
-  \vspace{0.4em}
-  \begin{tabular}{@{}lcccccc@{}}
-    $T$ & useful (expiry) & dumped & value range & $\lambda$ p.a. & useful (decay) & decayed \\
-    \arrayrulecolor{hair}\midrule
-    7 d  & 45\% & 55\% & 0.50--0.63 & 1172\% & 41\% & 15\% \\
-    30 d & 84\% & 16\% & 0.50--0.80 & 489\%  & 73\% & 16\% \\
-    90 d & 97\% & 3\%  & 0.50--0.91 & 161\%  & 88\% & 10\% \\
-  \end{tabular}
-
-  \vspace{0.4em}
-  Matching a voucher needs decay of hundreds of percent a year; policy-sized decay of 1--3\% raises velocity by 12--32\%. A digital euro can carry a rate, not a voucher.
-\end{frame}
-
-\begin{frame}{Prices versus quantities: derivation}{Backup}
-  \footnotesize
-  Benefit $MB(q)=b_0+\theta-bq$, cost $MC(q)=c_0+cq$, shock $\theta$ with variance $\sigma^2$; optimum $q^*(\theta)=(b_0+\theta-c_0)/(b+c)$.
-  \begin{itemize}
-    \setlength\itemsep{0.4em}
-    \item Quantity fixed at $\mathbb E q^*$: expected loss $\dfrac{\sigma^2}{2(b+c)}$
-    \item Price fixed: $q$ moves by $\theta/b$, expected loss $\dfrac{\sigma^2 c^2}{2b^2(b+c)}$
-    \item Difference: $\Delta=\dfrac{\sigma^2(b-c)}{2b^2}$. Prices win if and only if $b>c$.
-  \end{itemize}
-  \vspace{0.5em}
-  \textbf{Three-segment cost.} $MC(X)=0$ for $X\le X_0$, $e$ for $X_0<X\le L$, $\infty$ beyond $L$.
-  The planner's optimum is decentralised by a zero rate up to $M_1$, the rate $-e$ above it, and a cap at $\bar M$:
-  \[
-    N\,\mathbb E[\min(t,M_1)]=X_0,\qquad i_2=-e,\qquad N\,\mathbb E[\min(d,\bar M)]=\theta D .
-  \]
-  Under the rate $-e$, Baumol--Tobin demand for tier-2 balances shrinks by $K=\sqrt{r_D/(r_D+e)}=0.31$.
-\end{frame}
-
-\begin{frame}{Calibration: data and fit}{Backup}
-  \footnotesize
-  \begin{tabular}{@{}lll@{}}
-    Sight deposits per person & median \euro 2{,}000, mean \euro 13{,}100 & ECB WP 2980 \\
-    Desired digital-euro holdings & median \euro 560, mean \euro 3{,}220 & ECB WP 2980 \\
-    Crisis outflow & \euro 156bn at \euro 500; \euro 699bn at \euro 3{,}000 & ECB, Oct 2025 \\
-    Digitalisation inflow by 2034 & \euro 127bn & ECB, Oct 2025 \\
-    MRO; household overnight rate & 2.65\%; 0.26\% & ECB, Sep / Apr 2026 \\
-    Aggregate LCR & 156.7\% & ECB, Q3 2025 \\
-    \arrayrulecolor{hair}\midrule
-  \end{tabular}
-
-  \vspace{0.6em}
-  \textbf{Fit.} Lognormals from the survey; population fitted to the two outflows: $N=360$m (euro area 2026: 359.6m).
-  Model: \euro 156bn at \euro 500, \euro 648bn at \euro 3{,}000; mean holding under a \euro 3{,}000 cap \euro 1{,}086 (survey: \euro 1{,}100); 18\% want more than \euro 3{,}000 (survey: 20\%).
-  No cap: \euro 4.7tn (Meller \& Soons 2023: almost \euro 5tn).
-
-  \vspace{0.6em}
-  \textbf{Sensitivity.} $X_0$ of \euro 100bn / 200bn / 300bn gives $M_1$ of \euro 370 / 960 / 1{,}840.
-  Tolerance $\theta$ of 5\% / 7.6\% / 10\% gives $\bar M$ of \euro 1{,}690 / 3{,}000 / 4{,}520.
-
-  \vspace{0.6em}
-  \textbf{Caveat.} $e$ is the private cost of replacing deposits; with central-bank pass-through funding the social cost may be lower (Brunnermeier \& Niepelt 2019).
-\end{frame}
-
-\begin{frame}{References}{Backup}
+\begin{frame}{References}{Appendix}
   \scriptsize
   \begin{itemize}
     \setlength\itemsep{0.1em}

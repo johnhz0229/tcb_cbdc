@@ -68,10 +68,9 @@
   \item[\quiet{12}] The lower bound and disintermediation are the same problem: a central-bank rival to bank deposits.
   \item[\quiet{13}] A hard holding limit stops a run in a crisis, but it also blocks ordinary users in normal times.
   \item[\quiet{14}] When costs have a cliff and benefits do not, price and quantity together beat either one alone.
-  \item[\quiet{15}] The optimal digital euro has three numbers: a free tier, a Pigouvian rate above it, and a cap.
-  \item[\quiet{16}] The hybrid is the only design that works in normal times, at negative rates and in a crisis.
-  \item[\quiet{17}] The cap should move with the cycle: higher when banks hold ample liquidity, lower when buffers are thin.
-  \item[\quiet{18}] The digital euro should bear interest: zero for payments, decay above, and a cap that moves with the cycle.
+  \item[\quiet{15}] Each segment of the cost curve becomes one rule: a free tier, a Pigouvian rate, and a cap.
+  \item[\quiet{16}] In an illustrative calibration, the rules imply a free tier of about \euro 500, a rate of about $-2.4\%$ and a cap near \euro 3{,}000.
+  \item[\quiet{17}] If money is to carry a holding cost, continuous decay with a free tier and a cap is its natural form.
 \end{enumerate}
 
 \vspace{0.5cm}
@@ -82,16 +81,16 @@
   1 & 0:15 & & 10 & 0:40 \\
   2 & 0:45 & & 11 & 1:10 \\
   3 & 1:15 & & 12 & 1:00 \\
-  4 & 1:15 & & 13 & 1:20 \\
-  5 & 1:15 & & 14 & 1:30 \\
+  4 & 1:15 & & 13 & 1:15 \\
+  5 & 1:15 & & 14 & 1:20 \\
   6 & 0:50 & & 15 & 1:30 \\
-  7 & 1:15 & & 16 & 1:00 \\
-  8 & 1:40 & & 17 & 0:50 \\
-  9 & 1:15 & & 18 & 0:50 \\
+  7 & 1:15 & & 16 & 1:20 \\
+  8 & 1:30 & & 17 & 1:10 \\
+  9 & 1:15 & & & \\
 \end{tabular}
 
 \smallskip
-\quiet{Checkpoints: end of slide 6 at 5:35; slide 9 at 9:45; slide 13 at 13:55; slide 18 at 19:35, leaving 25 seconds of slack.}
+\quiet{Checkpoints: end of slide 6 at 5:35; slide 9 at 9:35; slide 13 at 13:40; slide 17 at 19:00, leaving one minute of slack.}
 \end{minipage}\hfill
 \begin{minipage}[t]{0.55\textwidth}
 \kicker{Numbers to know}\par\medskip
@@ -104,8 +103,8 @@
   \item Decay of 1\% a year raises velocity by about 12\%.
   \item Art.\ 16(8): ``shall not bear interest''. Cap range \euro 1{,}500--3{,}000.
   \item Crisis outflow: \euro 699bn at \euro 3{,}000 (ECB); model \euro 648bn; no cap \euro 4.7tn.
-  \item Design: free tier \euro 510, decay $-2.4\%$ (2.65\% $-$ 0.26\%), cap \euro 3{,}000.
-  \item Aggregate LCR 157\%; cap \euro 1{,}300 at 130\%, \euro 5{,}600 at 185\%.
+  \item Illustration: free tier \euro 510, decay $-2.4\%$ (2.65\% $-$ 0.26\%), cap \euro 3{,}000.
+  \item Appendix: design comparison (cap only 18.5\% blocked; price only \euro 4.7tn in a crisis).
 \end{itemize}
 \end{minipage}
 
@@ -148,7 +147,7 @@
 \asked
 \begin{itemize}
   \Q{Inflation is now above target. Why does this matter?}
-  \A The floor bound for most of 2009--2021, and the digital-euro regulation will last decades. It should work in both regimes.
+  \A The floor was binding for most of 2009--2021, and the regulation is likely to last decades, so its design matters in both regimes.
 \end{itemize}
 
 \slidepage{5}{1:15}
@@ -243,77 +242,78 @@
   \item ``One mechanism, two names. And with a zero rate, the risk peaks exactly when rates are negative.''
 \end{itemize}
 
-\slidepage{13}{1:20}
+\slidepage{13}{1:15}
 \say
 \begin{itemize}
-  \item The ECB's answer is a hard cap, around \euro 3{,}000.
-  \item Left: in normal times, 18\% of people would like to hold more; the cap blocks them.
-  \item Right: in a crisis the cap is what matters. \euro 0.65 trillion at \euro 3{,}000 against \euro 4.7 trillion with no cap.
-  \item ``A price is enough in normal times. In a crisis only a quantity works.''
+  \item The ECB's current answer to disintermediation is a hard cap, around \euro 3{,}000.
+  \item Left: in normal times, about 18\% of people would like to hold more; the cap simply blocks them.
+  \item Right: in a crisis the cap is what matters: about \euro 0.65 trillion of outflow at \euro 3{,}000, against \euro 4.7 trillion with no cap.
+  \item ``So a price seems sufficient in normal times, while in a crisis only a quantity limit works.''
 \end{itemize}
 \asked
 \begin{itemize}
   \Q{Where does the crisis curve come from?}
-  \A The ECB published \euro 156bn at a \euro 500 cap and \euro 699bn at \euro 3{,}000. I fit the survey distribution of deposits to those two points. The implied population is 360 million, the actual euro-area population, and the no-cap outflow of \euro 4.7tn is close to Meller and Soons' \euro 5tn.
+  \A The ECB published \euro 156bn at a \euro 500 cap and \euro 699bn at \euro 3{,}000. I fit the survey distribution of deposits to those two points. The implied population is 360 million, close to the actual euro-area population, and the no-cap outflow of \euro 4.7tn is close to Meller and Soons' \euro 5tn.
 \end{itemize}
 
-\slidepage{14}{1:30}
+\slidepage{14}{1:20}
 \say
 \begin{itemize}
-  \item Prices or quantities is an old question. Weitzman: a price is better when benefits are steeper than costs, a quantity when costs are steeper.
+  \item This is an old question: prices or quantities? Weitzman's answer depends on slopes: a price when benefits are steeper than costs, a quantity when costs are steeper.
   \item The blue staircase is the cost of deposit outflows: free, then a constant $e$, then a cliff.
-  \item Grey, normal times: demand crosses the flat part, so a price works. Red, crisis: demand hits the cliff, so only a cap works.
-  \item ``Both happen on one curve, so the answer is both: a tiered price with a cap.''
+  \item In normal times demand crosses the flat part, where a price works; in a crisis it hits the cliff, where only a cap works.
+  \item ``Both cases sit on one curve, which points to combining the two, as Roberts and Spence showed.''
 \end{itemize}
 \asked
 \begin{itemize}
   \Q{Hasn't Bindseil already proposed tiering?}
-  \A Yes. What I add is the reason, from the shape of the cost curve, and a calibration of each tier.
+  \A Yes, and this builds on it. What the framework adds is a reason for each tier, from the shape of the cost curve.
 \end{itemize}
 
 \slidepage{15}{1:30}
 \say
 \begin{itemize}
-  \item Each segment of the staircase gives one number.
-  \item Free tier \euro 510: payments use only what banks absorb at no cost, the \euro 127bn the ECB expects from digitalisation.
-  \item Decay of 2.4\% above it: the bank's cost of replacing a deposit, refinancing rate minus deposit rate.
-  \item Cap \euro 3{,}000: crisis outflows stay within what banks can bear.
+  \item Before any numbers, the logic: each segment of the staircase turns into one rule.
+  \item Segment 1, free: outflows that banks absorb at no cost. So payment balances can be free, and the tier is set so that they just fill that free capacity.
+  \item Segment 2, cost $e$: each further euro costs the bank $e$ to replace. A Pigouvian rate of $-e$ makes holders bear that cost.
+  \item Segment 3, the cliff: no price is high enough, so only a cap keeps crisis outflows within the buffer.
+\end{itemize}
+\asked
+\begin{itemize}
+  \Q{What does Pigouvian mean here?}
+  \A A charge equal to the cost one person's choice imposes on others. Here the cost falls on banks, which must replace lost deposits with dearer funding.
+\end{itemize}
+
+\slidepage{16}{1:20}
+\say
+\begin{itemize}
+  \item Now the numbers, as an illustration of orders of magnitude.
+  \item Free tier: the ECB expects digitalisation to bring \euro 127bn of new deposits. Filling exactly that with payment balances gives a tier of about \euro 500.
+  \item Rate: a bank replaces a lost deposit at the refinancing rate, 2.65\%, instead of 0.26\%; that difference is about 2.4 points.
+  \item Cap: I take the outflow the ECB itself judged manageable, which brings us back to its \euro 3{,}000.
+  \item ``The cap reproduces the ECB's figure; the tier and the rate depend on the model's assumptions, and the appendix shows how sensitive they are.''
 \end{itemize}
 \asked
 \begin{itemize}
   \Q{Isn't $-2.4\%$ a very large penalty?}
-  \A Almost nobody pays it; it only keeps the digital euro from becoming a savings account. It is also an upper bound: with central-bank pass-through funding the social cost is lower.
+  \A Almost nobody would pay it; it mainly keeps the digital euro from becoming a savings account. It is also an upper bound: if central-bank funding replaces deposits cheaply, the social cost is lower.
   \Q{Why \euro 127bn?}
-  \A It leaves banks no worse off than today. With \euro 100--300bn the tier ranges from \euro 370 to \euro 1{,}840 (backup).
+  \A It is a natural benchmark: banks end up no worse off than today. With \euro 100--300bn the tier ranges from \euro 370 to \euro 1{,}840 (appendix).
+  \Q{Does the hybrid actually perform better?}
+  \A In the model, yes: compared with a cap alone it blocks fewer users and leaks far less when rates are negative, and unlike a price alone it holds in a crisis. The comparison is in the appendix.
 \end{itemize}
 
-\slidepage{16}{1:00}
+\slidepage{17}{1:10}
 \say
 \begin{itemize}
-  \item Three situations, three designs.
-  \item A cap alone blocks almost one user in five and still leaks \euro 648bn when rates are negative, because every capped euro pays zero.
-  \item A price alone fails in a crisis.
-  \item ``Only the hybrid works in all three.''
-\end{itemize}
-
-\slidepage{17}{0:50}
-\say
-\begin{itemize}
-  \item The cap protects bank liquidity, so it should depend on bank liquidity.
-  \item If the tolerated outflow scales with the liquidity surplus, the cap goes from about \euro 1{,}300 to \euro 5{,}600 across plausible ratios.
-  \item The rule must be published and mechanical, so that a cut is expected rather than read as panic.
+  \item Summarise the four points in one breath each.
+  \item Mention the open questions honestly: general equilibrium, the true social cost of outflows, behaviour, and legal feasibility.
+  \item Close: ``The zero-rate design is a choice with a cost. My aim was to make that cost visible, and to show what form a holding cost on money would naturally take. Thank you.''
 \end{itemize}
 \asked
 \begin{itemize}
-  \Q{Wouldn't lowering the cap in a downturn trigger the run it is meant to prevent?}
-  \A That is why it must follow a published rule tied to published data, like a countercyclical capital buffer, not a discretionary announcement.
-\end{itemize}
-
-\slidepage{18}{0:50}
-\say
-\begin{itemize}
-  \item Read the four points.
-  \item Close: ``Deadlines belong to vouchers; money can only carry a rate. Article 16(8) should be replaced by a rule that lets the digital euro bear interest: zero for payments, decay above, and a cap that moves with the cycle. Thank you.''
+  \Q{Should the cap move over time?}
+  \A Possibly. Since the cap protects bank liquidity, it could follow a published rule tied to banks' liquidity ratios. I sketch this in the appendix, but it raises its own questions about signalling in a crisis.
 \end{itemize}
 
 % ================= Q&A + GLOSSARY =================
@@ -321,7 +321,7 @@
 \kicker{More questions}\par\medskip
 \begin{itemize}[leftmargin=1.5em,itemsep=0.6em]
   \Q{Isn't negative interest on CBDC already in Bordo and Levin (2017)?}
-  \A Yes, as an idea. The new parts here are why it must be decay rather than expiry, and how a rate and a cap should be combined and calibrated.
+  \A Yes, the idea is theirs. This talk adds a comparison of expiry and decay in one model, and a framework for combining a rate with a cap; the related literature is in the appendix.
   \Q{Would people accept a digital euro that can shrink?}
   \A Balances up to the free tier never shrink. Above it, the charge only makes the digital euro no better than a bank account.
   \Q{The ECB says the digital euro will not be programmable money.}

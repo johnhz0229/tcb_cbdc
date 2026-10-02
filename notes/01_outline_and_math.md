@@ -25,10 +25,13 @@
 12. The lower bound and disintermediation are the same problem: a central-bank rival to bank deposits.
 13. A hard holding limit stops a run in a crisis, but it also blocks ordinary users in normal times.
 14. When costs have a cliff and benefits do not, price and quantity together beat either one alone.
-15. The optimal digital euro has three numbers: a free tier, a Pigouvian rate above it, and a cap.
-16. The hybrid is the only design that works in normal times, at negative rates and in a crisis.
-17. The cap should move with the cycle: higher when banks hold ample liquidity, lower when buffers are thin.
-18. The digital euro should bear interest: zero for payments, decay above, and a cap that moves with the cycle.
+15. Each segment of the cost curve becomes one rule: a free tier, a Pigouvian rate, and a cap.
+16. In an illustrative calibration, the rules imply a free tier of about €500, a rate of about −2.4% and a cap near €3,000.
+17. If money is to carry a holding cost, continuous decay with a free tier and a cap is its natural form.
+
+Appendix: related literature; comparison of designs; expiry vs decay derivation; prices vs quantities derivation; calibration data and fit; extension (cap tied to bank liquidity); references.
+
+The tone is analytical: the talk shows trade-offs and orders of magnitude, not a recommendation to the ECB.
 
 Slides 13–17 are derived in `notes/03_hybrid_derivation.md`.
 

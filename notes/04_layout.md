@@ -18,9 +18,8 @@ Theme: `slides/beamerthemequiet.sty` (Palatino, 9pt base, one accent colour `#1F
 | 12 | The twist | Diagram: cash ← deposit → digital euro | Lower bound and disintermediation are one mechanism |
 | 13 | The trade-off | Share wanting more than m; crisis outflow vs cap | Price for normal times, quantity for crises |
 | 14 | The principle | Marginal-cost staircase with normal and crisis benefit curves | Weitzman; Roberts–Spence |
-| 15 | The design | Rate schedule: 0 to €510, −2.4% to €3,000, wall at the cap | Derivation of each number |
-| 16 | The design | Three bar charts: users blocked, negative-rate outflow, crisis outflow | Hybrid works in all three |
-| 17 | The design | Cap vs aggregate LCR | Countercyclical, rule-based cap |
-| 18 | Conclusion | — | Four full-sentence conclusions and the policy recommendation |
+| 15 | The design · theory | Cost staircase with numbered segments 1–3 | Three rules with general formulas, no numbers |
+| 16 | The design · illustration | Rate schedule: 0 to €510, −2.4% to €3,000, wall at the cap | Data → number for each rule; explicitly illustrative |
+| 17 | Conclusion | — | Four hedged conclusions and open questions |
 
-Backup: expiry vs decay derivation, prices vs quantities derivation, calibration data and fit, references.
+Appendix: related literature table; comparison of designs (three bar charts); expiry vs decay derivation; prices vs quantities derivation; calibration data and fit; extension: cap tied to bank liquidity; references.
