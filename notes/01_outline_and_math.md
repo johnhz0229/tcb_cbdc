@@ -1,8 +1,4 @@
-# Should the Digital Euro Bear Interest? — outline and model notes
-
-> Positioning: the companion talk covers the **quantity** valve (how large the holding limit should be).
-> This talk covers the **price** valve (should the digital euro's rate be fixed at zero?).
-> Format: 20-minute talk + 10-minute Q&A.
+# Use It or Lose It? — outline and model notes
 
 ## 0. Verified facts
 
@@ -14,15 +10,20 @@
 - ECB deposit facility rate was −0.50% from Sep 2019 to Jul 2022.
 - The ECB commits to keeping cash.
 
-## 1. Storyline (20 minutes)
+## 1. Storyline (slide titles, 20 minutes)
 
-| Time | Block | Content |
-|---|---|---|
-| 3' | Hook | Two valves: quantity (limit) and price (rate). Art. 16(8) welds the price valve shut. What does that cost? |
-| 4' | Outside-option framework | Cash at 0 → ELB; digital euro at 0 → a frictionless floor. ZLB and disintermediation are one mechanism. |
-| 6' | Model | Expiry vs demurrage as two schedules of one holding cost (Section 2). Only demurrage is a rate. |
-| 4' | ELB | Floor formula with cash retained; asymmetry: zero remuneration costs space, negative remuneration cannot create it. |
-| 3' | Policy | Keep zero as default; contingent tiered demurrage clause when the DFR is negative. |
+1. Use it or lose it? (0:30)
+2. Money with an expiry date gets spent, and fast. (1:30)
+3. A digital euro could build the same pressure into money itself, by an expiry date or by continuous decay. (1:30)
+4. To compare them, take a holder who searches for good uses of money and can always dump it at a loss. (2:00)
+5. An expiry date pushes out more spending, but ends in a fire sale and splits money into vintages. (2:00)
+6. Continuous decay keeps every euro equal, and it is nothing more than a negative interest rate. (2:00)
+7. As a rate, decay is far too weak to replicate a voucher: money can carry a rate, not a stimulus programme. (1:45)
+8. So the real question is the digital euro's interest rate, and the draft regulation fixes it at zero. (1:15)
+9. A zero-rate digital euro is cash without storage costs, which lifts the lower bound back to zero. (2:30)
+10. A negative digital-euro rate can win that space back, but no more while cash still exists. (2:00)
+11. The best design keeps zero as the default and lets balances above a threshold decay when policy rates turn negative. (2:00)
+12. The digital euro should be able to bear interest: only as decay, and only when rates are negative. (1:00)
 
 ## 2. Expiry vs demurrage: model and results
 

@@ -7,11 +7,13 @@
 \usepackage{graphicx}
 \usepackage{xcolor}
 \usepackage{eurosym}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.16}
 
 % ---------- look ----------
 \definecolor{ink}{HTML}{1F2937}
 \definecolor{accent}{HTML}{1D4ED8}
-\definecolor{warn}{HTML}{B45309}
+\definecolor{warn}{HTML}{C2410C}
 \definecolor{muted}{HTML}{6B7280}
 \usetheme{default}
 \usefonttheme{professionalfonts}
@@ -20,18 +22,20 @@
 \setbeamercolor{title}{fg=accent}
 \setbeamercolor{structure}{fg=accent}
 \setbeamercolor{alerted text}{fg=warn}
-\setbeamerfont{frametitle}{series=\bfseries,size=\Large}
+\setbeamerfont{frametitle}{series=\bfseries,size=\large}
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{itemize items}{\color{accent}\textbullet}
+\setbeamertemplate{frametitle}{\vspace*{0.6em}\insertframetitle\par\vspace{-0.2em}{\color{accent!25}\rule{\textwidth}{0.6pt}}}
 \setbeamertemplate{footline}{%
   \hfill\usebeamercolor[fg]{muted}\scriptsize\insertframenumber\hspace{1.2em}\vspace{0.8em}}
 \setbeamercolor{block title}{fg=white,bg=accent}
 \setbeamercolor{block body}{bg=accent!6}
 \newcommand{\muted}[1]{{\color{muted}#1}}
 \newcommand{\key}[1]{{\color{accent}\textbf{#1}}}
+\newcommand{\source}[1]{\vfill{\color{muted}\tiny #1}}
 
-\title{Should the Digital Euro Bear Interest?}
-\subtitle{Programmable holding costs, the lower bound,\\and why the only usable form is demurrage}
+\title{Use It or Lose It?}
+\subtitle{Programmable money and the digital euro's interest rate}
 \author{[Presenter name]}
 \date{October 2026}
 
@@ -43,162 +47,78 @@
 \end{frame}
 
 % 2 ---------------------------------------------------------------
-\begin{frame}{Two valves on the digital euro}
+\begin{frame}{Money with an expiry date gets spent, and fast}
+  \vspace{1em}
   \begin{columns}[T]
     \begin{column}{0.48\textwidth}
-      \begin{block}{Quantity valve: holding limit}
-        \begin{itemize}
-          \item Council and Parliament both want a cap
-          \item Range under discussion: \textbf{\euro 1{,}500--3{,}000}
-          \item Trilogue ongoing (3rd round 30 Sep 2026)
-          \item \muted{$\rightarrow$ companion talk}
-        \end{itemize}
-      \end{block}
+      \centering
+      {\color{muted}China, digital coupons, 2020}\\[0.6em]
+      {\Huge\bfseries\color{accent} \textyen 3}\\[0.3em]
+      extra spending per \textyen 1 of subsidy\\[0.3em]
+      \muted{\small coupons valid for about one week}
     \end{column}
     \begin{column}{0.48\textwidth}
-      \begin{block}{Price valve: remuneration}
-        \begin{itemize}
-          \item Commission proposal, Art.~16(8):\\
-                \emph{``The digital euro shall not bear interest.''}
-          \item The price valve is \textbf{welded shut at zero}
-        \end{itemize}
-      \end{block}
+      \centering
+      {\color{muted}France, randomised prepaid cards}\\[0.6em]
+      {\Huge\bfseries\color{accent} 61\%} \ {\Large vs} \ {\Huge\bfseries\color{muted} 23\%}\\[0.3em]
+      one-month MPC, with vs without\\a three-week expiry
     \end{column}
   \end{columns}
-  \vspace{1.2em}
+  \vspace{2em}
   \begin{center}
-    \Large \key{What does closing the price valve cost,\\ and what would opening it require?}
+    A deadline turns a transfer that would be saved into spending \emph{now}.
   \end{center}
+  \source{Xing, Zou, Yin, Wang \& Li (AEJ: Macro 2023); Ding, Jiang, Msall \& Notowidigdo (2024); Boehm, Fize \& Jaravel (2024).}
 \end{frame}
 
 % 3 ---------------------------------------------------------------
-\begin{frame}{Three claims}
-  \begin{enumerate}
-    \setlength\itemsep{1em}
-    \item \key{An unremunerated digital euro hardens the lower bound.}\\
-      It is cash without storage costs: on capped balances the deposit-rate floor moves from $-c_{\text{cash}}$ back to $0$.
-      \muted{(Known in policy work; I give a one-line formalisation.)}
-    \item \key{If a holding cost is programmed, it must be demurrage, not expiry.}\\
-      Expiry is a fiscal-programme tool; only continuous decay is an interest rate.
-      \muted{(Model result.)}
-    \item \key{Remuneration flexibility protects policy space; it does not create it.}\\
-      While cash exists, a negative digital-euro rate cannot go below the cash floor.
-      \muted{Policy: keep zero as the default, legislate a contingent rate clause.}
-  \end{enumerate}
-\end{frame}
-
-% 4 ---------------------------------------------------------------
-\begin{frame}{Why programmable money tempts policymakers}
-  \begin{columns}[T]
-    \begin{column}{0.46\textwidth}
-      \textbf{The macro problem}
-      \begin{itemize}
-        \item Liquidity trap: $MV = PY$, but $V$ falls when $M$ rises
-        \item Rates stuck at the effective lower bound (ECB DFR $-0.50\%$, 2019--22)
-        \item Desire to bypass banks and push spending directly
-      \end{itemize}
+\begin{frame}{A digital euro could build the same pressure into money itself, by an expiry date or by continuous decay}
+  \begin{columns}[c]
+    \begin{column}{0.55\textwidth}
+      \begin{tikzpicture}
+        \begin{axis}[width=\textwidth, height=5.4cm, xmin=0, xmax=40, ymin=0, ymax=1.15,
+            axis lines=left, xlabel={days}, ylabel={value of a \euro 1 balance},
+            xtick={0,30}, xticklabels={0,$T$}, ytick={0,1},
+            legend style={draw=none, fill=none, at={(0.03,0.04)}, anchor=south west, font=\small}]
+          \addplot[very thick, warn] coordinates {(0,1) (30,1) (30,0) (40,0)};
+          \addlegendentry{expiry date}
+          \addplot[very thick, accent, domain=0:40, samples=60] {exp(-0.03*x)};
+          \addlegendentry{continuous decay}
+        \end{axis}
+      \end{tikzpicture}
     \end{column}
-    \begin{column}{0.52\textwidth}
-      \textbf{Expiry works, empirically}
+    \begin{column}{0.42\textwidth}
       \begin{itemize}
-        \item China digital coupons: \textbf{\textyen 3} extra spending per \textyen 1 of subsidy\\
-              \muted{\footnotesize Xing et al.\ (AEJ:Macro 2023); Ding et al.\ (2024): 3.1--3.3}
-        \item France RCT: one-month MPC \textbf{61\%} with a 3-week expiry vs \textbf{23\%} without\\
-              \muted{\footnotesize Boehm, Fize \& Jaravel (2024)}
-        \item Japan 1999 coupons: weak effect\\
-              \muted{\footnotesize Hsieh, Shimizutani \& Hori (JPubE 2010)}
+        \setlength\itemsep{0.8em}
+        \item In a liquidity trap, money is hoarded and velocity falls
+        \item A programmable currency can charge for holding it
+        \item \textbf{Expiry:} the whole cost falls on day $T$
+        \item \textbf{Decay (demurrage):} the same cost spread evenly over time
       \end{itemize}
     \end{column}
   \end{columns}
-  \vspace{0.8em}
-  \begin{center}
-    \key{Question: can the digital euro itself carry this ``use it or lose it'' force?}
-  \end{center}
-\end{frame}
-
-% 5 ---------------------------------------------------------------
-\begin{frame}{What is already known}
-  \footnotesize
-  \begin{tabular}{@{}p{0.30\textwidth}p{0.42\textwidth}p{0.20\textwidth}@{}}
-    \toprule
-    Strand & Key references & Status \\
-    \midrule
-    Carry tax on money & Gesell (1916), Fisher (1933), Keynes (1936), Goodfriend (2000), Buiter \& Panigirtzoglou (2003) & settled idea \\
-    Interest-bearing CBDC removes ZLB & Bordo \& Levin (2017), Agarwal \& Kimball (2015, 2019), Assenmacher \& Krogstrup (2018) & settled idea \\
-    Tiered CBDC remuneration & Bindseil (2020), Bindseil \& Panetta (2020) & ECB design input \\
-    Zero-rate CBDC hardens ELB & ECB Report on a digital euro (2020), Pirgmann \& Wawrosz (2024) & recognised \\
-    Expiring CBDC & Kahn, van Oordt \& Zhu (JMCB 2026): expiry for \emph{loss recovery} & different purpose \\
-    Expiring vouchers & Xing et al.\ (2023), Ding et al.\ (2024), Boehm et al.\ (2024) & empirical \\
-    \bottomrule
-  \end{tabular}
-  \vspace{0.8em}
-
-  \key{Gap:} no common framework comparing \emph{expiry} and \emph{demurrage} as two schedules of the same holding cost, and no mapping from voucher-strength stimulus to equivalent interest rates.
-\end{frame}
-
-% 6 ---------------------------------------------------------------
-\begin{frame}{Central-bank money is the deposit's outside option}
-  A depositor can always switch to a central-bank liability $j$ with rate $i_j$ and holding cost $c_j$.
-  Banks cannot push the deposit rate below the best outside option:
-  \[
-    r_D \;\ge\; \max_j \,\bigl\{\, i_j - c_j \,\bigr\}
-    \qquad \text{(on balances that option can absorb)}
-  \]
-  \begin{center}
-  \small
-  \begin{tabular}{@{}lccc@{}}
-    \toprule
-    Outside option & $i_j$ & $c_j$ & Floor on $r_D$ \\
-    \midrule
-    Cash & $0$ & $c_{\text{cash}}>0$ \muted{(storage, insurance)} & $-c_{\text{cash}}$ \\
-    Digital euro, Art.\ 16(8) & $0$ & $\approx 0$ & \alert{$0$}, up to the limit $\bar M$ \\
-    Digital euro at $-\lambda$ & $-\lambda$ & $\approx 0$ & $\max\{-\lambda,\,-c_{\text{cash}}\}$ \\
-    \bottomrule
-  \end{tabular}
-  \end{center}
   \vspace{0.5em}
-  \begin{itemize}
-    \item The \textbf{ZLB} and \textbf{disintermediation} are the same mechanism seen from two sides
-    \item The holding limit $\bar M$ decides \emph{how much} money enjoys the zero floor \muted{(companion talk)}
-  \end{itemize}
+  \begin{center}\key{Which of the two should a central bank use?}\end{center}
 \end{frame}
 
-% 7 ---------------------------------------------------------------
-\begin{frame}{Claim 1: a zero-rate digital euro is frictionless cash}
+% 4 ---------------------------------------------------------------
+\begin{frame}{To compare them, take a holder who searches for good uses of money and can always dump it at a loss}
   \begin{itemize}
-    \setlength\itemsep{0.7em}
-    \item 2019--22: the ECB went to $-0.50\%$ without a run into cash, because hoarding notes is costly
-    \item A digital euro at $0$ removes that cost on the first $\bar M$ per person
-    \item Consequences when rates are negative:
-      \begin{itemize}
-        \item deposits up to $\bar M$ flow out exactly when banks are weakest
-        \item pass-through of negative rates to retail balances is capped at $0$
-        \item disintermediation pressure peaks in the \textbf{negative-rate} regime, not in normal times
-      \end{itemize}
-    \item So zero remuneration and the holding limit are a \key{package}: the limit is what makes the zero floor affordable
+    \item A unit of money is worth $V$ to its holder; a good purchase is worth $1$
+    \item Searching at intensity $\kappa$ costs $\kappa^2/2a$; $\kappa$ is the \textbf{velocity}
+    \item A bad use (junk goods, selling at a discount) is always available at $\phi<1$
   \end{itemize}
-  \vspace{0.5em}
-  \muted{\small Consistent with ECB (2020) and Pirgmann \& Wawrosz (2024). New here: the floor formula and the link to $\bar M$.}
-\end{frame}
-
-% 8 ---------------------------------------------------------------
-\begin{frame}{Claim 2: a model of programmable holding costs}
-  \begin{itemize}
-    \item Token value per unit: $V$. Useful purchases are worth $1$; holders search with intensity $\kappa$ at cost $\kappa^2/2a$
-    \item A \textbf{junk outlet} (low-value goods, dumping on a secondary market) is always available at $\phi<1$
-    \item Discount rate $r$; velocity is $\kappa$
-  \end{itemize}
-  \vspace{0.3em}
+  \vspace{0.4em}
   \begin{columns}[T]
     \begin{column}{0.48\textwidth}
-      \begin{block}{Hard expiry at $T$ \quad ($\tau = T-t$)}
+      \begin{block}{Expiry at $T$ \quad ($\tau = T-t$ left)}
         \[
           \frac{dV}{d\tau} = -rV + \frac{a}{2}(1-V)^2,\quad V(0)=\phi
         \]
       \end{block}
     \end{column}
     \begin{column}{0.48\textwidth}
-      \begin{block}{Demurrage at rate $\lambda$}
+      \begin{block}{Decay at rate $\lambda$}
         \[
           (r+\lambda)\,V = \frac{a}{2}(1-V)^2
         \]
@@ -207,160 +127,171 @@
   \end{columns}
   \vspace{0.5em}
   \begin{center}
-    Optimal velocity in both cases: \quad $\kappa^* = a\,(1-V)$
+    In both cases the holder spends at speed \quad $\kappa^* = a\,(1-V)$:\quad the less money is worth holding, the faster it moves.
   \end{center}
 \end{frame}
 
+% 5 ---------------------------------------------------------------
+\begin{frame}{An expiry date pushes out more spending, but ends in a fire sale and splits money into vintages}
+  \centering
+  \includegraphics[width=\textwidth]{../figures/expiry_vs_demurrage.pdf}\\[0.2em]
+  \small
+  \begin{tabular}{@{}ccc@{}}
+    \textbf{84\%} vs 73\% & \textbf{16\%} & \textbf{0.50--0.80} \\
+    \muted{useful spending in 30 days} & \muted{dumped at $\phi$ on day $T$} & \muted{value of an expiring unit, by age}
+  \end{tabular}
+  \source{Both schemes calibrated to the same average velocity over 30 days; $a=0.2$, $\phi=0.5$, $r=4\%$.}
+\end{frame}
+
+% 6 ---------------------------------------------------------------
+\begin{frame}{Continuous decay keeps every euro equal, and it is nothing more than a negative interest rate}
+  \begin{columns}[T]
+    \begin{column}{0.52\textwidth}
+      \small
+      \begin{tabular}{@{}lcc@{}}
+        \toprule
+        & Expiry & Decay \\
+        \midrule
+        Fire sale at the deadline & 3--55\% & none \\
+        Value of one unit & by vintage & all equal \\
+        One euro = one euro? & \alert{no} & yes \\
+        Applies to all money & no & yes \\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+    \begin{column}{0.44\textwidth}
+      Decay at $\lambda$ is the rate $i=-\lambda$. Velocity follows
+      \[
+        \kappa^* \approx \sqrt{2a\,(r+\lambda)}
+      \]
+      the square-root rule of Baumol--Tobin money demand.
+    \end{column}
+  \end{columns}
+  \vspace{1em}
+  \begin{center}
+    \key{Expiry is a feature of a spending programme. Decay can be a feature of money.}
+  \end{center}
+\end{frame}
+
+% 7 ---------------------------------------------------------------
+\begin{frame}{As a rate, decay is far too weak to replicate a voucher: money can carry a rate, not a stimulus programme}
+  \vspace{1em}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \centering
+      {\color{muted}Decay needed to match a voucher}\\[0.6em]
+      {\Huge\bfseries\color{warn} 160--1{,}200\%}\\[0.3em]
+      per year \muted{(90-day to 7-day vouchers)}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \centering
+      {\color{muted}Policy-sized rates, $-0.5\%$ to $-3\%$}\\[0.6em]
+      {\Huge\bfseries\color{accent} +6--32\%}\\[0.3em]
+      velocity
+    \end{column}
+  \end{columns}
+  \vspace{2em}
+  \begin{itemize}
+    \item Vouchers also work through new money, a salient deadline and minimum-spend thresholds
+    \item None of these can be a permanent property of a currency
+  \end{itemize}
+\end{frame}
+
+% 8 ---------------------------------------------------------------
+\begin{frame}{So the real question is the digital euro's interest rate, and the draft regulation fixes it at zero}
+  \vspace{2em}
+  \begin{center}
+    {\Large \emph{``The digital euro shall not bear interest.''}}\\[0.5em]
+    \muted{Commission proposal for a digital euro regulation, Art.\ 16(8), June 2023}
+  \end{center}
+  \vspace{1.5em}
+  \begin{itemize}
+    \setlength\itemsep{0.6em}
+    \item Not positive, not negative, in any circumstances
+    \item Paired with a holding limit, currently discussed at \euro 1{,}500--3{,}000 per person
+    \item Council and Parliament are negotiating the final text now
+  \end{itemize}
+\end{frame}
+
 % 9 ---------------------------------------------------------------
-\begin{frame}{Result 1: velocity follows a square-root rule}
+\begin{frame}{A zero-rate digital euro is cash without storage costs, which lifts the lower bound back to zero}
+  Depositors can always switch to central-bank money, so banks cannot pay less than
   \[
-    \kappa^* \;\approx\; \sqrt{2a\,(r+\lambda)}
-    \qquad\Longrightarrow\qquad
-    \frac{\partial \ln \kappa^*}{\partial \ln (r+\lambda)} = \tfrac12
+    r_D \;\ge\; \max_j\,\{\, i_j - c_j \,\} \qquad (i_j \text{: rate}, \; c_j \text{: cost of holding})
   \]
   \begin{center}
-  \begin{tabular}{@{}lccccc@{}}
+  \begin{tabular}{@{}lccc@{}}
     \toprule
-    Demurrage $\lambda$ (p.a.) & 0.5\% & 1\% & 2\% & 3\% & 5\% \\
+    & rate & holding cost & floor for deposit rates \\
     \midrule
-    Velocity multiplier ($r=4\%$) & 1.06 & 1.12 & 1.22 & 1.32 & 1.49 \\
+    Cash & $0$ & storage, insurance $c>0$ & $-c$ \\
+    Digital euro at zero & $0$ & $\approx 0$ & \alert{$0$} \\
     \bottomrule
   \end{tabular}
   \end{center}
-  \vspace{0.5em}
+  \vspace{0.3em}
   \begin{itemize}
-    \item Same elasticity as Baumol--Tobin money demand: the holding cost is just an interest rate
-    \item Policy-sized rates move velocity \textbf{smoothly} by 10--30\%: no deadline, no spike
+    \item 2019--22: the ECB went to $-0.50\%$ because hoarding banknotes is costly
+    \item Next time, every holder can move up to the limit into a costless zero-rate asset
+    \item Deposits leave banks exactly when negative rates already squeeze their margins
   \end{itemize}
 \end{frame}
 
 % 10 --------------------------------------------------------------
-\begin{frame}{Result 2: paths at equal average velocity ($T=30$ days)}
-  \centering
-  \includegraphics[width=\textwidth]{../figures/expiry_vs_demurrage.pdf}\\[0.3em]
-  \small Expiry: velocity rises towards $T$, then \textbf{16\%} of issuance is dumped at $\phi$.
-  Demurrage: constant velocity, constant value.
+\begin{frame}{A negative digital-euro rate can win that space back, but no more while cash still exists}
+  \vspace{0.5em}
+  \[
+    \text{floor} \;=\;
+    \underbrace{\max\{\,0,\; -c\,\}=0}_{\text{zero rate}}
+    \qquad\longrightarrow\qquad
+    \underbrace{\max\{-\lambda,\; -c\,\}\;\ge\;-c}_{\text{decay at }\lambda}
+  \]
+  \vspace{0.5em}
+  \begin{itemize}
+    \setlength\itemsep{0.8em}
+    \item A zero rate \textbf{raises} the floor from $-c$ to $0$
+    \item Decay can bring it back down to $-c$, but \textbf{not below}: beyond that, people switch to banknotes
+    \item Going deeper requires repricing cash itself, e.g.\ a crawling cash--reserve exchange rate
+  \end{itemize}
+  \vspace{0.3em}
+  \begin{center}
+    \key{A flexible rate protects the policy space we have; it cannot create more.}
+  \end{center}
+  \source{Cash repricing: Agarwal \& Kimball (IMF WP 19/84, 2019).}
 \end{frame}
 
 % 11 --------------------------------------------------------------
-\begin{frame}{Result 3: expiry front-loads more, but wastes and fragments}
-  \small
-  \begin{center}
-  \begin{tabular}{@{}l|cccc|ccc@{}}
-    \toprule
-    & \multicolumn{4}{c|}{Hard expiry} & \multicolumn{3}{c}{Demurrage (same avg.\ velocity)} \\
-    $T$ & useful & dumped & waste & value range & $\lambda$ p.a. & useful & burned \\
-    \midrule
-    7 d  & 45\% & 55\% & 27\% & 0.50--0.63 & 1172\% & 41\% & 15\% \\
-    14 d & 66\% & 35\% & 17\% & 0.50--0.71 & 842\%  & 58\% & 17\% \\
-    30 d & 84\% & 16\% & 8\%  & 0.50--0.80 & 489\%  & 73\% & 16\% \\
-    90 d & 97\% & 3\%  & 2\%  & 0.50--0.91 & 161\%  & 88\% & 10\% \\
-    \bottomrule
-  \end{tabular}
-  \end{center}
-  \muted{\footnotesize $a=0.2$, $\phi=0.5$, $r=4\%$. ``waste'' $=(1-\phi)\times$dumped is a real resource loss; ``burned'' is a transfer to the issuer.}
-  \vspace{0.6em}
+\begin{frame}{The best design keeps zero as the default and lets balances above a threshold decay when policy rates turn negative}
+  \begin{block}{A contingent rate clause}
+    \[
+      i_{DE} =
+      \begin{cases}
+        0 & \text{on all balances, when DFR} \ge 0\\[0.2em]
+        0 & \text{on balances up to } M_1\\[0.2em]
+        \max\{\text{DFR},\,-\bar c\} & \text{on balances above } M_1, \text{ when DFR}<0
+      \end{cases}
+    \]
+  \end{block}
+  \vspace{0.1em}
   \begin{itemize}
-    \item \alert{Correction to the naive story:} expiry delivers \emph{more} useful spending within $T$
-    \item Its costs lie elsewhere: real waste, and token value that depends on the vintage
+    \setlength\itemsep{0.35em}
+    \item \textbf{Zero in normal times:} simple, trusted, never ``money that melts''
+    \item \textbf{Small balances never decay:} households and payments are protected
+    \item \textbf{Decay, never expiry:} every euro stays equal to every other
+    \item \textbf{Floored at $-\bar c$:} no reason to flee into banknotes
   \end{itemize}
 \end{frame}
 
 % 12 --------------------------------------------------------------
-\begin{frame}{Why programmed holding costs must take the form of demurrage}
-  \begin{center}
-  \begin{tabular}{@{}lcc@{}}
-    \toprule
-    Property & Hard expiry & Demurrage \\
-    \midrule
-    Real waste (junk spending at $T$) & 2--27\% of issuance & none if $V>\phi$ \\
-    Value of one unit & depends on vintage & identical for all units \\
-    Fungibility / singleness of money & \alert{broken} & preserved \\
-    Velocity path & rising, mass point at $T$ & constant \\
-    Applicable to the whole money stock & no (needs vintages) & yes \\
-    Is it an interest rate? & no & \textbf{yes}: $i=-\lambda$ \\
-    \bottomrule
-  \end{tabular}
-  \end{center}
-  \vspace{0.8em}
-  \begin{center}
-    \key{Expiry is a fiscal-programme tool. Demurrage is a monetary-policy instrument.}\\[0.3em]
-    A central bank that programs a holding cost into money can only use the second.
-  \end{center}
-\end{frame}
-
-% 13 --------------------------------------------------------------
-\begin{frame}{Orders of magnitude: vouchers are not rates}
-  \begin{itemize}
-    \setlength\itemsep{0.8em}
-    \item Matching voucher-strength velocity needs demurrage of \textbf{160\%--1{,}200\% per year}
-    \item Policy-sized rates ($-0.5\%$ to $-3\%$) raise velocity by \textbf{6--32\%}
-    \item Gap of \key{two to three orders of magnitude}
-    \item Voucher effects also come from channels a rate does not have:
-      \begin{itemize}
-        \item transfer of new money (income effect)
-        \item salience of a deadline \muted{(Boehm et al.\ 2024)}
-        \item minimum-spend notches \muted{(Ding et al.\ 2024)}
-      \end{itemize}
-  \end{itemize}
-  \vspace{0.5em}
-  \begin{center}
-    \key{The digital euro cannot be a stimulus voucher. At most it can carry a policy rate.}
-  \end{center}
-\end{frame}
-
-% 14 --------------------------------------------------------------
-\begin{frame}{Claim 3: can a negative digital-euro rate break the ELB?}
-  Floor on deposit rates, with cash still in circulation:
-  \[
-    \underbrace{\max\{\,0,\; -c_{\text{cash}}\}=0}_{\text{Art.\ 16(8)}}
-    \qquad\text{vs}\qquad
-    \underbrace{\max\{-\lambda,\; -c_{\text{cash}}\} \ \ge\ -c_{\text{cash}}}_{\text{remunerated}}
-  \]
-  \begin{itemize}
-    \setlength\itemsep{0.6em}
-    \item \textbf{Asymmetry:} zero remuneration \emph{raises} the floor from $-c_{\text{cash}}$ to $0$;
-          negative remuneration \emph{cannot} push it below $-c_{\text{cash}}$
-    \item Going deeper needs cash reform: a crawling cash--reserve exchange rate \muted{(Agarwal \& Kimball 2019)}
-    \item Other leaks: stablecoins, foreign currency, banks that do not pass rates on
-  \end{itemize}
-  \vspace{0.4em}
-  \begin{center}
-    \key{Remuneration flexibility protects existing policy space; it does not create new space.}
-  \end{center}
-\end{frame}
-
-% 15 --------------------------------------------------------------
-\begin{frame}{Policy proposal \muted{(for discussion)}}
-  \begin{block}{Keep zero as the default, add a contingent rate clause}
-    \begin{itemize}
-      \item Normal times: $i_{DE}=0$, as in Art.\ 16(8) \muted{(trust, simplicity, no ``shrinking money'')}
-      \item If the deposit facility rate is below zero, holdings above a tier threshold $M_1<\bar M$ pay
-        \[
-          i_{DE} = \max\{\text{DFR},\; -\bar c\}, \qquad \bar c \approx \text{cash holding cost}
-        \]
-      \item Implemented as \textbf{continuous demurrage}, never as expiry
-    \end{itemize}
-  \end{block}
-  \vspace{0.4em}
-  \begin{itemize}
-    \item Tier 1 ($\le M_1$) protects households and the ``money'' role
-    \item Tier 2 removes the frictionless-cash arbitrage at the margin
-    \item Rate bounded by $-\bar c$: no incentive to flee into banknotes
-  \end{itemize}
-\end{frame}
-
-% 16 --------------------------------------------------------------
-\begin{frame}{Takeaways}
+\begin{frame}{The digital euro should be able to bear interest: only as decay, and only when rates are negative}
+  \vspace{1.5em}
   \begin{enumerate}
-    \setlength\itemsep{0.9em}
-    \item A zero-rate digital euro is \key{cash without storage costs}: it hardens the lower bound on the balances the limit allows
-    \item Programmed holding costs must be \key{demurrage}: expiry wastes resources, breaks fungibility and is not a rate
-    \item Vouchers and rates differ by \key{two to three orders of magnitude}: the digital euro cannot be a stimulus voucher
-    \item Remuneration flexibility \key{protects} policy space; only cash reform \key{creates} it
+    \setlength\itemsep{1em}
+    \item Deadlines make people spend, but an expiry date belongs to a spending programme, not to money
+    \item The only holding cost money can carry is continuous decay, which is simply a negative interest rate
+    \item Fixing that rate at zero turns the digital euro into costless cash and gives up policy space
+    \item A contingent, tiered rate keeps zero for normal times and protects that space when it matters
   \end{enumerate}
-  \vspace{1em}
-  \muted{Companion talk: how large $\bar M$ should be. This talk: what price should sit under $\bar M$.}
 \end{frame}
 
 % ================= BACKUP =================
@@ -372,31 +303,56 @@
 % B1 --------------------------------------------------------------
 \begin{frame}{B1. Derivations}
   \small
-  \textbf{Holder's problem.} Per unit of balance, with search cost $\kappa^2/2a$ and value $V$:
+  \textbf{Holder's problem.} Per unit of balance:
   \[
     (r+\lambda)V = \max_{\kappa}\Bigl\{\kappa(1-V) - \frac{\kappa^2}{2a}\Bigr\}
     \;\Rightarrow\; \kappa^*=a(1-V),\quad (r+\lambda)V=\frac a2(1-V)^2 .
   \]
-  \textbf{Square-root rule.} Let $x=1-V$ (small when $r+\lambda \ll a$):
-  $(r+\lambda)(1-x)=\tfrac a2 x^2 \Rightarrow x\approx\sqrt{2(r+\lambda)/a}$, so $\kappa^*=ax\approx\sqrt{2a(r+\lambda)}$.
+  \textbf{Square-root rule.} With $x=1-V$ small: $(r+\lambda)(1-x)=\tfrac a2 x^2 \Rightarrow x\approx\sqrt{2(r+\lambda)/a}$, so $\kappa^*\approx\sqrt{2a(r+\lambda)}$.
 
-  \textbf{Expiry.} With remaining time $\tau$, the HJB becomes the ODE
-  $\;dV/d\tau=-rV+\tfrac a2(1-V)^2$, \; $V(0)=\phi$.
-  $V$ rises above $\phi$ immediately if $\tfrac a2(1-\phi)^2>r\phi$, so dumping happens only at $T$.
-  Velocity $\kappa(\tau)=a(1-V(\tau))\uparrow a(1-\phi)$ as $\tau\to0$: \textbf{finite}, but the remaining balance is a mass point at $T$.
+  \textbf{Expiry.} With $\tau$ left, $dV/d\tau=-rV+\tfrac a2(1-V)^2$, $V(0)=\phi$. If $\tfrac a2(1-\phi)^2>r\phi$, $V$ rises above $\phi$ at once, so dumping happens only at $T$.
+  Velocity $\kappa(\tau)=a(1-V(\tau))$ rises to $a(1-\phi)$: finite, but the unspent balance is spent all at once at $T$.
 
-  \textbf{Secondary-market discount.} An expiring unit trades at $V(\tau)$, so the discount $1-V(\tau)$ rises from about $1-V(T)$ to $1-\phi$; units of different vintages trade at different prices.
+  \textbf{Secondary market.} An expiring unit trades at $V(\tau)$; units of different ages trade at different prices.
 
-  \textbf{Calibration.} $\lambda$ is chosen so that $\kappa_{\text{demurrage}}$ equals the time-average of $\kappa_{\text{expiry}}(t)$ over $[0,T]$.
+  \textbf{Calibration.} $\lambda$ set so that decay velocity equals the average expiry velocity over $[0,T]$.
 \end{frame}
 
 % B2 --------------------------------------------------------------
-\begin{frame}{B2. Sensitivity ($T=30$ days)}
+\begin{frame}{B2. Results by voucher length}
+  \small
+  \begin{center}
+  \begin{tabular}{@{}l|cccc|ccc@{}}
+    \toprule
+    & \multicolumn{4}{c|}{Expiry} & \multicolumn{3}{c}{Decay (same average velocity)} \\
+    $T$ & useful & dumped & real waste & unit value & $\lambda$ p.a. & useful & decayed \\
+    \midrule
+    7 d  & 45\% & 55\% & 27\% & 0.50--0.63 & 1172\% & 41\% & 15\% \\
+    14 d & 66\% & 35\% & 17\% & 0.50--0.71 & 842\%  & 58\% & 17\% \\
+    30 d & 84\% & 16\% & 8\%  & 0.50--0.80 & 489\%  & 73\% & 16\% \\
+    90 d & 97\% & 3\%  & 2\%  & 0.50--0.91 & 161\%  & 88\% & 10\% \\
+    \bottomrule
+  \end{tabular}
+  \end{center}
+  \vspace{0.3em}
+  \begin{center}
+  \begin{tabular}{@{}lccccc@{}}
+    \toprule
+    Decay $\lambda$ (p.a.) & 0.5\% & 1\% & 2\% & 3\% & 5\% \\
+    Velocity multiplier & 1.06 & 1.12 & 1.22 & 1.32 & 1.49 \\
+    \bottomrule
+  \end{tabular}
+  \end{center}
+  \muted{\footnotesize Real waste $=(1-\phi)\times$dumped is a resource loss; decayed balances are a transfer to the central bank.}
+\end{frame}
+
+% B3 --------------------------------------------------------------
+\begin{frame}{B3. Sensitivity ($T=30$ days)}
   \small
   \begin{center}
   \begin{tabular}{@{}cc|cccc|ccc@{}}
     \toprule
-    $\phi$ & $a$ & useful & dumped & waste & value range & $\lambda$ p.a. & useful & burned \\
+    $\phi$ & $a$ & useful & dumped & real waste & unit value & $\lambda$ p.a. & useful & decayed \\
     \midrule
     0.3 & 0.2 & 90\% & 10\% & 7\%  & 0.30--0.77 & 833\% & 73\% & 22\% \\
     0.5 & 0.2 & 84\% & 16\% & 8\%  & 0.50--0.80 & 489\% & 73\% & 16\% \\
@@ -407,22 +363,12 @@
   \end{tabular}
   \end{center}
   \vspace{0.5em}
-  Robust across parameters: expiry front-loads more, always wastes resources and always creates vintage-dependent prices;
-  the matching demurrage rate is always in the hundreds of percent per year.
+  Across parameters: expiry front-loads more, always ends in a fire sale and always prices units by age;
+  matching decay is always in the hundreds of percent per year.
 
-  \muted{Code: \texttt{model/expiry\_vs\_demurrage.py}}
-\end{frame}
-
-% B3 --------------------------------------------------------------
-\begin{frame}{B3. Limitations}
-  \begin{itemize}
-    \setlength\itemsep{0.6em}
-    \item Partial equilibrium: no prices, no general-equilibrium feedback from extra spending
-    \item Search technology is stylised; $a$ and $\phi$ are not estimated
-    \item The ``cliff after $T$'' is not modelled; evidence is mixed: Xing et al.\ (2023) find purchases are moved forward, Ding et al.\ (2024) find no short-run intertemporal substitution
-    \item Behavioural channels (salience, notches) are outside the model and favour vouchers
-    \item $c_{\text{cash}}$ is not estimated; the ELB literature gives a range rather than a number
-  \end{itemize}
+  \vspace{0.5em}
+  \textbf{Not modelled:} general equilibrium; behavioural channels (salience, thresholds); spending after $T$
+  \muted{(evidence mixed: Xing et al.\ 2023 vs Ding et al.\ 2024)}.
 \end{frame}
 
 % B4 --------------------------------------------------------------
@@ -431,21 +377,20 @@
   \begin{itemize}
     \setlength\itemsep{0.15em}
     \item Agarwal, R.\ \& Kimball, M.\ (2019). Enabling deep negative rates to fight recessions: a guide. IMF WP 19/84.
-    \item Assenmacher, K.\ \& Krogstrup, S.\ (2018). Monetary policy with negative interest rates: decoupling cash from electronic money. IMF WP 18/191.
     \item Bindseil, U.\ (2020). Tiered CBDC and the financial system. ECB WP 2351.
-    \item Bindseil, U.\ \& Panetta, F.\ (2020). CBDC remuneration in a world with low or negative nominal interest rates. VoxEU, 5 Oct.
+    \item Bindseil, U.\ \& Panetta, F.\ (2020). CBDC remuneration in a world with low or negative nominal interest rates. VoxEU.
     \item Boehm, J., Fize, E.\ \& Jaravel, X.\ (2024). Five facts about MPCs: evidence from a randomized experiment. CEP DP 1998.
     \item Bordo, M.\ \& Levin, A.\ (2017). Central bank digital currency and the future of monetary policy. NBER WP 23711.
     \item Buiter, W.\ \& Panigirtzoglou, N.\ (2003). Overcoming the zero bound on nominal interest rates with negative interest on currency: Gesell's solution. \emph{Economic Journal} 113.
     \item Ding, J., Jiang, L., Msall, L.\ \& Notowidigdo, M.\ (2024). Consumer-financed fiscal stimulus: evidence from digital coupons in China. Working paper.
     \item European Central Bank (2020). Report on a digital euro.
-    \item European Commission (2023). Proposal for a Regulation on the establishment of the digital euro, Art.\ 16(8).
-    \item Fisher, I.\ (1933). \emph{Stamp Scrip}. Gesell, S.\ (1916). \emph{The Natural Economic Order}. Keynes, J.\ M.\ (1936). \emph{General Theory}, ch.~23.
+    \item European Commission (2023). Proposal for a Regulation on the establishment of the digital euro.
+    \item Gesell, S.\ (1916). \emph{The Natural Economic Order}. Fisher, I.\ (1933). \emph{Stamp Scrip}. Keynes, J.\ M.\ (1936). \emph{General Theory}, ch.~23.
     \item Goodfriend, M.\ (2000). Overcoming the zero bound on interest rate policy. \emph{JMCB} 32(4).
     \item Hsieh, C.-T., Shimizutani, S.\ \& Hori, M.\ (2010). Did Japan's shopping coupon program increase spending? \emph{JPubE} 94.
     \item Kahn, C., van Oordt, M.\ \& Zhu, Y.\ (2026). Best before? Expiring central bank digital currency and loss recovery. \emph{JMCB}.
-    \item Pirgmann, M.\ \& Wawrosz, P.\ (2024). Assessing the effective lower bound in the context of introducing the digital euro. \emph{Economies} 12(6), 143.
-    \item Xing, J., Zou, E., Yin, Z., Wang, Y.\ \& Li, Z.\ (2023). ``Quick response'' economic stimulus: the effect of small-value digital coupons on spending. \emph{AEJ: Macro} 15(4).
+    \item Pirgmann, M.\ \& Wawrosz, P.\ (2024). Assessing the effective lower bound in the context of introducing the digital euro. \emph{Economies} 12(6).
+    \item Xing, J., Zou, E., Yin, Z., Wang, Y.\ \& Li, Z.\ (2023). ``Quick response'' economic stimulus. \emph{AEJ: Macro} 15(4).
   \end{itemize}
 \end{frame}
 
