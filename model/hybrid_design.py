@@ -125,3 +125,15 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+def export_curves(path="figures/hybrid_curves.csv"):
+    """Curves for the deck: share wanting more than m, and crisis outflow under a cap of m."""
+    with open(path, "w") as f:
+        f.write("m,share_above,crisis_bn\n")
+        for m in np.unique(np.concatenate([np.linspace(100, 3000, 59), np.linspace(3000, 10000, 36)])):
+            f.write(f"{m:.0f},{share_above(MU_W, S_W, m):.4f},{crisis_outflow(m) / 1e9:.1f}\n")
+
+
+if __name__ == "__main__":
+    export_curves()

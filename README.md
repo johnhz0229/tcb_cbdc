@@ -6,7 +6,7 @@ Programmable money and the digital euro's interest rate. A 20-minute talk with 1
 
 | Path | What |
 |---|---|
-| `slides/slides.tex`, `slides/slides.pdf` | Beamer deck (10 slides + 4 backup); each title is one sentence of the argument |
+| `slides/slides.tex`, `slides/slides.pdf` | Beamer deck (18 slides + 4 backup) by Zheng Huang, Topics of Central Banking; each title is one sentence of the argument |
 | `slides/beamerthemequiet.sty` | Minimal beamer theme (Palatino, one accent colour) |
 | `script/script.tex`, `script/script.pdf` | A4 speaker script: slide on top; talking points, terms and Q&A below |
 | `model/expiry_vs_demurrage.py` | Expiry vs continuous decay; prints tables, exports `figures/expiry_paths.csv` |

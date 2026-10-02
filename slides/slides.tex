@@ -1,4 +1,4 @@
-\documentclass[aspectratio=169,10pt]{beamer}
+\documentclass[aspectratio=169,9pt]{beamer}
 \usetheme{quiet}
 
 \usepackage{amsmath,amssymb}
@@ -8,309 +8,519 @@
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.16}
 \usepgfplotslibrary{groupplots}
+\usetikzlibrary{arrows.meta,positioning}
 
 \pgfplotsset{quietaxis/.style={
   axis lines=left, axis line style={hair, line width=0.6pt},
   tick style={draw=none}, tick label style={font=\scriptsize, color=quiet},
   label style={font=\scriptsize, color=quiet},
-  title style={font=\small, color=ink, yshift=-0.4em},
+  title style={font=\small, color=ink, yshift=-0.3em},
   every axis plot/.append style={line width=1.4pt},
   legend style={draw=none, fill=none, font=\scriptsize, text=ink},
   legend cell align=left}}
+\tikzset{box/.style={draw=hair, line width=0.6pt, rounded corners=2pt, inner sep=6pt, align=center, font=\small},
+         arr/.style={-{Stealth[length=5pt]}, line width=0.9pt}}
 
 \title{Use It or Lose It?}
 \subtitle{Programmable money, negative rates and the design of the digital euro}
-\author{[Presenter name]}
+\author{Zheng Huang}
+\institute{Topics of Central Banking}
 \date{October 2026}
 
 \begin{document}
 
-% ==================================================================
+% 1 ================================================================
 \begin{frame}[plain]
   \titlepage
 \end{frame}
 
 % 2 ================================================================
-\begin{frame}{Monetary policy stalls when money is hoarded and rates cannot fall below zero}{The problem}
-  \vspace{0.5cm}
-  \begin{columns}[T]
-    \begin{column}{0.44\textwidth}
-      \colhead{Money is not spent}
-      \bignum{accent}{\euro 8.8tn}{Eurosystem balance sheet at its peak, June 2022}
-      \vspace{0.5em}
-      \quiet{\small yet inflation averaged 0.3\% in 2014--16: new money was held, not spent}
-    \end{column}
-    \begin{column}{0.44\textwidth}
-      \colhead{Rates cannot fall}
-      \bignum{accent}{8 years}{with the deposit facility rate at or below zero, 2014--22}
-      \vspace{0.5em}
-      \quiet{\small floor at $-0.50\%$: below that, savers switch to cash, which pays zero}
-    \end{column}
-  \end{columns}
-  \vspace{0.8cm}
+\begin{frame}{This talk follows one question from stimulus vouchers to the design of the digital euro}{Overview}
+  \vspace{0.2cm}
   \begin{center}
-    $M\,\hl{V}\!\downarrow \;=\; P\,Y$ \qquad\qquad $i \;\ge\; -\,c_{\text{cash}}$
+    \itshape\color{accent} Should the digital euro bear interest, and if so, in what form?
   \end{center}
+  \vspace{0.2cm}
+  \begin{tikzpicture}[x=1cm, y=-0.95cm]
+    \foreach \i/\k/\t in {
+      0/{The problem}/{Monetary policy stalls when new money is hoarded and interest rates cannot fall below the cash floor.},
+      1/{A tempting fix}/{Vouchers with an expiry date get money spent, and a programmable digital euro could carry one.},
+      2/{A better fix}/{An expiry date ends in a fire sale and splits money into vintages; continuous decay is simply a negative rate.},
+      3/{The twist}/{The draft regulation fixes the rate at zero, which makes the digital euro costless cash and raises the lower bound.},
+      4/{The design}/{Combining price and quantity gives a free tier, a Pigouvian rate above it, and a cap that moves with the cycle.}} {
+      \fill[accent] (0,\i) circle (2.4pt);
+      \ifnum\i<4 \draw[hair, line width=0.8pt] (0,\i+0.12) -- (0,\i+0.88); \fi
+      \node[anchor=west, font=\scriptsize\scshape, color=accent, text width=2.4cm] at (0.35,\i) {\k};
+      \node[anchor=west, font=\small, text width=9.6cm] at (2.9,\i) {\t};
+    }
+  \end{tikzpicture}
 \end{frame}
 
 % 3 ================================================================
-\begin{frame}{Vouchers with a deadline get money spent, and a programmable digital euro could become one}{A tempting fix}
-  \vspace{0.5cm}
-  \begin{columns}[T]
-    \begin{column}{0.44\textwidth}
-      \colhead{China, digital coupons, 2020}
-      \bignum{accent}{\textyen 3}{extra spending per \textyen 1 of subsidy}
-    \end{column}
-    \begin{column}{0.44\textwidth}
-      \colhead{France, randomised prepaid cards}
-      \bignum{accent}{61\% \quiet{\normalsize vs} \quiet{23\%}}{one-month MPC with vs without a three-week expiry}
-    \end{column}
-  \end{columns}
-  \vspace{0.9cm}
-  \takeaway{A digital euro is programmable. Could money itself carry a deadline?}
-  \source{Xing, Zou, Yin, Wang \& Li (AEJ: Macro 2023); Ding, Jiang, Msall \& Notowidigdo (2024); Boehm, Fize \& Jaravel (2024).}
-\end{frame}
-
-% 4 ================================================================
-\begin{frame}{But an expiry date pushes out more spending, ends in a fire sale and splits money into vintages}{The flaw}
-  \begin{columns}[T]
-    \begin{column}{0.30\textwidth}
-      \vspace{0.6em}
-      \colhead{Model}
-      \small
-      A euro is worth $V$ to its holder. A good purchase is worth $1$, a fire sale $\phi<1$.
-      Searching at speed $\kappa$ costs $\kappa^2/2a$, so
-      \[
-        \kappa^* = a\,(1-V)
-      \]
-    \end{column}
-    \begin{column}{0.66\textwidth}
-      \begin{tikzpicture}
-        \begin{groupplot}[group style={group size=2 by 1, horizontal sep=1.2cm},
-            quietaxis, width=0.56\textwidth, height=3.7cm, xmin=0, xmax=31, xlabel={day}, yticklabel style={/pgf/number format/fixed, /pgf/number format/precision=2}]
-          \nextgroupplot[title={Velocity}, ymin=0.03, ymax=0.11, ytick={0.04,0.06,0.08,0.10},
-              legend style={at={(0.02,0.98)}, anchor=north west}]
-            \addplot[warm] table[x=day, y=kappa_expiry, col sep=comma] {../figures/expiry_paths.csv};
-            \addlegendentry{expiry date}
-            \addplot[accent] table[x=day, y=kappa_decay, col sep=comma] {../figures/expiry_paths.csv};
-            \addlegendentry{continuous decay}
-            \addplot[only marks, mark=*, mark size=1.6pt, warm] coordinates {(30,0.10)};
-          \nextgroupplot[title={Value of one unit}, ymin=0.45, ymax=0.85, ytick={0.5,0.6,0.7,0.8}]
-            \addplot[warm] table[x=day, y=value_expiry, col sep=comma] {../figures/expiry_paths.csv};
-            \addplot[accent] table[x=day, y=value_decay, col sep=comma] {../figures/expiry_paths.csv};
-            \addplot[quiet, line width=0.6pt, dashed] coordinates {(0,0.5) (31,0.5)};
-            \node[font=\scriptsize, color=quiet, anchor=south west] at (axis cs:0.5,0.5) {fire-sale value $\phi$};
-        \end{groupplot}
-      \end{tikzpicture}
-    \end{column}
-  \end{columns}
-  \vspace{0.25cm}
-  \begin{columns}[T]
-    \begin{column}{0.30\textwidth}\centering
-      {\Large\color{warm}84\%} {\small vs} {\Large\color{accent}73\%}\\[-0.1em]{\scriptsize\quiet{useful spending within 30 days}}
-    \end{column}
-    \begin{column}{0.30\textwidth}\centering
-      {\Large\color{warm}16\%}\\[-0.1em]{\scriptsize\quiet{of issuance dumped on the last day}}
-    \end{column}
-    \begin{column}{0.30\textwidth}\centering
-      {\Large\color{warm}0.80 $\rightarrow$ 0.50}\\[-0.1em]{\scriptsize\quiet{value of one euro, by its age}}
-    \end{column}
-  \end{columns}
-  \source{Both schemes calibrated to the same average velocity over 30 days; $a=0.2$, $\phi=0.5$, $r=4\%$.}
-\end{frame}
-
-% 5 ================================================================
-\begin{frame}{Continuous decay keeps every euro equal: it is simply a negative rate that reaches every wallet}{The repair}
-  \vspace{0.4cm}
-  \begin{columns}[T]
-    \begin{column}{0.48\textwidth}
-      \small
-      \begin{tabular}{@{}lll@{}}
-        & \textcolor{warm}{Expiry} & \textcolor{accent}{Decay} \\
-        \arrayrulecolor{hair}\midrule
-        Fire sale at the deadline & 3--55\% & none \\
-        Value of one unit & by age & equal \\
-        One euro $=$ one euro & \textcolor{warm}{no} & yes \\
-        Applies to all money & no & yes \\
-        Is it an interest rate? & no & $i=-\lambda$ \\
-      \end{tabular}
-    \end{column}
-    \begin{column}{0.44\textwidth}
-      \colhead{Velocity under decay}
-      \[
-        \kappa^* \approx \sqrt{2a\,(r+\lambda)}
-      \]
-      \quiet{\small the square-root rule of Baumol--Tobin money demand}
-      \vspace{0.8em}
-
-      \small
-      \begin{tabular}{@{}lccc@{}}
-        Decay $\lambda$ & 1\% & 2\% & 3\% \\
-        \arrayrulecolor{hair}\midrule
-        Velocity & $+12\%$ & $+22\%$ & $+32\%$ \\
-      \end{tabular}
-    \end{column}
-  \end{columns}
-  \vspace{0.7cm}
-  \takeaway{It unblocks both channels: money moves faster, and the rate reaches retail balances.}
-\end{frame}
-
-% 6 ================================================================
-\begin{frame}{Yet the digital euro is set at zero, which makes it cash without storage costs and raises the lower bound}{The twist}
-  \vspace{0.15cm}
-  \begin{center}
-    {\large\itshape ``The digital euro shall not bear interest.''}\\[0.2em]
-    {\scriptsize\quiet{Draft regulation on the digital euro, Art.\ 16(8)}}
-  \end{center}
-  \vspace{0.2cm}
+\begin{frame}{When the central bank creates money that nobody spends, monetary policy loses its grip}{The problem \textperiodcentered{} 1}
   \begin{columns}[c]
-    \begin{column}{0.52\textwidth}
-      \begin{tikzpicture}[x=5.2cm]
-        \draw[hair, line width=0.8pt] (-0.75,0) -- (0.45,0);
-        \foreach \x/\l in {-0.5/{$-0.5\%$}, 0/{$0$}} \draw[quiet] (\x,0.08) -- (\x,-0.08) node[below, font=\scriptsize, color=quiet] {\l};
-        \fill[warm] (-0.5,0) circle (2.6pt);
-        \node[above, font=\scriptsize, color=warm, align=center] at (-0.5,0.15) {cash\\floor $-c$};
-        \fill[accent] (0,0) circle (2.6pt);
-        \node[above, font=\scriptsize, color=accent, align=center] at (0,0.15) {zero-rate\\digital euro};
-        \draw[->, accent, line width=1pt] (-0.46,-0.55) -- (-0.04,-0.55);
-        \node[below, font=\scriptsize, color=accent] at (-0.25,-0.6) {the lower bound moves up};
-        \node[font=\scriptsize, color=quiet] at (0.32,-0.25) {deposit rate};
-      \end{tikzpicture}
-    \end{column}
-    \begin{column}{0.42\textwidth}
-      \small
-      Banks cannot pay less than the best central-bank alternative:
-      \[
-        r_D \;\ge\; \max_j\,\{\, i_j - c_j \,\}
-      \]
-      Cash: $0-c<0$. \quad Digital euro: $0-0=0$.
-    \end{column}
-  \end{columns}
-  \vspace{0.3cm}
-  \takeaway{The lower bound and disintermediation are one problem: a central-bank rival to deposits.}
-\end{frame}
-
-% 7 ================================================================
-\begin{frame}{A hard holding limit stops runs in a crisis, but blocks ordinary users in normal times}{The trade-off}
-  \vspace{0.5cm}
-  \begin{columns}[T]
-    \begin{column}{0.44\textwidth}
-      \colhead{Normal times: money for payments}
-      \bignum{warm}{18\%}{of people want to hold more than \euro 3{,}000}
-      \vspace{0.6em}
-      \quiet{\small A cap blocks them. A price would only make them pay.}\\[0.5em]
-      \hl{\small $\Rightarrow$ price is enough}
-    \end{column}
-    \begin{column}{0.44\textwidth}
-      \colhead{Crisis: flight to safety}
-      \bignum{accent}{\euro 4.7tn}{deposit outflow without a cap \quiet{(\euro 0.65tn with \euro 3{,}000)}}
-      \vspace{0.6em}
-      \quiet{\small A rate gap of 2\% means nothing next to the fear of losing a deposit.}\\[0.5em]
-      \hl{\small $\Rightarrow$ only quantity works}
-    \end{column}
-  \end{columns}
-  \source{Survey demand: Lambert et al.\ (ECB WP 2980, 2024). Outflows: own calibration to ECB technical data on holding limits (Oct 2025).}
-\end{frame}
-
-% 8 ================================================================
-\begin{frame}{When costs have a cliff and benefits do not, price and quantity together beat either alone}{The principle}
-  \begin{columns}[c]
-    \begin{column}{0.52\textwidth}
+    \begin{column}{0.50\textwidth}
       \begin{tikzpicture}
-        \begin{axis}[quietaxis, width=\textwidth, height=5.2cm, xmin=0, xmax=10, ymin=0, ymax=6,
-            xtick={2,7}, xticklabels={$X_0$, $L$}, ytick={1.6}, yticklabels={$e$},
-            xlabel={outflow from deposits $X$}, ylabel={marginal value / cost}]
-          \addplot[accent, line width=1.8pt] coordinates {(0,0) (2,0) (2,1.6) (7,1.6) (7,6)};
-          \addplot[quiet, domain=0.3:9.6, samples=40] {5.2*exp(-0.42*x)};
-          \addplot[warm, domain=0.3:9.9, samples=40] {6.2*exp(-0.17*x)+0.2};
-          \node[font=\scriptsize, color=accent, anchor=south] at (axis cs:1,0.05) {free};
-          \node[font=\scriptsize, color=accent, anchor=south] at (axis cs:4.5,1.65) {price $e$};
-          \node[font=\scriptsize, color=accent, anchor=west] at (axis cs:7.1,4.5) {cap};
-          \node[font=\scriptsize, color=quiet, anchor=south] at (axis cs:8.5,0.25) {benefit, normal};
-          \node[font=\scriptsize, color=warm, anchor=west] at (axis cs:2.4,5.2) {benefit, crisis};
+        \begin{axis}[quietaxis, width=\textwidth, height=5.6cm, ybar, bar width=9pt,
+            ymin=0, ymax=10, ytick={0,2,4,6,8}, ylabel={balance sheet (\euro tn)},
+            xmin=2013.4, xmax=2021.6, xtick={2014,...,2021}, x tick label style={/pgf/number format/1000 sep={}},
+            title={Eurosystem balance sheet and inflation}]
+          \addplot[fill=accent!25, draw=none] table[x=year, y=balance_sheet_tn, col sep=comma] {../figures/macro_history.csv};
+        \end{axis}
+        \begin{axis}[quietaxis, width=\textwidth, height=5.6cm, axis x line=none, axis y line*=right,
+            ymin=0, ymax=5, ytick={0,1,2,3}, ylabel={inflation (\%)}, xmin=2013.4, xmax=2021.6]
+          \addplot[warm, mark=*, mark size=1.5pt] table[x=year, y=hicp, col sep=comma] {../figures/macro_history.csv};
+          \addplot[quiet, dashed, line width=0.6pt] coordinates {(2013.4,2) (2021.6,2)};
+          \node[font=\scriptsize, color=quiet, anchor=south west] at (axis cs:2013.5,2.05) {2\% target};
         \end{axis}
       \end{tikzpicture}
     \end{column}
-    \begin{column}{0.42\textwidth}
-      \colhead{Weitzman (1974)}
+    \begin{column}{0.46\textwidth}
       \small
-      Advantage of prices over quantities:
-      \[
-        \Delta = \frac{\sigma^2\,(b-c)}{2\,b^2}
-      \]
-      \quiet{$b$: slope of benefit, $c$: slope of cost}
-      \vspace{0.5em}
-      \begin{itemize}
-        \setlength\itemsep{0.3em}
-        \item Flat cost, steep benefit: \textbf{price}
-        \item Vertical cost at $L$: \textbf{quantity}
-        \item Both on one curve: \textbf{tiered rate with a cap} \quiet{(Roberts \& Spence 1976)}
-      \end{itemize}
+      Between 2014 and 2021 the Eurosystem almost quadrupled its balance sheet, from \euro 2.2 trillion to \euro 8.6 trillion.
+
+      \vspace{0.6em}
+      Inflation nevertheless stayed below the 2\% target in every year from 2014 to 2020, and was close to zero in 2014--16 and 2020.
+
+      \vspace{0.6em}
+      In the quantity equation $MV = PY$, the extra money $M$ was offset by a fall in velocity $V$: households and firms held the new money instead of spending it.
+
+      \vspace{0.6em}
+      \hl{This is the first blockage: money is created, but it is not spent.}
     \end{column}
   \end{columns}
+  \source{Sources: ECB annual consolidated balance sheet of the Eurosystem (end of year); Eurostat HICP, annual average.}
+\end{frame}
+
+% 4 ================================================================
+\begin{frame}{Interest rates could not be cut far below zero, because cash always pays zero}{The problem \textperiodcentered{} 2}
+  \begin{columns}[c]
+    \begin{column}{0.50\textwidth}
+      \begin{tikzpicture}
+        \begin{axis}[quietaxis, width=\textwidth, height=5.6cm, xmin=2012.4, xmax=2026.9, ymin=-1.2, ymax=4.4,
+            xtick={2014,2016,2018,2020,2022,2024,2026}, x tick label style={/pgf/number format/1000 sep={}},
+            ytick={-0.5,0,1,2,3,4}, ylabel={\%}, title={ECB deposit facility rate}]
+          \fill[warm!8] (axis cs:2012.4,-1.2) rectangle (axis cs:2026.9,0);
+          \addplot[const plot, accent] table[x=date, y=dfr, col sep=comma] {../figures/dfr_history.csv};
+          \addplot[warm, dashed, line width=0.7pt] coordinates {(2012.4,-0.5) (2026.9,-0.5)};
+          \node[font=\scriptsize, color=warm, anchor=north west] at (axis cs:2012.6,-0.55) {lowest rate reached: $-0.50\%$};
+          \node[font=\scriptsize, color=quiet, anchor=south west] at (axis cs:2014.5,0.1) {at or below zero, 2014--22};
+        \end{axis}
+      \end{tikzpicture}
+    \end{column}
+    \begin{column}{0.46\textwidth}
+      \small
+      The ECB cut its deposit facility rate below zero in June 2014 and kept it at or below zero until July 2022, but it never went lower than $-0.50\%$.
+
+      \vspace{0.6em}
+      The reason is the outside option of cash. Banknotes pay zero, so if banks charged savers more than the cost of storing and insuring cash, savers would withdraw their money.
+
+      \vspace{0.6em}
+      The lower bound is therefore not exactly zero but minus the cost of holding cash: $\;i \ge -c$.
+
+      \vspace{0.6em}
+      \hl{This is the second blockage: interest rates cannot fall far enough to make people spend.}
+    \end{column}
+  \end{columns}
+  \source{Source: ECB key interest rates.}
+\end{frame}
+
+% 5 ================================================================
+\begin{frame}{Vouchers with an expiry date get money spent, which is exactly what a liquidity trap needs}{A tempting fix}
+  \begin{columns}[T]
+    \begin{column}{0.27\textwidth}
+      \begin{tikzpicture}
+        \begin{axis}[quietaxis, width=\textwidth, height=4.6cm, ybar, bar width=16pt, ymin=0, ymax=3.6,
+            symbolic x coords={subsidy, spending}, xtick=data, xticklabels={subsidy, {extra\\spending}}, x tick label style={align=center},
+            ytick={1,2,3}, yticklabels={\textyen 1,\textyen 2,\textyen 3}, title={China, 2020},
+            nodes near coords, nodes near coords style={font=\scriptsize, color=ink}, point meta=explicit symbolic, enlarge x limits=0.5]
+          \addplot[fill=accent!70, draw=none] coordinates {(subsidy,1) [\textyen 1] (spending,3) [\textyen 3]};
+        \end{axis}
+      \end{tikzpicture}
+    \end{column}
+    \begin{column}{0.27\textwidth}
+      \begin{tikzpicture}
+        \begin{axis}[quietaxis, width=\textwidth, height=4.6cm, ybar, bar width=16pt, ymin=0, ymax=75,
+            symbolic x coords={no, yes}, xtick=data, xticklabels={{no\\expiry}, {3-week\\expiry}}, x tick label style={align=center},
+            ytick={20,40,60}, yticklabels={20\%,40\%,60\%}, title={France, 2022 trial},
+            nodes near coords, nodes near coords style={font=\scriptsize, color=ink}, point meta=explicit symbolic, enlarge x limits=0.5]
+          \addplot[fill=accent!70, draw=none] coordinates {(no,23) [23\%] (yes,61) [61\%]};
+        \end{axis}
+      \end{tikzpicture}
+    \end{column}
+    \begin{column}{0.40\textwidth}
+      \small
+      In 2020 Chinese cities distributed digital coupons through mobile payment platforms that had to be used within about a week. Each yuan of subsidy generated roughly three yuan of additional spending.
+
+      \vspace{0.6em}
+      In a randomised experiment in France, households received prepaid cards. When the balance expired after three weeks, 61\% was spent within a month, against 23\% without an expiry date.
+
+      \vspace{0.6em}
+      \hl{A deadline turns money that would have been saved into spending today.}
+    \end{column}
+  \end{columns}
+  \source{Xing, Zou, Yin, Wang \& Li (AEJ: Macro 2023); Ding, Jiang, Msall \& Notowidigdo (2024); Boehm, Fize \& Jaravel (2024), one-month MPC.}
+\end{frame}
+
+% 6 ================================================================
+\begin{frame}{A programmable digital euro could build this pressure into money itself, in one of two ways}{A tempting fix}
+  \begin{columns}[c]
+    \begin{column}{0.50\textwidth}
+      \begin{tikzpicture}
+        \begin{axis}[quietaxis, width=\textwidth, height=5.4cm, xmin=0, xmax=40, ymin=0, ymax=1.15,
+            xlabel={days}, ylabel={value of a \euro 1 balance}, xtick={0,30}, xticklabels={0,$T$}, ytick={0,1},
+            legend style={at={(0.03,0.04)}, anchor=south west}]
+          \addplot[warm] coordinates {(0,1) (30,1) (30,0) (40,0)};
+          \addlegendentry{expiry date}
+          \addplot[accent, domain=0:40, samples=60] {exp(-0.03*x)};
+          \addlegendentry{continuous decay}
+        \end{axis}
+      \end{tikzpicture}
+    \end{column}
+    \begin{column}{0.46\textwidth}
+      \small
+      A central bank digital currency is programmable, so the central bank could charge holders for keeping money idle.
+
+      \vspace{0.6em}
+      With an \textcolor{warm}{expiry date}, nothing happens until day $T$, and then the whole balance is lost.
+
+      \vspace{0.6em}
+      With \textcolor{accent}{continuous decay}, also called demurrage, the balance shrinks by a small fraction every day, like Silvio Gesell's stamped money of the 1930s.
+
+      \vspace{0.6em}
+      Both designs charge for holding money; they differ only in \emph{when} the charge falls.
+      \hl{Which one should a central bank choose?}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 7 ================================================================
+\begin{frame}{To compare the two designs, consider a holder who must search for good uses of money}{The model}
+  \begin{columns}[c]
+    \begin{column}{0.44\textwidth}
+      \begin{tikzpicture}
+        \node[box] (h) at (0,0) {holder of \euro 1\\[-0.1em]\scriptsize\color{quiet}worth $V$};
+        \node[box, draw=accent] (g) at (4.2,1.3) {good purchase\\[-0.1em]\scriptsize\color{quiet}worth $1$};
+        \node[box, draw=warm] (b) at (4.2,-1.3) {fire sale\\[-0.1em]\scriptsize\color{quiet}worth $\phi<1$};
+        \draw[arr, accent] (h.north east) -- (g.west);
+        \draw[arr, warm, dashed] (h.south east) -- (b.west);
+        \node[font=\scriptsize, color=accent, align=center] at (1.9,1.25) {search at\\speed $\kappa$};
+        \node[font=\scriptsize, color=warm, align=center] at (1.9,-1.25) {always\\possible};
+        \node[font=\scriptsize, color=quiet] at (0,-0.85) {cost $\kappa^2/2a$ per day};
+      \end{tikzpicture}
+    \end{column}
+    \begin{column}{0.52\textwidth}
+      \small
+      Each euro is worth $V$ to its holder. Finding a good use for it takes effort: searching at speed $\kappa$ costs $\kappa^2/2a$ per day, and $\kappa$ is the velocity of money. A bad use, such as buying something of little value or selling the token at a discount, is always available and worth $\phi<1$.
+
+      \vspace{0.5em}
+      \begin{tabular}{@{}ll@{}}
+        \textcolor{accent}{Decay at rate $\lambda$:} & $(r+\lambda)\,V = \tfrac a2(1-V)^2$ \\[0.3em]
+        \textcolor{warm}{Expiry at $T$:} & $\dfrac{dV}{d\tau} = -rV + \tfrac a2(1-V)^2,\;\; V=\phi$ at $T$
+      \end{tabular}
+
+      \vspace{0.5em}
+      In both cases the holder spends at speed $\kappa^* = a\,(1-V)$.
+      \hl{The less money is worth holding, the faster it moves.}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 8 ================================================================
+\begin{frame}{An expiry date pushes out more spending, but it ends in a fire sale and splits money into vintages}{Result 1}
+  \begin{center}
+  \begin{tikzpicture}
+    \begin{groupplot}[group style={group size=2 by 1, horizontal sep=1.6cm},
+        quietaxis, width=6.6cm, height=3.9cm, xmin=0, xmax=31, xlabel={day},
+        yticklabel style={/pgf/number format/fixed, /pgf/number format/precision=2}]
+      \nextgroupplot[title={Velocity of money}, ymin=0.03, ymax=0.11, ytick={0.04,0.06,0.08,0.10},
+          legend style={at={(0.02,0.98)}, anchor=north west}]
+        \addplot[warm] table[x=day, y=kappa_expiry, col sep=comma] {../figures/expiry_paths.csv};
+        \addlegendentry{expiry date}
+        \addplot[accent] table[x=day, y=kappa_decay, col sep=comma] {../figures/expiry_paths.csv};
+        \addlegendentry{continuous decay}
+        \addplot[only marks, mark=*, mark size=1.8pt, warm] coordinates {(30,0.10)};
+        \node[font=\scriptsize, color=warm, anchor=east] at (axis cs:29,0.104) {16\% dumped};
+      \nextgroupplot[title={Value of one euro to its holder}, ymin=0.45, ymax=0.85, ytick={0.5,0.6,0.7,0.8}]
+        \addplot[warm] table[x=day, y=value_expiry, col sep=comma] {../figures/expiry_paths.csv};
+        \addplot[accent] table[x=day, y=value_decay, col sep=comma] {../figures/expiry_paths.csv};
+        \addplot[quiet, line width=0.6pt, dashed] coordinates {(0,0.5) (31,0.5)};
+        \node[font=\scriptsize, color=quiet, anchor=south west] at (axis cs:0.5,0.5) {fire-sale value $\phi$};
+    \end{groupplot}
+  \end{tikzpicture}
+  \end{center}
+  \vspace{-0.2cm}
+  \small
+  Both designs are calibrated to the same average velocity over 30 days. The expiry date gets more useful spending done, \textcolor{warm}{84\%} of issuance against \textcolor{accent}{73\%}, because it forces the whole balance out. But velocity accelerates into the deadline, and \textcolor{warm}{16\%} of issuance is still unspent on the last day and is dumped on goods worth half its value. Worse, an expiring euro is worth \textcolor{warm}{0.80 when new and 0.50 just before it expires}: one euro is no longer equal to another.
+  \source{Parameters: $a=0.2$, $\phi=0.5$, $r=4\%$ a year. Results at other horizons and parameters in the backup.}
 \end{frame}
 
 % 9 ================================================================
-\begin{frame}{The optimal digital euro has three numbers: a free tier, a Pigouvian rate above it, and a cap}{The design}
-  \vspace{0.2cm}
-  \begin{columns}[T]
-    \begin{column}{0.29\textwidth}
-      \colhead{Free tier $M_1$}
-      {\fontsize{20}{22}\selectfont\color{accent}\euro 510}\par\vspace{0.2em}
-      {\scriptsize $N\,\mathbb{E}[\min(t,M_1)] = X_0$}\par
-      {\scriptsize\quiet{payments use only what banks absorb for free (\euro 127bn)}}
+\begin{frame}{Continuous decay keeps every euro equal, and it is nothing more than a negative interest rate}{Result 2}
+  \begin{columns}[c]
+    \begin{column}{0.46\textwidth}
+      \begin{tikzpicture}
+        \begin{axis}[quietaxis, width=\textwidth, height=5.4cm, xmin=0, xmax=5.2, ymin=1, ymax=1.55,
+            xlabel={decay rate $\lambda$ (\% a year)}, ylabel={velocity relative to $\lambda=0$},
+            ytick={1,1.1,1.2,1.3,1.4,1.5}, yticklabels={$\times$1.0,$\times$1.1,$\times$1.2,$\times$1.3,$\times$1.4,$\times$1.5},
+            title={Velocity rises with the square root of the rate}]
+          \addplot[accent, domain=0:5, samples=50] {sqrt((4+x)/4)};
+          \addplot[only marks, mark=*, mark size=1.7pt, accent] coordinates {(1,1.12) (2,1.22) (3,1.32)};
+          \node[font=\scriptsize, anchor=north west] at (axis cs:1,1.12) {$+12\%$};
+          \node[font=\scriptsize, anchor=north west] at (axis cs:2,1.22) {$+22\%$};
+          \node[font=\scriptsize, anchor=north west] at (axis cs:3,1.32) {$+32\%$};
+        \end{axis}
+      \end{tikzpicture}
     \end{column}
-    \begin{column}{0.29\textwidth}
-      \colhead{Rate above the tier}
-      {\fontsize{20}{22}\selectfont\color{accent}$-2.4\%$}\par\vspace{0.2em}
-      {\scriptsize $-e = -(\text{MRO} - r_D)$}\par
-      {\scriptsize\quiet{holders pay the bank's cost of replacing the deposit}}
-    \end{column}
-    \begin{column}{0.29\textwidth}
-      \colhead{Cap $\bar M$}
-      {\fontsize{20}{22}\selectfont\color{accent}\euro 3{,}000}\par\vspace{0.2em}
-      {\scriptsize $N\,\mathbb{E}[\min(d,\bar M)] = \theta D$}\par
-      {\scriptsize\quiet{crisis outflow stays within bank liquidity tolerance}}
+    \begin{column}{0.50\textwidth}
+      \small
+      Decay avoids every problem of the expiry date. There is no deadline and no fire sale, every euro has the same value whatever its age, and it can apply to all money rather than to a separate voucher.
+
+      \vspace{0.6em}
+      A decay rate $\lambda$ is simply an interest rate of $-\lambda$. Velocity follows $\kappa^* \approx \sqrt{2a\,(r+\lambda)}$, the same square-root rule as in the Baumol--Tobin model of money demand: a decay of 1\% a year raises velocity by about 12\%.
+
+      \vspace{0.6em}
+      \hl{Decay addresses both blockages: money moves faster, and a negative rate finally reaches retail balances.} An expiry date belongs to a voucher; decay can belong to money.
     \end{column}
   \end{columns}
-  \vspace{0.35cm}
-  \footnotesize
-  \begin{center}
-  \begin{tabular}{@{}lccc@{}}
-    & Users blocked & Outflow if rates $<0$ & Outflow in a crisis \\
-    \arrayrulecolor{hair}\midrule
-    Cap only \quiet{(0\%, \euro 3{,}000)} & 18.5\% & \euro 648bn & \euro 648bn \\
-    Price only \quiet{(tier, $-2.4\%$)} & 0\% & \euro 158bn & \textcolor{warm}{\euro 4{,}716bn} \\
-    \textbf{\hl{Hybrid}} \quiet{(tier, $-2.4\%$, cap)} & \textbf{\hl{7.3\%}} & \textbf{\hl{\euro 158bn}} & \textbf{\hl{\euro 648bn}} \\
-  \end{tabular}
-  \end{center}
-  \source{Calibrated to ECB WP 2980 survey distributions and ECB holding-limit outflows (Oct 2025); MRO 2.65\%, household overnight rate 0.26\%.}
 \end{frame}
 
 % 10 ===============================================================
-\begin{frame}{The digital euro should bear interest: zero for payments, decay above, and a cap that moves with the cycle}{Conclusion}
+\begin{frame}{Yet the draft regulation fixes the digital euro's interest rate at exactly zero}{The twist}
+  \vspace{0.3cm}
+  \begin{center}
+    {\Large\itshape ``The digital euro shall not bear interest.''}\\[0.3em]
+    {\scriptsize\quiet{European Commission, proposal for a regulation on the digital euro, Article 16(8), June 2023}}
+  \end{center}
+  \vspace{0.5cm}
+  \begin{center}
+  \begin{tikzpicture}[x=2.45cm]
+    \draw[hair, line width=0.8pt] (0,0) -- (4.6,0);
+    \foreach \x/\d/\t in {0/{Jun 2023}/{Commission\\proposal}, 1.15/{Dec 2025}/{Council\\position}, 2.3/{Jul 2026}/{Parliament\\position}, 3.45/{Sep 2026}/{third\\trilogue}, 4.6/{end 2026}/{target for\\agreement}} {
+      \fill[accent] (\x,0) circle (2.4pt);
+      \node[above, font=\scriptsize\scshape, color=accent] at (\x,0.12) {\d};
+      \node[below, font=\scriptsize, align=center] at (\x,-0.12) {\t};
+    }
+  \end{tikzpicture}
+  \end{center}
+  \vspace{0.3cm}
+  \small
+  The rate is not positive and not negative, in any circumstances. Holdings are also capped per person, with a range of \euro 1{,}500--3{,}000 under discussion. The final text is being negotiated now, so the design question is still open.
+\end{frame}
+
+% 11 ===============================================================
+\begin{frame}{A zero-rate digital euro is cash without storage costs, so it pushes the lower bound back up to zero}{The twist}
   \begin{columns}[c]
-    \begin{column}{0.50\textwidth}
-      \begin{enumerate}
-        \setlength\itemsep{0.5em}
-        \item Deadlines get money spent, but expiry belongs to a voucher, not to money
-        \item Decay keeps every euro equal and is simply a negative rate
-        \item A zero-rate digital euro is costless cash: it raises the lower bound
-        \item Free tier, Pigouvian decay, and a cap tied to bank liquidity
-      \end{enumerate}
+    \begin{column}{0.48\textwidth}
+      \begin{tikzpicture}[x=5.6cm]
+        \draw[hair, line width=0.8pt] (-0.72,0) -- (0.40,0);
+        \foreach \x/\l in {-0.5/{$-0.5\%$}, 0/{$0$}} \draw[quiet] (\x,0.08) -- (\x,-0.08) node[below, font=\scriptsize, color=quiet] {\l};
+        \node[font=\scriptsize, color=quiet, anchor=west] at (0.18,-0.25) {deposit rate};
+        \fill[warm] (-0.5,0) circle (2.8pt);
+        \node[above, font=\scriptsize, color=warm, align=center] at (-0.5,0.15) {floor with cash:\\$-c$};
+        \fill[accent] (0,0) circle (2.8pt);
+        \node[above, font=\scriptsize, color=accent, align=center] at (0,0.15) {floor with a zero-rate\\digital euro: $0$};
+        \draw[arr, accent] (-0.47,-0.62) -- (-0.03,-0.62);
+        \node[below, font=\scriptsize, color=accent] at (-0.25,-0.68) {the lower bound moves up};
+      \end{tikzpicture}
     \end{column}
+    \begin{column}{0.48\textwidth}
+      \small
+      A bank cannot pay depositors less than their best alternative in central-bank money, net of the cost of holding it:
+      \[
+        r_D \;\ge\; \max_j\,\{\, i_j - c_j \,\}.
+      \]
+      Cash pays zero but costs something to store and insure, so the floor lies slightly below zero. This is why the ECB could reach $-0.50\%$.
+
+      \vspace{0.5em}
+      A zero-rate digital euro pays the same zero but costs nothing to hold. \hl{Up to the holding limit, it lifts the floor for deposit rates back to exactly zero}, and takes away the little room below zero that the ECB had.
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 12 ===============================================================
+\begin{frame}{The lower bound and disintermediation are the same problem: a central-bank rival to bank deposits}{The twist}
+  \vspace{0.3cm}
+  \begin{center}
+  \begin{tikzpicture}
+    \node[box, minimum width=3.2cm] (d) {bank deposit\\[-0.1em]\scriptsize\color{quiet}pays $r_D$};
+    \node[box, minimum width=3.2cm, left=2.6cm of d, draw=warm] (c) {cash\\[-0.1em]\scriptsize\color{quiet}pays $0$, costs $c$ to hold};
+    \node[box, minimum width=3.2cm, right=2.6cm of d, draw=accent] (e) {zero-rate digital euro\\[-0.1em]\scriptsize\color{quiet}pays $0$, costs nothing};
+    \draw[arr, warm] (d.west) -- node[above, font=\scriptsize] {if $r_D < -c$} node[below, font=\scriptsize\scshape] {lower bound} (c.east);
+    \draw[arr, accent] (d.east) -- node[above, font=\scriptsize] {if $r_D < 0$} node[below, font=\scriptsize\scshape] {disintermediation} (e.west);
+  \end{tikzpicture}
+  \end{center}
+  \vspace{0.5cm}
+  \small
+  The lower bound and bank disintermediation are usually discussed as separate issues. They are the same mechanism: whenever central-bank money offers a better net return than a bank deposit, depositors move.
+
+  \vspace{0.6em}
+  A zero-rate digital euro therefore puts the most pressure on bank deposits precisely when rates are negative, which is when banks' margins are already squeezed. \hl{Fixing its rate at zero ties the digital euro's financial-stability risk to the state of monetary policy.}
+\end{frame}
+
+% 13 ===============================================================
+\begin{frame}{A hard holding limit stops a run in a crisis, but it also blocks ordinary users in normal times}{The trade-off}
+  \begin{center}
+  \begin{tikzpicture}
+    \begin{groupplot}[group style={group size=2 by 1, horizontal sep=1.8cm},
+        quietaxis, width=6.4cm, height=3.9cm, xmin=0, xmax=10000,
+        xtick={0,3000,6000,10000}, xticklabels={\euro 0,\euro 3k,\euro 6k,\euro 10k}, scaled x ticks=false]
+      \nextgroupplot[title={Normal times: people wanting more than $m$}, xlabel={holding $m$},
+          ymin=0, ymax=0.9, ytick={0,0.2,0.4,0.6,0.8}, yticklabels={0\%,20\%,40\%,60\%,80\%}]
+        \addplot[accent] table[x=m, y=share_above, col sep=comma] {../figures/hybrid_curves.csv};
+        \addplot[warm, dashed, line width=0.7pt] coordinates {(3000,0) (3000,0.85)};
+        \addplot[only marks, mark=*, mark size=1.8pt, warm] coordinates {(3000,0.185)};
+        \node[font=\scriptsize, color=warm, anchor=south west] at (axis cs:3100,0.2) {18\% blocked by a \euro 3{,}000 cap};
+      \nextgroupplot[title={Crisis: deposit outflow under a cap $m$}, xlabel={cap $m$},
+          ymin=0, ymax=1500, ytick={0,500,1000,1500}, yticklabels={0,\euro 0.5tn,\euro 1tn,\euro 1.5tn}]
+        \addplot[accent] table[x=m, y=crisis_bn, col sep=comma] {../figures/hybrid_curves.csv};
+        \addplot[only marks, mark=*, mark size=1.8pt, warm] coordinates {(3000,648)};
+        \node[font=\scriptsize, color=warm, anchor=north west] at (axis cs:3150,640) {\euro 0.65tn at \euro 3{,}000};
+        \node[font=\scriptsize, color=quiet, anchor=north east] at (axis cs:9900,1490) {no cap: \euro 4.7tn};
+    \end{groupplot}
+  \end{tikzpicture}
+  \end{center}
+  \vspace{-0.2cm}
+  \small
+  In normal times people hold the digital euro to make payments. In the ECB's survey, 18\% would like to hold more than \euro 3{,}000; a hard cap simply blocks them, while a price would let them hold more if they pay for it. In a crisis people run for safety, and a small interest-rate difference cannot stop them. \hl{Price is enough in normal times; only quantity works in a crisis.}
+  \source{Survey distribution: Lambert et al.\ (ECB WP 2980, 2024). Outflows: own calibration to ECB technical data on holding limits (Oct 2025), which reports \euro 699bn at \euro 3{,}000.}
+\end{frame}
+
+% 14 ===============================================================
+\begin{frame}{When costs have a cliff and benefits do not, price and quantity together beat either one alone}{The principle}
+  \begin{columns}[c]
+    \begin{column}{0.47\textwidth}
+      \begin{tikzpicture}
+        \begin{axis}[quietaxis, width=\textwidth, height=5.6cm, xmin=0, xmax=10, ymin=0, ymax=7,
+            xtick={2,7}, xticklabels={$X_0$, $L$}, ytick={1.6}, yticklabels={$e$},
+            xlabel={outflow from deposits $X$}, ylabel={marginal value or cost}]
+          \fill[accent!6] (axis cs:0,0) rectangle (axis cs:2,7);
+          \fill[accent!3] (axis cs:2,0) rectangle (axis cs:7,7);
+          \addplot[accent, line width=1.8pt] coordinates {(0,0) (2,0) (2,1.6) (7,1.6) (7,7)};
+          \addplot[quiet, domain=0.3:9.6, samples=40] {5.2*exp(-0.42*x)};
+          \addplot[warm, domain=0.3:9.9, samples=40] {6.2*exp(-0.17*x)+0.2};
+          \node[font=\scriptsize\scshape, color=accent] at (axis cs:1,6.6) {free};
+          \node[font=\scriptsize\scshape, color=accent] at (axis cs:4.5,6.6) {price $e$};
+          \node[font=\scriptsize\scshape, color=accent] at (axis cs:8.5,6.6) {cap};
+          \node[font=\scriptsize, color=quiet, anchor=south] at (axis cs:8.6,0.25) {benefit, normal};
+          \node[font=\scriptsize, color=warm, anchor=west] at (axis cs:2.4,4.6) {benefit, crisis};
+          \node[font=\scriptsize, color=accent, anchor=south] at (axis cs:4.5,1.65) {marginal cost};
+        \end{axis}
+      \end{tikzpicture}
+    \end{column}
+    \begin{column}{0.49\textwidth}
+      \small
+      Weitzman (1974) showed that under uncertainty a price works better when the benefit curve is steeper than the cost curve, and a quantity works better when the cost curve is steeper:
+      \[
+        \Delta_{\text{price} - \text{quantity}} = \frac{\sigma^2\,(b-c)}{2\,b^2}.
+      \]
+      The marginal cost of deposit outflows has three segments: zero while banks can absorb them, a constant $e$ while banks replace deposits with dearer funding, and vertical once their liquidity buffers run out.
+
+      \vspace{0.4em}
+      In normal times demand crosses the flat part, where a price works best. In a crisis it shifts out and hits the cliff, where only a quantity works. \hl{Both happen on the same curve, so the best instrument is a tiered price with a cap} (Roberts and Spence 1976).
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 15 ===============================================================
+\begin{frame}{The optimal digital euro has three numbers: a free tier, a Pigouvian rate above it, and a cap}{The design}
+  \begin{columns}[c]
     \begin{column}{0.44\textwidth}
       \begin{tikzpicture}
-        \begin{axis}[quietaxis, width=\textwidth, height=4.6cm, xmin=125, xmax=190, ymin=0, ymax=6000,
+        \begin{axis}[quietaxis, width=\textwidth, height=5.4cm, xmin=0, xmax=3800, ymin=-3.2, ymax=0.8,
+            xtick={0,510,3000}, xticklabels={\euro 0,\euro 510,\euro 3{,}000}, ytick={-2.4,0}, yticklabels={$-2.4\%$,$0\%$},
+            xlabel={digital-euro balance}, ylabel={rate on the marginal euro}, title={The rate schedule}]
+          \addplot[accent, const plot] coordinates {(0,0) (510,-2.4) (3000,-2.4)};
+          \addplot[warm, line width=2.4pt] coordinates {(3000,-3.2) (3000,0.8)};
+          \node[font=\scriptsize\scshape, color=accent, anchor=south west] at (axis cs:30,0.05) {free tier};
+          \node[font=\scriptsize\scshape, color=accent, anchor=south] at (axis cs:1750,-2.35) {decay};
+          \node[font=\scriptsize\scshape, color=warm, anchor=west] at (axis cs:3060,-1.2) {cap};
+        \end{axis}
+      \end{tikzpicture}
+    \end{column}
+    \begin{column}{0.52\textwidth}
+      \small
+      Each segment of the cost curve gives one number.
+
+      \vspace{0.5em}
+      \textbf{\hl{Free tier: \euro 510.}} Payments should only use the deposit outflow that banks absorb at no cost. The ECB expects payment digitalisation to bring \euro 127bn of new deposits, and $N\,\mathbb E[\min(t,M_1)] = \text{\euro}127\text{bn}$ gives $M_1 \approx \text{\euro}510$.
+
+      \vspace{0.5em}
+      \textbf{\hl{Decay above the tier: $-2.4\%$.}} Holders pay the bank's cost of replacing a deposit, the refinancing rate minus the deposit rate: $2.65\% - 0.26\%$.
+
+      \vspace{0.5em}
+      \textbf{\textcolor{warm}{Cap: \euro 3{,}000.}} Crisis outflows stay within what banks can bear: $N\,\mathbb E[\min(d,\bar M)] = \theta D$.
+    \end{column}
+  \end{columns}
+  \source{$t$: desired holding; $d$: sight deposits per person; $N=360$m; $\theta D$: tolerated crisis outflow. Data: ECB WP 2980; ECB holding-limit analysis (Oct 2025); ECB rates and MIR statistics (2026).}
+\end{frame}
+
+% 16 ===============================================================
+\begin{frame}{The hybrid is the only design that works in normal times, at negative rates and in a crisis}{The design}
+  \begin{center}
+  \begin{tikzpicture}
+    \begin{groupplot}[group style={group size=3 by 1, horizontal sep=1.2cm},
+        quietaxis, width=4.6cm, height=4.2cm, ybar, /pgf/bar width=13pt, ymin=0,
+        symbolic x coords={cap, price, hybrid}, xtick=data, xticklabels={cap only, price only, hybrid},
+        x tick label style={font=\scriptsize, color=ink}, enlarge x limits=0.3,
+        nodes near coords, nodes near coords style={font=\scriptsize, color=ink}, point meta=explicit symbolic]
+      \nextgroupplot[title={Users blocked, normal times}, ymax=24, ytick=\empty, axis y line=none]
+        \addplot[fill=accent!70, draw=none] coordinates {(cap,18.5) [18.5\%] (price,0.3) [0\%] (hybrid,7.3) [7.3\%]};
+      \nextgroupplot[title={Outflow when rates are negative}, ymax=850, ytick=\empty, axis y line=none]
+        \addplot[fill=accent!70, draw=none] coordinates {(cap,648) [\euro 648bn] (price,158) [\euro 158bn] (hybrid,158) [\euro 158bn]};
+      \nextgroupplot[title={Outflow in a crisis}, ymax=1100, ytick=\empty, axis y line=none]
+        \addplot[fill=accent!70, draw=none, bar shift=0pt] coordinates {(cap,648) [\euro 648bn] (price,0) [] (hybrid,648) [\euro 648bn]};
+        \addplot[fill=warm, draw=none, bar shift=0pt] coordinates {(price,1000) [\euro 4{,}716bn]};
+    \end{groupplot}
+  \end{tikzpicture}
+  \end{center}
+  \small
+  A cap alone blocks almost one user in five and still lets \euro 648bn leave banks whenever deposit rates turn negative, because every capped euro is a zero-rate euro. A price alone handles normal times and negative rates, but in a crisis it would let \euro 4.7 trillion run. \hl{The hybrid keeps the cap's protection in a crisis, the price's protection at negative rates, and blocks fewer users}, because the decay above the tier shrinks demand for large balances.
+  \source{The price-only crisis bar is truncated. Model calibrated to ECB survey and holding-limit data; see backup.}
+\end{frame}
+
+% 17 ===============================================================
+\begin{frame}{The cap should move with the cycle: higher when banks hold ample liquidity, lower when buffers are thin}{The design}
+  \begin{columns}[c]
+    \begin{column}{0.48\textwidth}
+      \begin{tikzpicture}
+        \begin{axis}[quietaxis, width=\textwidth, height=5.4cm, xmin=125, xmax=190, ymin=0, ymax=6200,
             xtick={130,145,157,170,185}, xticklabels={130\%,145\%,157\%,170\%,185\%},
-            ytick={1000,3000,5000}, yticklabels={\euro 1k,\euro 3k,\euro 5k},
-            xlabel={banks' liquidity coverage ratio}, title={Countercyclical cap}]
-          \addplot[accent, mark=*, mark size=1.6pt] coordinates {(130,1278) (145,2171) (157,3000) (170,4098) (185,5560)};
+            ytick={1000,3000,5000}, yticklabels={\euro 1k,\euro 3k,\euro 5k}, scaled y ticks=false,
+            xlabel={banks' aggregate liquidity coverage ratio}, ylabel={holding cap}, title={A countercyclical cap}]
+          \addplot[accent, mark=*, mark size=1.7pt] coordinates {(130,1278) (145,2171) (157,3000) (170,4098) (185,5560)};
           \node[font=\scriptsize, color=quiet, anchor=north west] at (axis cs:157,2950) {today};
         \end{axis}
       \end{tikzpicture}
     \end{column}
+    \begin{column}{0.48\textwidth}
+      \small
+      The cap protects banks' liquidity, so it should depend on how much liquidity banks hold.
+
+      \vspace{0.6em}
+      If the tolerated crisis outflow is proportional to banks' liquidity surplus above the 100\% minimum, the cap becomes a function of the aggregate liquidity coverage ratio. At today's 157\% it is \euro 3{,}000. It would fall to about \euro 1{,}300 at 130\% and rise to about \euro 5{,}600 at 185\%.
+
+      \vspace{0.6em}
+      \hl{The rule should be published and mechanical}, so that a lower cap is anticipated rather than read as a signal of panic.
+    \end{column}
   \end{columns}
+  \source{Aggregate LCR of significant institutions: 156.7\% (ECB, Q3 2025). Scaling rule is illustrative.}
+\end{frame}
+
+% 18 ===============================================================
+\begin{frame}{The digital euro should bear interest: zero for payments, decay above, and a cap that moves with the cycle}{Conclusion}
+  \vspace{0.2cm}
+  \begin{enumerate}
+    \setlength\itemsep{0.8em}
+    \item Deadlines get money spent, but an expiry date ends in a fire sale and makes one euro worth more than another. It belongs to a voucher, not to money.
+    \item Continuous decay keeps every euro equal and is simply a negative interest rate. It is the only form in which money itself can carry a holding cost.
+    \item A digital euro fixed at zero is cash without storage costs. It raises the lower bound and creates the most pressure on bank deposits when rates are negative.
+    \item The best design combines price and quantity: a free tier of about \euro 500 for payments, decay of about 2.4\% above it, and a cap tied to banks' liquidity.
+  \end{enumerate}
+  \vspace{0.6cm}
+  \begin{center}
+    \hl{\itshape Article 16(8) should be replaced by a rule that lets the digital euro bear interest in this form.}
+  \end{center}
 \end{frame}
 
 % ================= BACKUP =================
@@ -319,7 +529,7 @@
   \vfill\centering{\Large\color{quiet} Backup}\vfill
 \end{frame}
 
-\begin{frame}{Expiry versus decay: derivation}{Backup}
+\begin{frame}{Expiry versus decay: derivation and results}{Backup}
   \footnotesize
   \textbf{Holder's problem.} Per unit of balance, with decay $\lambda$:
   \[
@@ -329,9 +539,7 @@
   \textbf{Square-root rule.} With $x=1-V$ small, $(r+\lambda)(1-x)=\tfrac a2 x^2$, so $x\approx\sqrt{2(r+\lambda)/a}$ and $\kappa^*\approx\sqrt{2a(r+\lambda)}$.
 
   \textbf{Expiry.} With $\tau=T-t$ left: $dV/d\tau=-rV+\tfrac a2(1-V)^2$, $V(0)=\phi$. If $\tfrac a2(1-\phi)^2>r\phi$, $V>\phi$ before $T$, so the fire sale happens only at $T$.
-  Velocity rises to $a(1-\phi)$: finite, but the unspent balance is sold at once.
-
-  \textbf{Calibration.} $\lambda$ matches the average expiry velocity over $[0,T]$.
+  Velocity rises to $a(1-\phi)$: finite, but the unspent balance is sold at once. Decay $\lambda$ is set to match the average expiry velocity over $[0,T]$.
 
   \vspace{0.4em}
   \begin{tabular}{@{}lcccccc@{}}
@@ -341,6 +549,9 @@
     30 d & 84\% & 16\% & 0.50--0.80 & 489\%  & 73\% & 16\% \\
     90 d & 97\% & 3\%  & 0.50--0.91 & 161\%  & 88\% & 10\% \\
   \end{tabular}
+
+  \vspace{0.4em}
+  Matching a voucher needs decay of hundreds of percent a year; policy-sized decay of 1--3\% raises velocity by 12--32\%. A digital euro can carry a rate, not a voucher.
 \end{frame}
 
 \begin{frame}{Prices versus quantities: derivation}{Backup}
@@ -350,7 +561,7 @@
     \setlength\itemsep{0.4em}
     \item Quantity fixed at $\mathbb E q^*$: expected loss $\dfrac{\sigma^2}{2(b+c)}$
     \item Price fixed: $q$ moves by $\theta/b$, expected loss $\dfrac{\sigma^2 c^2}{2b^2(b+c)}$
-    \item Difference: $\Delta=\dfrac{\sigma^2(b-c)}{2b^2}$. Prices win iff $b>c$.
+    \item Difference: $\Delta=\dfrac{\sigma^2(b-c)}{2b^2}$. Prices win if and only if $b>c$.
   \end{itemize}
   \vspace{0.5em}
   \textbf{Three-segment cost.} $MC(X)=0$ for $X\le X_0$, $e$ for $X_0<X\le L$, $\infty$ beyond $L$.
@@ -358,7 +569,7 @@
   \[
     N\,\mathbb E[\min(t,M_1)]=X_0,\qquad i_2=-e,\qquad N\,\mathbb E[\min(d,\bar M)]=\theta D .
   \]
-  Tier-2 demand shrinks by $K=\sqrt{r_D/(r_D+e)}=0.31$ (Baumol--Tobin).
+  Under the rate $-e$, Baumol--Tobin demand for tier-2 balances shrinks by $K=\sqrt{r_D/(r_D+e)}=0.31$.
 \end{frame}
 
 \begin{frame}{Calibration: data and fit}{Backup}
@@ -383,7 +594,7 @@
   Tolerance $\theta$ of 5\% / 7.6\% / 10\% gives $\bar M$ of \euro 1{,}690 / 3{,}000 / 4{,}520.
 
   \vspace{0.6em}
-  \textbf{Caveat.} $e$ is the private cost of replacing deposits; with central-bank pass-through funding the social cost may be lower.
+  \textbf{Caveat.} $e$ is the private cost of replacing deposits; with central-bank pass-through funding the social cost may be lower (Brunnermeier \& Niepelt 2019).
 \end{frame}
 
 \begin{frame}{References}{Backup}
@@ -395,7 +606,6 @@
     \item Boehm, J., Fize, E.\ \& Jaravel, X.\ (2024). Five facts about MPCs: evidence from a randomized experiment. CEP DP 1998.
     \item Bordo, M.\ \& Levin, A.\ (2017). Central bank digital currency and the future of monetary policy. NBER WP 23711.
     \item Brunnermeier, M.\ \& Niepelt, D.\ (2019). On the equivalence of private and public money. \emph{JME} 106.
-    \item Burlon, L., Mu\~noz, M.\ \& Smets, F.\ (2024). The optimal quantity of CBDC in a bank-based economy. \emph{AEJ: Macro} 16(4).
     \item Ding, J., Jiang, L., Msall, L.\ \& Notowidigdo, M.\ (2024). Consumer-financed fiscal stimulus: evidence from digital coupons in China.
     \item European Central Bank (2025). Technical data on financial stability impact of digital euro, 9 October.
     \item European Commission (2023). Proposal for a Regulation on the establishment of the digital euro, Art.\ 16(8).

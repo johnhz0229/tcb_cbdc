@@ -12,18 +12,25 @@
 
 ## 1. Storyline (slide titles, 20 minutes)
 
-1. Use it or lose it? (0:30)
-2. Monetary policy stalls when money is hoarded and rates cannot fall below zero. (2:00)
-3. Vouchers with a deadline get money spent, and a programmable digital euro could become one. (1:45)
-4. But an expiry date pushes out more spending, ends in a fire sale and splits money into vintages. (2:30)
-5. Continuous decay keeps every euro equal: it is simply a negative rate that reaches every wallet. (2:15)
-6. Yet the digital euro is set at zero, which makes it cash without storage costs and raises the lower bound. (2:30)
-7. A hard holding limit stops runs in a crisis, but blocks ordinary users in normal times. (2:00)
-8. When costs have a cliff and benefits do not, price and quantity together beat either alone. (2:30)
-9. The optimal digital euro has three numbers: a free tier, a Pigouvian rate above it, and a cap. (3:00)
-10. The digital euro should bear interest: zero for payments, decay above, and a cap that moves with the cycle. (1:00)
+2. This talk follows one question from stimulus vouchers to the design of the digital euro.
+3. When the central bank creates money that nobody spends, monetary policy loses its grip.
+4. Interest rates could not be cut far below zero, because cash always pays zero.
+5. Vouchers with an expiry date get money spent, which is exactly what a liquidity trap needs.
+6. A programmable digital euro could build this pressure into money itself, in one of two ways.
+7. To compare the two designs, consider a holder who must search for good uses of money.
+8. An expiry date pushes out more spending, but it ends in a fire sale and splits money into vintages.
+9. Continuous decay keeps every euro equal, and it is nothing more than a negative interest rate.
+10. Yet the draft regulation fixes the digital euro's interest rate at exactly zero.
+11. A zero-rate digital euro is cash without storage costs, so it pushes the lower bound back up to zero.
+12. The lower bound and disintermediation are the same problem: a central-bank rival to bank deposits.
+13. A hard holding limit stops a run in a crisis, but it also blocks ordinary users in normal times.
+14. When costs have a cliff and benefits do not, price and quantity together beat either one alone.
+15. The optimal digital euro has three numbers: a free tier, a Pigouvian rate above it, and a cap.
+16. The hybrid is the only design that works in normal times, at negative rates and in a crisis.
+17. The cap should move with the cycle: higher when banks hold ample liquidity, lower when buffers are thin.
+18. The digital euro should bear interest: zero for payments, decay above, and a cap that moves with the cycle.
 
-Slides 7–10 are derived in `notes/03_hybrid_derivation.md`.
+Slides 13–17 are derived in `notes/03_hybrid_derivation.md`.
 
 ## 2. Expiry vs demurrage: model and results
 
