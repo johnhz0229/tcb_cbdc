@@ -1,93 +1,96 @@
-# 数字欧元该不该付息？——可编程利率作为货币政策工具
+# Should the Digital Euro Bear Interest? — outline and model notes
 
-> 定位：同学的报告讲**数量**（持有上限多少合适），本报告讲**价格**（数字欧元的利率该不该被锁死在 0）。
-> 时长：20 分钟报告 + 10 分钟问答。
+> Positioning: the companion talk covers the **quantity** valve (how large the holding limit should be).
+> This talk covers the **price** valve (should the digital euro's rate be fixed at zero?).
+> Format: 20-minute talk + 10-minute Q&A.
 
-## 0. 已核实的事实
+## 0. Verified facts
 
-- 欧盟委员会 2023-06-28 数字欧元条例草案**第 16(8) 条："the digital euro shall not bear interest"**。
-- 截至 2026-09-30：Council（2025-12-19）与 Parliament（2026-07）已各自形成立场，三方谈判（trilogue）进行中，目标 2026 年底完成。
-  双方都同意设持有上限，分歧在于由谁设定；讨论区间约 €1,500–3,000。
-- 欧洲央行承诺保留现金。
+- European Commission proposal for a Regulation on the establishment of the digital euro (28 June 2023),
+  **Art. 16(8): "The digital euro shall not bear interest."**
+- As of 30 Sep 2026: Council position adopted 19 Dec 2025, Parliament position July 2026, trilogues running
+  (13 Jul, 10 Sep, 30 Sep 2026), aim to conclude by end-2026. Both sides want a holding limit; they disagree
+  on who sets it. Range under discussion: about €1,500–3,000.
+- ECB deposit facility rate was −0.50% from Sep 2019 to Jul 2022.
+- The ECB commits to keeping cash.
 
-待核实：Bordo & Levin (2017, NBER w23711) 已论证付息 CBDC 可以消除 ZLB——**这是最近的前人工作，必须引用并说明增量**；
-另查 Bindseil (2020) 分层计息、Agarwal & Kimball (2015/2019) 现金—电子货币汇率方案、Meaning et al. (BoE)。
+## 1. Storyline (20 minutes)
 
-## 1. 故事线（20 分钟）
-
-| 时间 | 模块 | 核心内容 |
+| Time | Block | Content |
 |---|---|---|
-| 3' | 引子 | 数字欧元有两个阀门：数量（上限）与价格（利率）。立法草案关掉了价格阀门。代价是什么？ |
-| 4' | 外部选项框架 | 现金的 0 利率 → ZLB；数字欧元的利率 → 存款流失。同一个结构：央行货币给存款利率定下限 |
-| 5' | 可编程持币成本只能是"利率" | 限时到期 vs 平缓贬值（本笔记第 2 节）。结论：到期是财政项目工具，平缓贬值才是利率工具 |
-| 5' | 能否击穿 ZLB？ | 逃逸渠道：现金、存款、稳定币、外币。**零息数字欧元 = 零存储成本的现金**，反而加固 ZLB（第 3 节） |
-| 3' | 政策结论 | 平时零息保护银行；流动性陷阱中零息是自缚手脚。建议：保留"或有 λ"选项 |
+| 3' | Hook | Two valves: quantity (limit) and price (rate). Art. 16(8) welds the price valve shut. What does that cost? |
+| 4' | Outside-option framework | Cash at 0 → ELB; digital euro at 0 → a frictionless floor. ZLB and disintermediation are one mechanism. |
+| 6' | Model | Expiry vs demurrage as two schedules of one holding cost (Section 2). Only demurrage is a rate. |
+| 4' | ELB | Floor formula with cash retained; asymmetry: zero remuneration costs space, negative remuneration cannot create it. |
+| 3' | Policy | Keep zero as default; contingent tiered demurrage clause when the DFR is negative. |
 
-附录：第 2 节完整推导与敏感性表格。
+## 2. Expiry vs demurrage: model and results
 
-## 2. 限时到期 vs 平缓贬值：模型与结果
+Code: `model/expiry_vs_demurrage.py`. Figure: `figures/expiry_vs_demurrage.{pdf,png}`.
 
-代码：`model/expiry_vs_demurrage.py`，图：`figures/expiry_vs_demurrage.png`。
+### 2.1 Setup
+- Per-unit token value `V`. Holders search for useful purchases with intensity `κ`, cost `κ²/(2a)` per unit balance per day. A useful purchase is worth 1.
+- A junk outlet (low-value goods, dumping on a secondary market) is always available at `φ < 1`.
+- Discount rate `r`.
 
-### 2.1 设定
-- 每单位代币的价值 V。持有人以强度 κ 搜寻"有用消费"，成本 κ²/(2a)（每单位余额每天）；有用消费价值 1。
-- 任何时候都可以把代币花在"垃圾消费"/二级市场抛售上，价值 φ < 1。
-- 贴现率 r。
+**Hard expiry** (remaining time `τ = T − t`):
 
-**硬性到期**（剩余时间 τ = T − t）：
+    dV/dτ = −rV + a(1−V)²/2,   V(0) = φ   (unspent balance is dumped at φ on day T)
 
-  dV/dτ = −rV + a(1−V)²/2，  V(0) = φ（到期时剩余余额被以 φ 甩卖）
+**Demurrage** at rate `λ` (stationary):
 
-**平缓贬值** λ（稳态）：
+    (r + λ) V = a(1−V)²/2
 
-  (r + λ)V = a(1−V)²/2
+In both regimes optimal velocity is `κ* = a(1 − V)`.
 
-两种情况下最优流速都是 κ* = a(1 − V)。
+### 2.2 Analytical result: square-root rule
+For small `r + λ`, demurrage gives `κ* ≈ √(2a(r + λ))`: **velocity has elasticity 1/2 with respect to the holding cost**, the Baumol–Tobin elasticity.
 
-### 2.2 解析结论：平方根法则
-r + λ 较小时，平缓贬值下 κ* ≈ √(2a(r + λ))，**流速对持币成本的弹性为 1/2**，与 Baumol-Tobin 同构。
-数值验证（r = 4%/年）：
-
-| λ（年化） | 0.5% | 1% | 2% | 3% | 5% |
+| λ (p.a.) | 0.5% | 1% | 2% | 3% | 5% |
 |---|---|---|---|---|---|
-| 流速倍数 | 1.06 | 1.12 | 1.22 | 1.32 | 1.49 |
+| Velocity multiplier (r = 4%) | 1.06 | 1.12 | 1.22 | 1.32 | 1.49 |
 
-→ 货币政策量级的负利率（−1% 至 −3%）可以让流速平滑提升 10%–30%，没有任何奇异点。
+### 2.3 Equal-average-velocity comparison (a = 0.2, φ = 0.5, r = 4%)
 
-### 2.3 等平均流速比较（a = 0.2, φ = 0.5, r = 4%/年）
-
-| 期限 T | 到期：有用消费 | 到期：T 时甩卖 | 到期：真实浪费 (1−φ)×甩卖 | 流速 κ_T/κ_0 | 到期：币值区间 | 贬值：所需 λ/年 | 贬值：有用消费 | 贬值：被扣减 | 贬值：币值 |
+| T | Expiry: useful | dumped | waste (1−φ)·dumped | κ_T/κ_0 | value range | Demurrage: λ p.a. | useful | burned | value |
 |---|---|---|---|---|---|---|---|---|---|
-| 7 天 | 45% | 55% | 27% | 1.3 | 0.50–0.63 | 1172% | 41% | 15% | 0.57 |
-| 14 天 | 66% | 35% | 17% | 1.7 | 0.50–0.71 | 842% | 58% | 17% | 0.62 |
-| 30 天 | 84% | 16% | 8% | 2.5 | 0.50–0.80 | 489% | 73% | 16% | 0.69 |
-| 90 天 | 97% | 3% | 2% | 5.3 | 0.50–0.91 | 161% | 88% | 10% | 0.81 |
+| 7 d | 45% | 55% | 27% | 1.3 | 0.50–0.63 | 1172% | 41% | 15% | 0.57 |
+| 14 d | 66% | 35% | 17% | 1.7 | 0.50–0.71 | 842% | 58% | 17% | 0.62 |
+| 30 d | 84% | 16% | 8% | 2.5 | 0.50–0.80 | 489% | 73% | 16% | 0.69 |
+| 90 d | 97% | 3% | 2% | 5.3 | 0.50–0.91 | 161% | 88% | 10% | 0.81 |
 
-### 2.4 结果解读——对原始直觉的修正
+Sensitivity at T = 30 (φ ∈ {0.3, 0.5, 0.7}, a ∈ {0.1, 0.2, 0.4}): matching λ is 211%–833% p.a.; expiry always front-loads more and always wastes 3%–16% of issuance.
 
-**原始直觉"硬性到期是灾难，平缓贬值全面更优"不成立。** 在 T 天内的"有用消费"上，到期券反而更多：它强制在 T 前花完，而平缓贬值把一部分余额扣掉了。
+### 2.4 Interpretation — correcting the original intuition
 
-真正稳健成立的区别是以下四点，这些才是报告该讲的：
+**"Hard expiry is a disaster, demurrage dominates" does not hold.** Expiry delivers *more* useful spending within T, because it forces the whole balance out, while demurrage burns part of it.
 
-1. **真实资源浪费**：到期券在 T 时产生甩卖，浪费 (1−φ)×甩卖量（短期券高达 27%）。平缓贬值被扣减的部分是**转移给发行方**，不是资源浪费；只要 V > φ，就没有垃圾消费。
-2. **货币单一性**：到期券的价值随剩余期限变化（0.50–0.91），不同批次的代币价格不同，需要按批次追踪，**不再可互换**。平缓贬值下所有代币价值相同，单一性得以保留。
-3. **流速路径**：到期券流速向 T 单调上升（90 天券末期是初期的 5 倍），T 时出现质量点，随后断崖。平缓贬值下流速恒定。
-   注意：在凸搜寻成本下流速**有界**（上限 a），原大纲中"→ ∞"的说法只有在线性成本或纯甩卖情形下才成立，需要改口。
-4. **能否作为利率**：平缓贬值是稳态的，可以永久作用于整个货币存量，因此就是利率 i = −λ。到期机制无法施加于全部货币而不引入批次，所以它是**一次性财政项目**的工具，不是货币政策工具。
+What survives robustly:
+1. **Real waste.** Expiry causes junk spending at T, a social loss of (1−φ)·dumped (up to 27% of issuance). Demurrage's burned balances are a transfer to the issuer; with V > φ there is no junk spending.
+2. **Singleness of money.** An expiring token's value depends on its vintage; units are no longer fungible. Under demurrage all units have the same value.
+3. **Velocity path.** Expiry: rising velocity and a mass point at T. Demurrage: constant. With convex search costs velocity is *finite* (bounded by a(1−φ)); "velocity → ∞" only holds with linear costs.
+4. **Is it a rate?** Demurrage is stationary and applies to the whole stock: it is the rate i = −λ. Expiry cannot apply to the whole money stock without vintages: it is a fiscal-programme tool.
 
-另一个值得展示的数字：要达到消费券级别的刺激强度，等价的平缓贬值率是年化 160%–1200%。消费券和负利率在机制上同构，但**强度上差两到三个数量级**。
+Magnitude: voucher-strength velocity needs 160%–1,200% p.a. demurrage; policy-sized rates move velocity by 6%–32%. Two to three orders of magnitude.
 
-**报告中的结论句**：如果要给数字欧元编程持币成本，它只能是平缓贬值（即利率），不能是到期日。
+## 3. Lower-bound argument
 
-## 3. ZLB 部分的核心论证（待展开）
+Deposit-rate floor from the best central-bank outside option `j` (rate `i_j`, holding cost `c_j`):
 
-- 现金有存储、保险、运输成本 c_s > 0，所以实际下限（ELB）略低于 0。欧洲央行 2019–2022 年存款便利利率为 −0.5%。
-- **零息数字欧元是零存储成本的现金**。在限额以内，它把存款利率的下限从 −c_s 抬回到 0，**反而加固 ZLB**。
-- 负利率时期（r_D < 0），零息数字欧元严格优于存款 → 脱媒压力恰恰在负利率时期最大。
-  → 零息设计与持有上限是**配套的**：上限决定了"有多少货币享有 0 下限"。这是与同学报告的衔接点。
-- 若允许 λ：数字欧元利率可以跟随政策利率，存款下限随之下移。但击穿 ZLB 还需要处理现金（Agarwal–Kimball 汇率方案）以及稳定币、外币等逃逸渠道。
+    r_D ≥ max_j { i_j − c_j }
 
-## 4. 待讨论
-- 参数 a、φ 的校准依据：可以参考消费券实证中的核销率和二手转让折价。
-- 问答预案：欧洲央行为什么选择零息（防止脱媒、政治接受度、分配效应、"不是投资工具"的定位）。
-- Bordo & Levin (2017) 的增量：他们讲付息 CBDC 能消除 ZLB；本报告的增量是 (1) 零息 + 保留现金的欧元区具体设计会加固 ZLB；(2) 可编程持币成本必须采取平缓贬值形式的论证。
+- Cash: floor −c_cash (the ELB).
+- Digital euro under Art. 16(8): floor 0 on balances up to the limit M̄ — **hardens the lower bound**.
+- Digital euro at −λ: floor max{−λ, −c_cash} ≥ −c_cash.
+
+Asymmetry: zero remuneration raises the floor from −c_cash to 0; negative remuneration cannot push it below −c_cash while cash exists. Going deeper needs cash reform (Agarwal–Kimball crawling cash/reserve exchange rate).
+
+Disintermediation pressure from a zero-rate digital euro peaks in negative-rate regimes; zero remuneration and the holding limit are a package.
+
+## 4. Policy proposal (for discussion)
+Keep i_DE = 0 by default. If DFR < 0, balances above a tier threshold M₁ < M̄ pay max{DFR, −c̄}, implemented as continuous demurrage, never as expiry.
+
+## 5. Open items
+- Calibrate a and φ from voucher redemption and resale-discount data.
+- Estimate c_cash from the 2019–22 pass-through to large deposits.
+- General-equilibrium extension (prices, output).

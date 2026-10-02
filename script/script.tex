@@ -1,0 +1,423 @@
+\documentclass[a4paper,10pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=1.7cm,top=1.4cm,bottom=1.6cm]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{eurosym}
+\usepackage{fancyhdr}
+\usepackage[hidelinks]{hyperref}
+
+\definecolor{accent}{HTML}{1D4ED8}
+\definecolor{muted}{HTML}{6B7280}
+\definecolor{qa}{HTML}{B45309}
+
+\setlist{nosep,leftmargin=1.2em}
+\setlength{\parindent}{0pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small\color{muted}Should the Digital Euro Bear Interest? --- speaker script}
+\rhead{\small\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0.2pt}
+
+\newcommand{\slidepage}[3]{% #1 slide number, #2 title, #3 time
+  \clearpage
+  {\large\bfseries\color{accent} Slide #1 \quad #2}\hfill{\color{muted}\small #3}\par\smallskip
+  \begin{center}
+    \fbox{\includegraphics[page=#1,width=0.80\textwidth]{../slides/slides.pdf}}
+  \end{center}
+}
+\newcommand{\say}{\par\smallskip{\bfseries Say}\par}
+\newcommand{\terms}{\par\smallskip{\bfseries\color{accent} Terms to have ready}\par}
+\newcommand{\qanda}{\par\smallskip{\bfseries\color{qa} If challenged}\par}
+\newcommand{\Q}[1]{\item[\color{qa}Q:] \emph{#1}}
+\newcommand{\A}{\item[A:]}
+
+\begin{document}
+
+% ================= COVER =================
+{\LARGE\bfseries\color{accent} Should the Digital Euro Bear Interest?}\par
+\smallskip
+{\large Programmable holding costs, the lower bound, and why the only usable form is demurrage}\par
+\medskip
+{\color{muted} Speaker script. 20 minutes talk + 10 minutes Q\&A. October 2026.}
+
+\bigskip
+\textbf{One-sentence pitch.}
+The draft regulation welds the digital euro's interest rate to zero; I show that this hardens the lower bound, that any programmed holding cost would have to be continuous demurrage rather than an expiry date, and that rate flexibility protects policy space but cannot create it while cash exists.
+
+\bigskip
+\textbf{Position relative to the companion talk.}
+The companion talk asks \emph{how large} the holding limit should be (the quantity valve). This talk asks \emph{what price} should sit under that limit (the price valve). Mention it on slides 2, 6 and 16, never go into limit calibration.
+
+\bigskip
+\textbf{What is new and what is not} (say this honestly if asked):
+\begin{itemize}
+  \item \emph{Not new:} that a negative-rate CBDC can remove the ZLB (Bordo \& Levin 2017; Goodfriend 2000; Agarwal \& Kimball), that tiering helps (Bindseil 2020), that a zero-rate CBDC hardens the ELB (ECB 2020; Pirgmann \& Wawrosz 2024).
+  \item \emph{New here:} (i) expiry and demurrage compared as two schedules of one holding cost in a single model; (ii) the result that expiry front-loads \emph{more} spending but wastes resources and breaks fungibility, so only demurrage is a rate; (iii) the quantitative gap between voucher-strength stimulus and policy-sized rates; (iv) the floor formula with its asymmetry, which yields the contingent-clause proposal.
+\end{itemize}
+
+\bigskip
+\textbf{Timing plan}
+
+\begin{center}
+\small
+\begin{tabular}{@{}rlr|rlr@{}}
+  \toprule
+  \# & Slide & Time & \# & Slide & Time \\
+  \midrule
+  1 & Title & 0:30 & 9 & Square-root rule & 1:15 \\
+  2 & Two valves & 1:30 & 10 & Paths figure & 1:15 \\
+  3 & Three claims & 1:00 & 11 & Horizon table & 1:15 \\
+  4 & Motivation & 1:30 & 12 & Why demurrage & 1:15 \\
+  5 & Literature & 1:30 & 13 & Orders of magnitude & 1:00 \\
+  6 & Outside option & 1:30 & 14 & Can it break the ELB? & 1:30 \\
+  7 & Claim 1 & 1:30 & 15 & Policy proposal & 1:15 \\
+  8 & Model & 1:30 & 16 & Takeaways & 0:45 \\
+  \midrule
+  & \textbf{Total} & & & & \textbf{20:00} \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Checkpoints.} End of slide 5 at 6:00. End of slide 8 at 10:30. End of slide 12 at 15:30. If behind at slide 8, shorten slide 11 to the two bullets under the table.
+
+\bigskip
+\textbf{Five numbers to know by heart}
+\begin{itemize}
+  \item Art.\ 16(8): ``The digital euro shall not bear interest.'' Holding limit range under discussion: \euro 1{,}500--3{,}000.
+  \item ECB deposit facility rate: $-0.50\%$ from September 2019 to July 2022.
+  \item China coupons: about 3 yuan of extra spending per yuan of subsidy. France RCT: MPC 61\% with expiry vs 23\% without.
+  \item Square-root rule: velocity $\approx\sqrt{2a(r+\lambda)}$; a 1\% demurrage raises velocity about 12\%.
+  \item Voucher-equivalent demurrage: 160\%--1{,}200\% per year.
+\end{itemize}
+
+% ================= SLIDES =================
+\slidepage{1}{Title}{0:30}
+\say
+\begin{itemize}
+  \item ``The digital euro is being negotiated right now. Most of the debate is about how \emph{much} people may hold. I want to talk about the other dial: what \emph{rate} it pays.''
+  \item ``My answer has three parts, and one of them corrects an intuition I started with.''
+\end{itemize}
+
+\slidepage{2}{Two valves on the digital euro}{1:30}
+\say
+\begin{itemize}
+  \item Central banks have two ways to control how much of a new liability the public holds: a quantity cap or a price.
+  \item Quantity: both co-legislators want a cap; the range discussed is \euro 1{,}500--3{,}000; who sets it is still disputed in trilogue. This is the companion talk.
+  \item Price: the Commission's proposal settles it in one line, Art.\ 16(8): no interest, ever. Not positive, not negative.
+  \item ``So the price valve is welded shut. My question: what does that cost, and what would it take to open it?''
+\end{itemize}
+\terms
+\begin{itemize}
+  \item \textbf{Trilogue}: informal negotiation between Commission, Council and Parliament to reconcile their positions on a legislative proposal. Council position Dec 2025, Parliament July 2026, third round 30 Sep 2026.
+  \item \textbf{Holding limit}: maximum digital-euro balance per individual; excess is swept to a linked bank account (``waterfall'').
+\end{itemize}
+\qanda
+\begin{itemize}
+  \Q{Is Art.\ 16(8) final?}
+  \A No. It is the Commission's 2023 proposal; the text is still in trilogue. That is precisely why the question is live.
+\end{itemize}
+
+\slidepage{3}{Three claims}{1:00}
+\say
+\begin{itemize}
+  \item Read the three bold lines; do not explain them yet.
+  \item Be upfront: ``Claim 1 is known in policy circles; I add a simple formula. Claim 2 is my model. Claim 3 is the policy conclusion that follows from combining them.''
+\end{itemize}
+\terms
+\begin{itemize}
+  \item \textbf{ZLB vs ELB}: the zero lower bound is the textbook floor at 0; the effective lower bound is the actual floor, slightly below zero, because holding cash is costly.
+  \item \textbf{Demurrage}: a continuous charge on holding money; equivalent to a negative interest rate on the balance.
+\end{itemize}
+
+\slidepage{4}{Why programmable money tempts policymakers}{1:30}
+\say
+\begin{itemize}
+  \item Left: the classic problem. In a liquidity trap the central bank adds money but velocity falls, so nominal spending does not rise; rates are stuck near the ELB.
+  \item Right: programmable money seems to offer a shortcut, and the evidence says expiry dates really do change behaviour.
+  \item Chinese digital coupons: roughly 3 yuan of extra spending per yuan of subsidy. A French randomized trial: the one-month MPC almost triples with a three-week expiry. Japan's 1999 paper coupons, by contrast, did little.
+  \item ``So the natural question for a CBDC: can we build this force into the money itself?''
+\end{itemize}
+\terms
+\begin{itemize}
+  \item \textbf{Velocity}: $V=PY/M$, how often a unit of money is spent per period.
+  \item \textbf{MPC}: marginal propensity to consume, the share of an extra euro that is spent within a period.
+  \item \textbf{DFR}: deposit facility rate, the ECB's main policy rate since 2015.
+\end{itemize}
+\qanda
+\begin{itemize}
+  \Q{The Chinese coupons had minimum-spend thresholds. Isn't that what drives the effect, not expiry?}
+  \A Partly, yes: Ding et al.\ attribute the large response to threshold notches. The French RCT isolates expiry and still finds 61\% vs 23\%. Both channels exist; I return to this on slide 13.
+  \Q{Do coupons just shift spending forward?}
+  \A Mixed evidence: Xing et al.\ find purchases moved forward; Ding et al.\ find no short-run intertemporal substitution. I list it as a limitation (backup B3).
+\end{itemize}
+
+\slidepage{5}{What is already known}{1:30}
+\say
+\begin{itemize}
+  \item Go row by row, quickly. ``Negative interest on money is a hundred-year-old idea: Gesell's stamp scrip, Fisher, Keynes in the General Theory, Goodfriend's carry tax in 2000.''
+  \item ``That a CBDC could carry that negative rate is Bordo and Levin 2017. Tiering is Bindseil. That a zero-rate CBDC hardens the floor is in the ECB's own 2020 report.''
+  \item ``Expiring CBDC has been studied, but for a different purpose: Kahn, van Oordt and Zhu use expiry to recover lost offline balances.''
+  \item Land the gap: nobody puts expiry and demurrage in one model and asks which one a central bank could actually use.
+\end{itemize}
+\terms
+\begin{itemize}
+  \item \textbf{Stamp scrip}: Gesell's notes that stay valid only if a stamp worth a fraction of face value is bought each week. Used in W\"orgl, Austria, 1932--33, until the central bank stopped it.
+  \item \textbf{Carry tax}: Goodfriend's term for a negative return on base money.
+\end{itemize}
+\qanda
+\begin{itemize}
+  \Q{Isn't this just Bordo and Levin?}
+  \A They argue a CBDC \emph{can} pay negative rates. I ask a narrower design question they do not address: if a holding cost is programmed, must it be continuous, and how large would it need to be to mimic a voucher? And I work with the actual euro-area constraint: cash retained, Art.\ 16(8).
+\end{itemize}
+
+\slidepage{6}{Central-bank money is the deposit's outside option}{1:30}
+\say
+\begin{itemize}
+  \item This is the organising idea. A depositor can always leave the bank for a central-bank liability. So the bank cannot pay less than the best outside option, net of the cost of holding it.
+  \item Cash: rate zero, but storage and insurance cost something, so the floor sits a bit below zero. That is the ELB.
+  \item A zero-rate digital euro: rate zero, holding cost essentially zero. Floor: exactly zero, for balances up to the limit.
+  \item ``The ZLB and disintermediation are not two problems. They are the same mechanism: central-bank money competing with deposits.''
+  \item ``And the holding limit decides how much money gets this floor. That is where the companion talk plugs in.''
+\end{itemize}
+\terms
+\begin{itemize}
+  \item \textbf{Outside option}: the best alternative available to the depositor; it bounds what the bank can charge.
+  \item \textbf{Disintermediation}: deposits leaving banks for central-bank money, reducing bank funding for loans.
+\end{itemize}
+\qanda
+\begin{itemize}
+  \Q{Retail deposit rates never went negative in 2019--22, so the floor was already zero for households.}
+  \A True for small retail balances, mostly for commercial and reputational reasons. Large and corporate deposits did pay negative rates. The zero-rate digital euro turns a bank choice into a hard legal floor, and it does so for every holder up to the limit. Over a long negative-rate period that matters for bank margins and pass-through.
+  \Q{What about stablecoins as an outside option?}
+  \A Under MiCA, issuers of e-money tokens may not pay interest, so they are another zero-rate option, but with issuer risk and without the central bank's guarantee. They weaken the floor argument at the margin, not the logic.
+\end{itemize}
+
+\slidepage{7}{Claim 1: a zero-rate digital euro is frictionless cash}{1:30}
+\say
+\begin{itemize}
+  \item 2019--22 is the proof that the floor was below zero: $-0.50\%$ without people hoarding banknotes, because hoarding is costly.
+  \item A zero-rate digital euro removes that cost. So in the next negative-rate episode, the first \euro 3{,}000 per person has a frictionless escape.
+  \item The perverse timing: disintermediation pressure is highest exactly when rates are negative, which is when banks are under margin pressure.
+  \item ``So zero remuneration and the holding limit are not two separate design choices. They are a package: the limit is what makes the zero floor affordable.''
+\end{itemize}
+\qanda
+\begin{itemize}
+  \Q{With a \euro 3{,}000 cap, the amounts are small. Why care?}
+  \A The aggregate is bounded, that is the point of the cap. But the cap then binds hardest in negative-rate periods, so its calibration should depend on the rate regime. That interaction is my bridge to the companion talk.
+\end{itemize}
+
+\slidepage{8}{Claim 2: a model of programmable holding costs}{1:30}
+\say
+\begin{itemize}
+  \item Minimal model. A unit of token has value $V$. Spending it on something you actually want gives 1. Finding that takes effort, a quadratic search cost.
+  \item There is always a bad outlet: junk goods or selling at a discount, worth $\phi$.
+  \item Two regimes. Expiry: the value depends on time left, an ODE that ends at $\phi$ on the expiry day. Demurrage: a stationary equation with the decay rate $\lambda$ added to the discount rate.
+  \item ``In both cases the optimal spending speed, the velocity, is $a(1-V)$. The lower the value of holding, the faster you spend.''
+\end{itemize}
+\terms
+\begin{itemize}
+  \item \textbf{HJB equation}: the Bellman equation in continuous time; here it reduces to an ODE (expiry) or an algebraic equation (demurrage).
+  \item \textbf{$\phi$, junk value}: what one unit buys in a forced, low-quality purchase or fire sale.
+  \item \textbf{$a$}: search efficiency; higher $a$ means it is easier to find useful purchases.
+\end{itemize}
+\qanda
+\begin{itemize}
+  \Q{Why quadratic search cost?}
+  \A It is the simplest convex cost that gives an interior choice. With linear costs the solution is bang-bang and velocity really does go to infinity at $T$; convexity is the conservative case for my argument.
+\end{itemize}
+
+\slidepage{9}{Result 1: velocity follows a square-root rule}{1:15}
+\say
+\begin{itemize}
+  \item Solve the demurrage equation for small rates: velocity is the square root of $2a(r+\lambda)$. Elasticity one half.
+  \item ``This is exactly the Baumol--Tobin elasticity. Which is the first hint: demurrage is not a new animal, it is an interest rate.''
+  \item Numbers: a 1\% demurrage raises velocity by about 12\%, 3\% by about a third. Smooth, no deadline, no spike.
+\end{itemize}
+\terms
+\begin{itemize}
+  \item \textbf{Baumol--Tobin}: inventory model of money demand; optimal cash holdings scale with $\sqrt{FY/2i}$, so money demand has interest elasticity $-\tfrac12$.
+\end{itemize}
+\qanda
+\begin{itemize}
+  \Q{Velocity is not output. Why should I care about velocity?}
+  \A Fair. The model is partial equilibrium; velocity is the direct object a holding cost acts on. Whether it raises output depends on slack in the economy; in a liquidity trap, it is the binding margin.
+\end{itemize}
+
+\slidepage{10}{Result 2: paths at equal average velocity}{1:15}
+\say
+\begin{itemize}
+  \item I calibrate $\lambda$ so that both schemes have the same \emph{average} velocity over the 30 days. Fair race.
+  \item Left: expiry velocity starts low and accelerates into the deadline. Demurrage is flat.
+  \item Right: an expiring token's value depends on how much time it has left: 0.8 when fresh, 0.5 at the end. Under demurrage every unit is worth the same.
+  \item On the expiry day, 16\% of issuance is still unspent and goes to junk.
+\end{itemize}
+\qanda
+\begin{itemize}
+  \Q{Why match average velocity and not total spending?}
+  \A Velocity is the policy target in the motivation. Matching total spending within $T$ is infeasible here: demurrage can never reach the expiry level, which is itself a result (next slide).
+\end{itemize}
+
+\slidepage{11}{Result 3: expiry front-loads more, but wastes and fragments}{1:15}
+\say
+\begin{itemize}
+  \item ``Here is where my starting intuition was wrong. I expected expiry to be a disaster. It is not, in terms of spending: it gets \emph{more} useful spending done within the window, at every horizon.''
+  \item Why: expiry forces the whole balance out by $T$; demurrage burns part of the balance and lets the rest linger.
+  \item The costs of expiry are elsewhere: a real resource loss from junk spending, from 2\% to 27\% of issuance, and value that depends on the vintage.
+  \item Point at the $\lambda$ column: to match a 30-day voucher you need 489\% a year. Keep that for slide 13.
+\end{itemize}
+\terms
+\begin{itemize}
+  \item \textbf{Waste vs burned}: waste is real goods of low value bought instead of wanted goods, a social loss; burned balances are a transfer back to the issuer, not a resource loss.
+\end{itemize}
+\qanda
+\begin{itemize}
+  \Q{So shouldn't policymakers prefer expiry?}
+  \A For a one-off fiscal programme with a short horizon, possibly yes. That is the point of the next slide: expiry is a fiscal tool, not a property you can give the currency itself.
+\end{itemize}
+
+\slidepage{12}{Why programmed holding costs must take the form of demurrage}{1:15}
+\say
+\begin{itemize}
+  \item Read the table top to bottom, stressing three rows: value depends on vintage; fungibility broken; can it apply to the whole money stock.
+  \item ``If every digital euro carried an expiry date, one euro issued in January would not equal one euro issued in June. That is the end of the singleness of money.''
+  \item ``Demurrage keeps every unit identical, and it is literally an interest rate, $i=-\lambda$. So a central bank programming a holding cost into money can only use demurrage.''
+\end{itemize}
+\terms
+\begin{itemize}
+  \item \textbf{Singleness of money}: all forms of a currency (cash, deposits, CBDC) exchange one-for-one at par. A core central-bank objective.
+  \item \textbf{Fungibility}: any unit can substitute for any other unit of the same amount.
+  \item \textbf{Mass point}: a strictly positive share of spending happening at a single instant ($T$).
+\end{itemize}
+\qanda
+\begin{itemize}
+  \Q{Couldn't a smart contract track vintages automatically?}
+  \A Technically yes, but then a wallet holds a portfolio of differently valued tokens, and payees must accept them at par or at a discount. Either the central bank enforces par (and absorbs the secondary-market arbitrage) or singleness breaks.
+\end{itemize}
+
+\slidepage{13}{Orders of magnitude: vouchers are not rates}{1:00}
+\say
+\begin{itemize}
+  \item ``Back to the 489\%. Across horizons and parameters, mimicking voucher-strength velocity needs a demurrage in the hundreds of percent per year.''
+  \item Policy-sized rates, minus half a percent to minus three, give 6--32\% more velocity. Two to three orders of magnitude apart.
+  \item And vouchers work through channels a rate does not have: they hand out new money, they have a salient deadline, and the Chinese ones had spend thresholds.
+  \item ``So the digital euro cannot be a stimulus voucher. At most it can carry a policy rate.''
+\end{itemize}
+\qanda
+\begin{itemize}
+  \Q{These numbers depend on your arbitrary $a$ and $\phi$.}
+  \A Levels do; the order of magnitude does not. Backup B2: across the sensitivity grid the matching rate is 211\%--833\% for 30 days. Show B2 if pressed.
+\end{itemize}
+
+\slidepage{14}{Claim 3: can a negative digital-euro rate break the ELB?}{1:30}
+\say
+\begin{itemize}
+  \item Now combine the floor formula with cash still in circulation.
+  \item With Art.\ 16(8) the floor is zero. With a negative digital-euro rate, the floor is the higher of $-\lambda$ and the cash floor. You can never go below the cash floor, because people would switch to banknotes.
+  \item ``So there is an asymmetry. Zero remuneration costs you policy space: it lifts the floor from minus the cash cost to zero. Negative remuneration only gets that space back; it cannot add any.''
+  \item To go deeper you need to deal with cash itself: Agarwal and Kimball's crawling exchange rate between cash and electronic money.
+\end{itemize}
+\terms
+\begin{itemize}
+  \item \textbf{Agarwal--Kimball ``clean approach''}: the central bank charges a time-varying fee when cash is deposited at the cash window, so paper currency depreciates against electronic money at the policy rate.
+  \item \textbf{Reversal rate} (Brunnermeier \& Koby): the rate below which further cuts hurt bank lending via margins.
+\end{itemize}
+\qanda
+\begin{itemize}
+  \Q{How big is $c_{\text{cash}}$?}
+  \A I do not estimate it. The 2019--22 episode shows it is at least as large as the negative rates passed on to large depositors without triggering hoarding; the ELB literature gives a range rather than one number.
+\end{itemize}
+
+\slidepage{15}{Policy proposal (for discussion)}{1:15}
+\say
+\begin{itemize}
+  \item Keep zero as the default: it is simple, it is what the public expects, and ``money that shrinks'' is politically toxic in normal times.
+  \item Add a contingent clause: only if the DFR is negative, balances above a tier threshold earn the DFR, floored at minus the cash cost.
+  \item Implemented as continuous demurrage, never as expiry, for the reasons on slide 12.
+  \item Tier 1 protects households and the payment role; tier 2 closes the frictionless-cash arbitrage at the margin; the floor at $-\bar c$ avoids pushing people into banknotes.
+\end{itemize}
+\terms
+\begin{itemize}
+  \item \textbf{Tiered remuneration}: different rates on different slices of the same balance (Bindseil 2020). The ECB used tiering for bank reserves in 2019--22.
+\end{itemize}
+\qanda
+\begin{itemize}
+  \Q{Who would hold a digital euro that can shrink?}
+  \A Under the clause, nobody's first $M_1$ ever shrinks. Above $M_1$ the charge equals what a large deposit would pay anyway, so the digital euro is no worse than a bank account; it simply stops being better.
+  \Q{The ECB says the digital euro will not be programmable money.}
+  \A That refers to restricting \emph{what} the money can buy. Demurrage restricts nothing; it is a rate on a balance, like interest on reserves. It is a pricing choice, not programmability in that sense.
+  \Q{Is this within the ECB's mandate, and compatible with legal tender?}
+  \A Setting the remuneration of its own liabilities is standard monetary policy. Face value is unchanged; only the balance accrues a (negative) rate, as bank accounts already do. But the regulation would need to replace the blanket ban in Art.\ 16(8) with a conditional clause.
+\end{itemize}
+
+\slidepage{16}{Takeaways}{0:45}
+\say
+\begin{itemize}
+  \item Read the four lines.
+  \item Close: ``The companion talk tells you how big the box should be. I have argued about the price of what sits inside it: zero by default, demurrage when needed, never expiry.''
+  \item Stop. Invite questions.
+\end{itemize}
+
+% ================= GENERAL Q&A =================
+\clearpage
+{\large\bfseries\color{accent} General Q\&A preparation}\par\medskip
+
+\textbf{Hard questions likely from macro and policy faculty}
+\begin{itemize}[leftmargin=1.5em]
+  \Q{Why would a central bank ever want negative rates again, given the post-2022 inflation?}
+  \A The ELB was binding for most of 2009--2021 across advanced economies. Legislation lasts decades; designing the instrument for only the current regime would repeat the mistake of assuming the last decade is the next.
+  \Q{Doesn't negative remuneration accelerate the move to stablecoins or dollars?}
+  \A Only if they offer a better net return. Under MiCA, e-money tokens cannot pay interest, so they sit at zero with issuer risk. Dollar holdings carry exchange-rate risk. These leaks bound $\lambda$ from above, which is why the clause floors the rate at $-\bar c$.
+  \Q{Your model has no general equilibrium. What happens to prices?}
+  \A Correct, it is a design comparison, not a macro model. The two qualitative results (expiry breaks fungibility; demurrage is a rate with a square-root velocity response) do not depend on GE. The magnitude result is a lower bound on how different vouchers and rates are.
+  \Q{The W\"orgl experiment was shut down. Why is demurrage politically viable now?}
+  \A It was shut down because a municipality was issuing money, not because demurrage failed. Here the issuer is the central bank and the charge is a policy rate already applied to bank reserves.
+  \Q{Doesn't a negative CBDC rate hurt the poor disproportionately?}
+  \A That is why tier 1 is exempt. Small balances, which are most of what low-income households hold, never pay the charge.
+  \Q{How does this interact with the holding limit?}
+  \A The limit sets how much money enjoys the zero floor; the rate decides whether that floor exists at all in a negative-rate regime. A contingent rate lets the limit be set for normal times rather than for the worst negative-rate scenario.
+\end{itemize}
+
+\bigskip
+\textbf{Backup slides and when to show them}
+\begin{itemize}
+  \item \textbf{B1 Derivations}: if someone asks where the square root comes from, or whether velocity really explodes at $T$ (answer: it is finite, $a(1-\phi)$, but there is a mass point).
+  \item \textbf{B2 Sensitivity}: if someone says the numbers depend on parameters.
+  \item \textbf{B3 Limitations}: if someone asks about intertemporal substitution or GE.
+  \item \textbf{B4 References}: if asked for sources.
+\end{itemize}
+
+\bigskip
+\textbf{Glossary}
+\begin{center}
+\small
+\begin{tabular}{@{}p{0.27\textwidth}p{0.66\textwidth}@{}}
+  \toprule
+  ZLB / ELB & Zero lower bound / effective lower bound on nominal policy rates. \\
+  DFR & ECB deposit facility rate; $-0.50\%$ from Sep 2019 to Jul 2022. \\
+  Demurrage & Continuous charge on holding money; a negative interest rate on the balance. \\
+  Carry tax & Goodfriend's (2000) term for a negative return on base money. \\
+  Stamp scrip & Gesell's currency requiring periodic stamps to stay valid. \\
+  Singleness of money & All forms of a currency trade one-for-one at par. \\
+  Fungibility & Any unit is a perfect substitute for any other. \\
+  MPC & Marginal propensity to consume out of an extra euro. \\
+  Velocity & Spending per unit of money per period, $V=PY/M$. \\
+  Baumol--Tobin & Inventory model of money demand, elasticity $-\tfrac12$. \\
+  HJB & Hamilton--Jacobi--Bellman equation, continuous-time dynamic programming. \\
+  Outside option & Best alternative available to a depositor; bounds deposit pricing. \\
+  Disintermediation & Deposits leaving banks for central-bank money. \\
+  Tiered remuneration & Different rates on different slices of the same balance. \\
+  Waterfall & Automatic sweep of digital-euro balances above the limit into a bank account. \\
+  Trilogue & Commission--Council--Parliament negotiation on EU legislation. \\
+  Art.\ 16(8) & Draft digital-euro regulation: ``The digital euro shall not bear interest.'' \\
+  MiCA & EU Markets in Crypto-Assets Regulation; bans interest on e-money tokens. \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\end{document}

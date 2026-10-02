@@ -73,6 +73,7 @@ def compare(T):
 
 
 def main():
+    global PHI, A
     print("T  | expiry: useful  junk-dump  junk-loss  kappa_T/kappa_0  V range   "
           "| demurrage (same avg velocity): lambda/yr  useful  burned  still held  V")
     for horizon in (7, 14, 30, 90):
@@ -88,25 +89,37 @@ def main():
         print(f"  lambda = {lam_yr:.1%}/yr: velocity x{k / k0:.2f}"
               f"  (sqrt rule predicts x{np.sqrt((R + lam_yr / 365) / R):.2f})")
 
+    print("\nsensitivity at T = 30 days (junk value phi, search efficiency a)")
+    base = (PHI, A)
+    for phi, a in ((0.3, 0.2), (0.5, 0.2), (0.7, 0.2), (0.5, 0.1), (0.5, 0.4)):
+        PHI, A = phi, a
+        c, _ = compare(30)
+        print(f"  phi={phi:.1f} a={a:.1f}: expiry useful {c['useful_e']:.2f}, dumped {c['dump']:.2f},"
+              f" waste {c['junk_loss']:.2f}, V {c['v_min']:.2f}-{c['v_max']:.2f} | demurrage lambda"
+              f" {c['lam'] * 365:.0%}/yr, useful {c['useful_d']:.2f}, burned {c['burned_d']:.2f}")
+    PHI, A = base
+
     c, (t_e, v_e, k_e, s_e, t_d, v_d, k_d, s_d) = compare(T)
-    fig, ax = plt.subplots(1, 3, figsize=(15, 4.2))
+    plt.rcParams.update({"font.size": 12})
+    fig, ax = plt.subplots(1, 3, figsize=(11, 3.9))
     ax[0].plot(t_e, k_e, label="hard expiry")
     ax[0].axhline(k_d, color="C1", label=f"demurrage, λ={c['lam']*365:.0%}/yr")
     ax[0].annotate(f"{c['dump']:.0%} of issuance\ndumped at φ on day T", xy=(T, k_e[-1]),
                    xytext=(T * 0.05, k_e[-1] * 0.9), arrowprops=dict(arrowstyle="->"))
     ax[0].set(title="Velocity κ(t)", xlabel="day")
-    ax[0].legend(loc="lower right")
+    ax[0].legend(loc="lower right", fontsize=11)
     ax[1].plot(t_e, s_e, label="hard expiry (useful)")
     ax[1].plot(t_d, s_d, label="demurrage (useful)")
-    ax[1].set(title="Useful spending flow (share of issuance / day)", xlabel="day")
-    ax[1].legend()
+    ax[1].set(title="Useful spending (share of issuance/day)", xlabel="day")
+    ax[1].legend(fontsize=11)
     ax[2].plot(t_e, v_e, label="hard expiry")
     ax[2].axhline(v_d, color="C1", label="demurrage")
     ax[2].axhline(PHI, color="grey", ls="--", label="junk value φ")
     ax[2].set(title="Per-unit token value V(t)", xlabel="day", ylim=(0.4, 1.02))
-    ax[2].legend()
+    ax[2].legend(fontsize=11)
     fig.tight_layout()
     fig.savefig("figures/expiry_vs_demurrage.png", dpi=150)
+    fig.savefig("figures/expiry_vs_demurrage.pdf")
 
 
 if __name__ == "__main__":
